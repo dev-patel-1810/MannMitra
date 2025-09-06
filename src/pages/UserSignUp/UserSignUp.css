@@ -1,0 +1,58 @@
+.college-signup-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .signup-container {
+    flex: 1;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .signup-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .signup-container h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .checkbox-container input {
+    margin-right: 0.5rem;
+  }
+  
+  .signup-container .signin-link,
+  .signup-container .privacy {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  
+  .signup-container .signup-btn {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .signup-container .signup-btn:hover {
+    background-color: #2980b9;
+  }
+  
