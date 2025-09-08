@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import './Hero.css';
 import logo from '../../assets/logo.jpg'
+import heroImg from '../../assets/hero.png'; 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,24 +21,27 @@ const Hero = () => {
             <h3>MannMitra</h3>
           </div>
           <div className="header-buttons">
-            <button className="language-btn">EN</button>
-            <button className="signin-btn">Sign In</button>
+            <button className="language-btn">English<span class="material-symbols-outlined">keyboard_arrow_down</span></button>
+            <button className="signin-btn" >Login</button>
           </div>
         </div>
         <div className="hero-text">
           <h1>
-            <span className="orange-text">YOUR</span> JOURNEY TO EMOTIONAL WELLNESS
+            <span className="orange-text">YOUR</span> <span className='blue-text'>JOURNEY TO EMOTIONAL WELLNESS</span> 
           </h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
             tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
             veniam, quis nostrud exercitation
           </p>
-          <button onClick={() => setIsModalOpen(true)}>GET STARTED</button>
+          <button className="get-started-btn" onClick={() => setIsModalOpen(true)}>GET STARTED</button>
         </div>
       </div>
-      <div className="hero-image"></div>
-
+      
+      <div className="hero-image-wrapper">
+        <img src={heroImg} alt="Hero" className="hero-image" />
+      </div>
+      
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

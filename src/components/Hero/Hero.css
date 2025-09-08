@@ -5,7 +5,12 @@
   width: 100vw;
   margin: 0;
   padding: 0;
-  background-color: #4a7c59; /* Green background color */
+  background: radial-gradient(
+  circle at top left,
+  #6a8f6e 0%,
+  #588157 40%,
+  #2f4d37 100%
+);
   color: white;
   overflow: hidden;
   box-sizing: border-box;
@@ -63,23 +68,17 @@
 }
 
 .language-btn, .signin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.3s ease;
-}
-
-.language-btn {
-  background-color: transparent;
-  border: 1px solid white;
-  color: white;
-}
-
-.signin-btn {
-  background-color: white;
-  color: #4a7c59;
+  height: 2.5rem;
+  margin-right: 2.5rem !important;
 }
 
 .logo {
@@ -88,13 +87,15 @@
 }
 
 .hero-text {
-  max-width: 50%;
+  max-width: 80%;
   padding-right: 2rem;
   margin-left: 2rem;
   margin-right: auto;
   text-align: left;
   padding-bottom: 8rem;
   margin-top: 1rem;
+  font-weight: 630;
+  font-size: 4em;
 }
 
 .hero h1 {
@@ -106,7 +107,9 @@
 .orange-text {
   color: #f8a145; /* Orange color for "YOUR" */
 }
-
+.blue-text {
+  color:#2F327D;
+}
 .hero p {
   font-size: 1.1rem;
   margin-bottom: 2rem;
@@ -133,11 +136,11 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 50%;
-  height: 55%;
-  background-image: url('../../assets/hero.png'); /* Path to your image */
-  background-size: contain;
-  background-position: bottom left;
+  width: 70%;          /* exactly 80% of parent */
+  height: 70%;         /* exactly 70% of parent */
+  background-image: url('../../assets/hero.png');
+  background-size: 100% 100%;  /* force image to fill container */
+  background-position: bottom left; /* stick to bottom left */
   background-repeat: no-repeat;
   z-index: 1;
 }
@@ -154,6 +157,31 @@
   background-size: cover;
   opacity: 0.25;
   z-index: 0;
+}
+
+.language-btn {
+  background-color: transparent !important;
+  border: 1px solid #F9F7E1 !important;
+  color: #F9F7E1 !important;
+  font-weight: normal !important;
+  height: 2rem !important;
+  margin-top: 0.4rem;
+  width: 9rem;
+  display: flex; /* ensure flex is applied */
+  justify-content: flex-start !important; /* aligns text to the left */
+  padding-left: 1rem !important;/* adjust padding if needed */;
+  position: absolute;
+  right: 10rem;
+}
+
+.material-symbols-outlined{
+  margin-left: 2.7rem ;
+  color: #F9F7E1;
+}
+
+.get-started-btn{
+  position: relative;
+  bottom: 3.5rem;
 }
 
 /* Responsive styles */
@@ -182,10 +210,10 @@
   }
   
   .hero-image {
-    width: 100%;
-    height: 45%;
-    opacity: 0.3;
-    background-position: bottom center;
+    width: 80vw !important; /* override media query */
+    height: 70%;
+    opacity: 1;
+    background-position: bottom left;
   }
   
   .hero-text {
