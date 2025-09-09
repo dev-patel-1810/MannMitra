@@ -30,9 +30,9 @@ const Hero = () => {
             <span className="orange-text">YOUR</span> <span className='blue-text'>JOURNEY TO EMOTIONAL WELLNESS</span> 
           </h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation
+              Life isn’t always sunshine and rainbows. Some days feel heavy, and that’s okay.
+              MannMitra is here to be your buddy — a space to chill, vent, and find little ways to feel lighter.
+              Ready to take that first step toward feeling good again?
           </p>
           <button className="get-started-btn" onClick={() => setIsModalOpen(true)}>GET STARTED</button>
         </div>
