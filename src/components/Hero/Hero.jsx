@@ -4,10 +4,6 @@ import './Hero.css';
 import logo from '../../assets/logo.jpg'
 import heroImg from '../../assets/hero.png'; 
 import Vector from "../../assets/Vector.svg";
-import Vector2 from "../../assets/Vector.svg";
-import Vector3 from "../../assets/Vector.svg";
-import Vector4 from "../../assets/Vector.svg";
-import Vector5 from "../../assets/Vector.svg";
 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,29 +21,8 @@ const Hero = () => {
       <img
         src={Vector}
         alt="background vector"
-        className='svg-1'
+        className="absolute inset-0 w-full h-full object-cover"
       />
-      <img
-        src={Vector2}
-        alt="background vector"
-        className='svg-2'
-      />
-      <img
-        src={Vector3}
-        alt="background vector"
-        className='svg-3'
-      />
-      <img
-        src={Vector4}
-        alt="background vector"
-        className='svg-4'
-      />
-      <img
-        src={Vector5}
-        alt="background vector"
-        className='svg-5'
-      />
-      
       </div>
       <div className="hero-content">
         <div className="header-row">
