@@ -33,16 +33,16 @@ const counselor_schema=new mongoose.Schema({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ],
     },
-    counselor_confirm_password:{
-        type:String,
-        required:true,
-        validate:{
-            validator:function(value){
-                return value==this.clg_password
-            },
-        message:"Password does not match \n Please Try Again!"
-        }
-    },
+    // counselor_confirm_password:{
+    //     type:String,
+    //     required:true,
+    //     validate:{
+    //         validator:function(value){
+    //             return value==this.clg_password
+    //         },
+    //     message:"Password does not match \n Please Try Again!"
+    //     }
+    // },
     counselor_clg_id:{
         type:String,
         required:false,
