@@ -3,6 +3,12 @@ import Modal from '../Modal/Modal';
 import './Hero.css';
 import logo from '../../assets/logo.jpg'
 import heroImg from '../../assets/hero.png'; 
+import Vector from "../../assets/Vector.svg";
+import Vector2 from "../../assets/Vector.svg";
+import Vector3 from "../../assets/Vector.svg";
+import Vector4 from "../../assets/Vector.svg";
+import Vector5 from "../../assets/Vector.svg";
+
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -14,6 +20,35 @@ const Hero = () => {
 
   return (
     <section className="hero">
+      {/* Add decorative SVGs */}
+      <div className="background-svgs">
+      <img
+        src={Vector}
+        alt="background vector"
+        className='svg-1'
+      />
+      <img
+        src={Vector2}
+        alt="background vector"
+        className='svg-2'
+      />
+      <img
+        src={Vector3}
+        alt="background vector"
+        className='svg-3'
+      />
+      <img
+        src={Vector4}
+        alt="background vector"
+        className='svg-4'
+      />
+      <img
+        src={Vector5}
+        alt="background vector"
+        className='svg-5'
+      />
+      
+      </div>
       <div className="hero-content">
         <div className="header-row">
           <div className="logo">
@@ -21,7 +56,7 @@ const Hero = () => {
             <h3>MannMitra</h3>
           </div>
           <div className="header-buttons">
-            <button className="language-btn">English<span class="material-symbols-outlined">keyboard_arrow_down</span></button>
+            <button className="language-btn">English<span className="material-symbols-outlined">keyboard_arrow_down</span></button>
             <button className="signin-btn" >Login</button>
           </div>
         </div>
