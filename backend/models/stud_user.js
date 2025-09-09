@@ -73,16 +73,16 @@ const stud_user_schema = new mongoose.Schema({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ]
     },
-    user_confirm_password:{
-        type:String,
-        required:true,
-        validate:{
-            validator:function(value){
-                return value==this.user_password
-            },
-        message:"Password does not match \n Please Try Again!"
-        }
-    },
+    // user_confirm_password:{
+    //     type:String,
+    //     required:true,
+    //     validate:{
+    //         validator:function(value){
+    //             return value==this.user_password
+    //         },
+    //     message:"Password does not match \n Please Try Again!"
+    //     }
+    // },
     user_college_id:{
         type:String,
         default:"N/A"

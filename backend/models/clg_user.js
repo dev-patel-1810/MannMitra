@@ -53,15 +53,15 @@ const clg_user_schema=new mongoose({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ]
     },
-    clg_confirm_password:{
-        type:String,
-        required:true,
-        validate:{
-            validator:function(value){
-                return value==this.clg_password
-            },
-        message:"Password does not match \n Please Try Again!"
-        }
-    },
+    // clg_confirm_password:{
+    //     type:String,
+    //     required:true,
+    //     validate:{
+    //         validator:function(value){
+    //             return value==this.clg_password
+    //         },
+    //     message:"Password does not match \n Please Try Again!"
+    //     }
+    // },
 },{timestamps:true, strict:true})
 export const clg_user=mongoose.model('clg_user',clg_user_schema)
