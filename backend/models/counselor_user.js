@@ -32,6 +32,7 @@ const counselor_schema=new mongoose.Schema({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{6,}$/,
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ],
+        select:false
     },
     // counselor_confirm_password:{
     //     type:String,
@@ -51,4 +52,4 @@ const counselor_schema=new mongoose.Schema({
     }
 },{timestamps:true, strict:true})
 
-export const counselor_user=mongoose.model('counselor_user',counselor_schema)
+export const CounselorUser=mongoose.model('counselor_user',counselor_schema)

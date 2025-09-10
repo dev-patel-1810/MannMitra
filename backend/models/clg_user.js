@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-const clg_user_schema=new mongoose({
+const clg_user_schema=new mongoose.Schema({
     clg_name:{
         type:String,
         required:true,
@@ -51,7 +51,7 @@ const clg_user_schema=new mongoose({
         match: [
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{6,}$/,
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
-        ]
+        ],
     },
     // clg_confirm_password:{
     //     type:String,
