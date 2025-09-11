@@ -1,59 +1,182 @@
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    position: relative;
-    width: 320px;
-    text-align: center;
-  }
-  
-  .modal-options .modal-option {
-    margin-bottom: 1rem;
-  }
-  
-  .modal-options button {
-    display: block;
-    width: 100%;
-    margin-bottom: 0.25rem;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #3498db;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .modal-options button:hover {
-    background-color: #2980b9;
-  }
-  
-  .option-description {
-    font-size: 0.85rem;
-    color: #555;
-    margin: 0;
-  }
-  
-  .modal-close {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-  
+/* Modal.css */
+
+/* Base card styling */
+.modal-card {
+  height: 31rem;
+  width:20rem;          /* Makes all cards taller */
+  margin-top: 1.5rem;  
+  margin-left: 1.5rem;   /* Adds top margin to all cards */
+  border-radius: 2rem;    /* Rounded corners */
+  padding: 0rem;        /* Inner padding */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0.625rem 0.625rem 0.9375rem rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+/* Dark background box for cards + close button */
+.modal-container {
+  height: 96vh;
+  background-color: rgba(0, 0, 0, 0.5 );
+  border-radius: 1rem;
+  padding: 2rem;
+  position: relative;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Middle card lifted above the others */
+.modal-card.middle {
+  transform: translateY(-1.5rem);
+}
+
+/* Individual colors */
+.modal-card.student {
+  background-color: rgba(182, 60, 101,0.8)  ;
+ /* pink-600 */
+}
+
+.modal-card.counselor {
+  background-color: rgba(38, 76, 160,0.8)  ; /* blue-700 */
+}
+
+.modal-card.university {
+  background-color: rgba(229, 137, 51, 0.8);  /* orange-600 */
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  width: 1.5rem;            /* circle diameter */
+  height: 2rem;           /* same as width */
+  border-radius: 50%;        /* makes it circular */
+  background-color: transparent!important; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0.25rem 0.25rem 0.625rem rgba(0, 0, 0, 0.3);
+  overflow: hidden;          /* prevents stretching */
+  line-height: 0;            /* key fix for inline content */
+}
+
+.modal-close .material-symbols-outlined {
+  font-variation-settings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+  font-size: 1.5rem;        /* smaller than button diameter */
+  margin-right: 2.45rem;
+  display: inline-block;     /* key fix */
+}
+/* Hover effect */
+.modal-close:hover {
+  transform: scale(1.1);
+}
+
+.card-header {
+  width: 100%;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+}
+
+.card-header {
+  width: 100%; 
+  height: 7rem;          /* fixed height */
+  padding: 0 1rem; 
+  padding-bottom:0.5rem ;      /* horizontal padding only */
+  text-align: left;
+  display: flex;
+  align-items: end;   /* vertically center the title */
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 2rem 2rem 1rem 1rem; /* only top corners rounded */
+}
+
+
+/* You can use different colors per card */
+.student .card-header {
+  background-color: #ec4899;  /* Tailwind pink-600 */
+}
+.counselor .card-header {
+  background-color: #1d4ed8;  /* Tailwind blue-700 */
+}
+.university .card-header {
+  background-color: #f97316;  /* Tailwind orange-600 */
+}
+
+/* Card content padding */
+.card-content {
+  margin: 0;                   /* remove container margins */
+  padding: 0.5rem 1rem 0.5rem; /* top, horizontal, bottom padding */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.card-content p {
+  margin: 0 0 0.25rem 0 !important;   /* only bottom gap, kill hidden space */
+  font-size: 0.875rem !important;
+  line-height: 1.3;
+}
+.card-content ul {
+  margin: 0;  
+  padding-top: 0.35rem;
+  padding-bottom: 0.6rem;             /* kill default UL margin */
+  padding-left: 0rem;      /* small indent for bullet replacement */
+}
+
+.card-content li {
+  font-size: 0.875rem;
+  margin-bottom: 0.35rem;  /* tighter but still breathable */
+  line-height: 1.7;        /* fixes “squashed” text */
+  display: flex;
+  align-items: center;
+}
+
+.signup-btn {
+  background-color: #14b8a6 !important;     /* teal-500 */
+  color: white !important;
+  width: 80%;
+  padding: 0.5rem 1.5rem !important;       /* py-2 px-6 */
+  border: none ;
+  border-radius: 0.5rem !important;        /* rounded-lg */
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important; /* shadow-md */
+  transition: background-color 0.3s ease, transform 0.2s ease !important;
+  margin-bottom: 0.75rem !important;       /* mb-3 */
+}
+
+.signup-btn:hover {
+  background-color: #0d9488 !important;    /* teal-600 */
+  transform: translateY(-2px);  /* subtle lift on hover */
+}
+
+.signup-btn:active {
+  transform: translateY(0);     /* reset when clicked */
+}
+
+.login-text {
+  font-size: 0.75rem;          /* smaller than normal text */
+  color: rgba(255,255,255,0.85);
+  margin-top: 1rem;            /* space above */
+  margin-bottom: 0.5rem;       /* space below */
+  text-align: center;
+  position: relative;
+}
+
+/* Line above the text */
+.login-text::before {
+  content: "";
+  display: block;
+  width: 100%;                  /* shorter than full width */
+  margin: 0 auto 0.5rem auto;  /* center + spacing below */
+  border-top: 1px solid rgb(255,255,255);
+}
