@@ -25,7 +25,7 @@ const Modal = ({ isOpen, onClose }) => {
       route: "/user-signup",
     },
     {
-      title: "Counselor",
+      title: "Counsellor",
       color: "bg-blue-700",
       text: "A secure digital workspace that connects you seamlessly to those in need.",
       features: [
