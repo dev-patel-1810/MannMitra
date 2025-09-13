@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import UserSignUp from './pages/SignUp/UserSignUp';
 import CounsellorSignUp from './pages/SignUp/CounsellorSignUp';
 import CollegeSignUp from './pages/SignUp/CollegeSignUp';
+import GHQ12 from './pages/GHQ12/GHQ12'
 import './index.css';
 import './App.css';
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/user-signup" element={<UserSignUp />} />
         <Route path="/counsellor-signup" element={<CounsellorSignUp />} />
         <Route path="/college-signup" element={<CollegeSignUp />} />
+        <Route path="/ghq12-test" element={<GHQ12 />} />
       </Routes>
     </Router>
   );
