@@ -11,8 +11,6 @@ const stud_user_schema = new mongoose.Schema({
     },
     user_institute_name:{
         type:String,
-        required:true,
-        default:"N/A",
         trim:true
     },
     user_pincode:{
@@ -29,41 +27,26 @@ const stud_user_schema = new mongoose.Schema({
     },
     user_email:{
         type:String,
-        unique:true,
         required:true,
         trim:true,
         lowercase:true
     },
-    user_gaurdian_1_name:{
+    user_guardian_1_name:{
         type:String,
-        required:function(){
-            return ! this.have_gaurdian;
-        },
         trim:true,
     },
-    user_gaurdian_1_contact:{
+    user_guardian_1_contact:{
         type:String,
-        required:function(){
-            return ! this.have_gaurdian;
-        },
         maxlength:10,
-        minlength:10,
         trim:true
     },
-    user_gaurdian_2_name:{
+    user_guardian_2_name:{
         type:String,
-        required:function(){
-            return ! this.have_gaurdian;
-        },
         trim:true
     },
-    user_gaurdian_2_contact:{
+    user_guardian_2_contact:{
         type:String,
-        required:function(){
-            return ! this.have_gaurdian;
-        },
         maxlength:10,
-        minlength:10,
         trim:true
     },
     user_password:{

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { stringify } from 'postcss'
 
 const counselor_schema=new mongoose.Schema({
     counselor_name:{
@@ -25,6 +26,22 @@ const counselor_schema=new mongoose.Schema({
         maxlength:10,
         trim:true,
         unique:true,
+    },
+    counselor_specialization:{
+        type:String,
+        required:true
+    },
+    counselor_exp:{
+        type:String,
+        required:true
+    },
+    counselor_pincode:{
+        type:String,
+        required:true
+    },
+    counselor_qualification:{
+        type:String,
+        required:true
     },
     counselor_password:{
         type:String,
@@ -95,4 +112,4 @@ counselor_schema.methods.generate_refresh_token = function(){
 }
 
 
-export const CounselorUser=mongoose.model('counselor_user',counselor_schema)
+export const counselor_user=mongoose.model('counselor_user',counselor_schema)

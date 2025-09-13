@@ -134,17 +134,34 @@ const UserSignUp = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Call your backend signup function here
-      console.log(formData);
-      
-      // Reset form after successful submission
-      resetForm();
-      
-      // You can add a success message or redirect here
-      alert('Account created successfully!');
+      try {
+        const response = await fetch('http://localhost:5000/user-signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        console.log(formData)
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(errorData.message || 'Signup failed!');
+          return;
+        }
+
+        // Reset form after successful submission
+        
+        resetForm();
+        alert('Account created successfully!');
+      } catch (error) {
+        // console.log(error);
+        alert('Network error!');
+      }
     }
   };
 

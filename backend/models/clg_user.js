@@ -16,7 +16,7 @@ const clg_user_schema=new mongoose.Schema({
         type:String,
         required:true
     },
-    clg_pin_code:{
+    clg_pincode:{
         type:Number,
         required:true,
         trim:true

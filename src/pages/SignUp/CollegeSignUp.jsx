@@ -17,6 +17,22 @@ const CollegeSignUp = () => {
 
   const [errors, setErrors] = useState({});
 
+  const resetForm = () => {
+    setFormData({
+      collegeName: '',
+      collegeType: '',
+      state: '',
+      pinCode: '',
+      adminName: '',
+      adminDesignation: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
+      confirmPassword: ''
+    });
+    setErrors({});
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -33,8 +49,6 @@ const CollegeSignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
-    // Required field validations
     if (!formData.collegeName.trim()) newErrors.collegeName = 'College name is required';
     if (!formData.collegeType.trim()) newErrors.collegeType = 'College type is required';
     if (!formData.state.trim()) newErrors.state = 'State is required';
@@ -43,8 +57,7 @@ const CollegeSignUp = () => {
     if (!formData.adminDesignation.trim()) newErrors.adminDesignation = 'Designation is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
-    
-    // Password validations
+
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
       newErrors.password = 'Password is required';
@@ -62,10 +75,31 @@ const CollegeSignUp = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log(formData);
+      try {
+        const response = await fetch('http://localhost:5000/college-signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        console.log(formData)
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(errorData.message || 'Signup failed!');
+          return;
+        }
+
+        resetForm();
+        alert('College account created successfully!');
+      } catch (error) {
+        alert('Network error!');
+      }
     }
   };
 

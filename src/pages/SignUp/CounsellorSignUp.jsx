@@ -17,6 +17,22 @@ const CounsellorSignUp = () => {
 
   const [errors, setErrors] = useState({});
 
+  const resetForm = () => {
+    setFormData({
+      username: '',
+      email: '',
+      phoneNumber: '',
+      pinCode: '',
+      qualification: '',
+      specialization: '',
+      experience: '',
+      password: '',
+      confirmPassword: '',
+      collegeId: ''
+    });
+    setErrors({});
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -34,8 +50,6 @@ const CounsellorSignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
-    // Required field validations
     if (!formData.username.trim()) newErrors.username = 'Username is required';
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
@@ -43,7 +57,7 @@ const CounsellorSignUp = () => {
     if (!formData.qualification.trim()) newErrors.qualification = 'Qualification is required';
     if (!formData.specialization.trim()) newErrors.specialization = 'Specialization is required';
     if (!formData.experience.trim()) newErrors.experience = 'Experience is required';
-    
+
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
       newErrors.password = 'Password is required';
@@ -61,11 +75,31 @@ const CounsellorSignUp = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // Call your backend signup function here
-      console.log(formData);
+      try {
+        const response = await fetch('http://localhost:5000/counsellor-signup/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        });
+
+        console.log(formData)
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(errorData.message || 'Signup failed!');
+          return;
+        }
+
+        resetForm();
+        alert('Counsellor account created successfully!');
+      } catch (error) {
+        alert('Network error!');
+      }
     }
   };
 
