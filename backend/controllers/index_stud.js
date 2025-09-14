@@ -53,6 +53,14 @@ const register_stud_user= async_handler( async(req,res) => {
         counselor_user.findOne({counselor_contact: phoneNumber})
         ]);
 
+        if (exists[0] || exists[1] || exists[2]) {
+        throw new Error("Email already registered");
+        }
+
+        if (exist[0] || exist[1] || exist[2]) {
+            throw new Error("Phone Number already registered");
+        }
+
     console.log("req.body:", req.body);
 
 
