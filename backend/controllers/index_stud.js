@@ -53,7 +53,7 @@ const register_stud_user= async_handler( async(req,res) => {
         counselor_user.findOne({counselor_contact: phoneNumber})
         ]);
 
-    // console.log("req.body:", req.body);
+    console.log("req.body:", req.body);
 
 
     const newUser = await stud_user.create({

@@ -54,7 +54,7 @@ const stud_user_schema = new mongoose.Schema({
         required:true,
         minlength:6,
         match: [
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{6,}$/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&_]{6,}$/,
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ],
         select:false
