@@ -44,6 +44,8 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Login : \n");
+    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       try {

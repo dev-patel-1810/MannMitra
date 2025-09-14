@@ -135,6 +135,8 @@ const UserSignUp = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("User Signup : \n");
+    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -145,8 +147,6 @@ const UserSignUp = () => {
           },
           body: JSON.stringify(formData)
         });
-
-        console.log(formData)
 
         if (!response.ok) {
           const errorData = await response.json();

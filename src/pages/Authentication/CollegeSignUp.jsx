@@ -76,6 +76,8 @@ const CollegeSignUp = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("College Signup : \n");
+    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -86,8 +88,6 @@ const CollegeSignUp = () => {
           },
           body: JSON.stringify(formData)
         });
-
-        console.log(formData)
 
         if (!response.ok) {
           const errorData = await response.json();

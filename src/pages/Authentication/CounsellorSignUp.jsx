@@ -76,6 +76,8 @@ const CounsellorSignUp = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Counsellor Signup : \n");
+    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -86,8 +88,6 @@ const CounsellorSignUp = () => {
           },
           body: JSON.stringify(formData)
         });
-
-        console.log(formData)
 
         if (!response.ok) {
           const errorData = await response.json();

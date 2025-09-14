@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage/LandingPage';
-import UserSignUp from './pages/SignUp/UserSignUp';
-import CounsellorSignUp from './pages/SignUp/CounsellorSignUp';
-import CollegeSignUp from './pages/SignUp/CollegeSignUp';
+import UserSignUp from './pages/Authentication/UserSignUp';
+import CounsellorSignUp from './pages/Authentication/CounsellorSignUp';
+import CollegeSignUp from './pages/Authentication/CollegeSignUp';
 import GHQ12 from './pages/GHQ12/GHQ12'
-import Login from './pages/SignUp/Login'
+import Login from './pages/Authentication/Login'
 import './index.css';
 import './App.css';
 
