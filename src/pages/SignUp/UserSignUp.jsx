@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import GuardianConfirmModal from '../../components/GuardianConfirmModal/GuardianConfirmModal';
 import pic from '../../assets/signup.png'
-import './SignUp.css';
+import './Authentication.css';
 
 const UserSignUp = () => {
   const [formData, setFormData] = useState({

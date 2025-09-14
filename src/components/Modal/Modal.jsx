@@ -15,7 +15,6 @@ const Modal = ({ isOpen, onClose }) => {
       text: "Your complete companion for mental well-being.",
       features: [
         "Anonymous Profiles",
-        "One-on-One Chat",
         "24×7 Helplines and SOS",
         "AI Driven Chatbot",
         "Hassle Free Appointments",

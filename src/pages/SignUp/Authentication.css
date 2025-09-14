@@ -83,6 +83,7 @@
 
 .signup-form input,
 .signup-form select {
+  width: 100%;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 5px;
@@ -273,4 +274,46 @@
   .phone-input select {
     width: 100%;
   }
+}
+
+/* Login specific styles */
+.user-type-selector {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.login-field {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.forgot-password-link {
+  text-align: right;
+  margin: 10px 0 20px;
+}
+
+.forgot-password-link a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password-link a:hover {
+  color: white;
+}
+
+.alternate-action {
+  text-align: center;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.alternate-action a {
+  color: #FF8C00;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+.alternate-action a:hover {
+  text-decoration: underline;
 }

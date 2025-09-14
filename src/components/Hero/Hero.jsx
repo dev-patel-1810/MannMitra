@@ -4,9 +4,15 @@ import './Hero.css';
 import logo from '../../assets/logo.jpg'
 import heroImg from '../../assets/hero.png'; 
 import Vector from "../../assets/Vector.svg";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleLogin=()=>{
+    navigate('/login');
+  }
 
   const options = [
     'Student Sign Up',
@@ -32,7 +38,7 @@ const Hero = () => {
           </div>
           <div className="header-buttons">
             <button className="language-btn">English<span className="material-symbols-outlined">keyboard_arrow_down</span></button>
-            <button className="signin-btn" >Login</button>
+            <button onClick={handleLogin} className="signin-btn" >Login</button>
           </div>
         </div>
         <div className="hero-text">
