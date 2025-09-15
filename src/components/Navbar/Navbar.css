@@ -1,0 +1,34 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: blue;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    z-index: 70;
+    transition: padding-left 0.25s ease;
+  }
+  
+  
+  .hamburger {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .navbar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  .navbar-profile {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  

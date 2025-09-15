@@ -1,0 +1,106 @@
+:root{
+    --sidebar-width: 220px;
+    --sidebar-collapsed-width: 60px;
+    --right-width: 300px;
+    --navbar-height: 64px;
+  }
+  
+  /* make sure the page can scroll */
+  html, body, #root {
+    height: 100%;
+  }
+  
+  /* container root (keeps markup same) */
+  .dashboard {
+    min-height: 100vh;
+    display: block; /* page-level scrolling */
+  }
+  
+  /* NAVBAR reserved space (body content sits below it) */
+  .dashboard-body {
+    /* push content down below the fixed navbar */
+    padding-top: var(--navbar-height);
+    /* no overflow here — body scroll will be used */
+  }
+  
+  /* ===== Left sidebar (fixed, non-scrolling) ===== */
+  .sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-width);
+    overflow: hidden; /* no scroll */
+    z-index: 60;
+    transition: width 0.25s ease;
+  }
+  
+  /* collapsed state (toggle by adding class to .dashboard — see React snippet below) */
+  .dashboard.sidebar-closed .sidebar {
+    width: var(--sidebar-collapsed-width);
+  }
+  
+  /* ===== Right sidebar (fixed, non-scrolling) ===== */
+  .dashboard-right {
+    position: fixed;
+    top: var(--navbar-height);
+    right: 0;
+    bottom: 0;
+    width: var(--right-width);
+    overflow: hidden; /* no scroll */
+    z-index: 60;
+    background: #f9fafb;
+    padding: 1rem;
+    border-left: 1px solid #e5e7eb;
+  }
+  
+  /* ===== MAIN content: flows normally (body/page scrolls) ===== */
+  /* Give left/right margins so the fixed sidebars don't cover content */
+  .dashboard-main {
+    margin-left: var(--sidebar-width);
+    margin-right: var(--right-width);
+    padding: 1rem;
+    background: #f3f4f6;
+    min-height: calc(100vh - var(--navbar-height)); /* ensure enough height for scrolling */
+    box-sizing: border-box;
+    /* Optional: keep some comfortable inner spacing to avoid content hiding under right panel */
+    padding-bottom: 4rem;
+  }
+  
+  .dashboard.sidebar-closed .dashboard-main {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+  
+  /* ===== Layout utilities used by components ===== */
+  .top-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  /* ===== Optional page-level scrollbar styling (WebKit) ===== */
+  body::-webkit-scrollbar {
+    width: 10px;
+  }
+  body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 6px;
+  }
+  body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+  
+  /* === small responsive tweak === */
+  @media (max-width: 900px) {
+    :root { --right-width: 0px; } /* hide right column on small screens if you want */
+    .dashboard-main { margin-right: 0; }
+    .dashboard-right { display: none; }
+  }
+  

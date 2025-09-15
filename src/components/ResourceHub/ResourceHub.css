@@ -1,0 +1,19 @@
+.resource-hub {
+    margin: 1rem 0;
+  }
+  
+  .resource-grid {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .resource-grid .card {
+    background:green;
+    ;
+    border-radius: 12px;
+    padding: 1rem;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  

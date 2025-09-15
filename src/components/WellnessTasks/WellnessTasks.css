@@ -1,0 +1,16 @@
+.wellness-tasks {
+    background: green;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .wellness-tasks ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .wellness-tasks li {
+    margin: 0.25rem 0;
+  }
+  
