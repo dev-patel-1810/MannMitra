@@ -34,7 +34,8 @@ const login_user = async_handler(async (req, res) => {
             data: {
                 _id: user._id,
                 name: user.user_name, 
-                userType: userType
+                userType: userType,
+                email: user.user_email
             }
         })
     }
@@ -54,8 +55,9 @@ const login_user = async_handler(async (req, res) => {
         return res.status(200).json({message:"Login Successful",
             data: {
                 _id: user._id,
-                name: user.user_name, 
-                userType: userType
+                name: user.clg_admin_name, 
+                userType: userType,
+                email: user.clg_admin_email
             }
         })
     }
@@ -75,8 +77,9 @@ const login_user = async_handler(async (req, res) => {
         return res.status(200).json({message:"Login Successful",
             data: {
                 _id: user._id,
-                name: user.user_name, 
-                userType: userType
+                name: user.counselor_name,
+                userType: userType,
+                email: user.counselor_email
             }
          })
     }    
