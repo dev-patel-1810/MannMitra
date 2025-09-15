@@ -51,7 +51,7 @@ const counselor_schema=new mongoose.Schema({
         match: [
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_])[A-Za-z\d@$!%*?&]{6,}$/,
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
-        ],
+        ]
     },
     // counselor_confirm_password:{
     //     type:String,
