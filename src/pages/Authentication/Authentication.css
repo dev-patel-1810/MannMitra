@@ -303,17 +303,16 @@
 }
 
 .alternate-action {
-  text-align: center;
-  margin-top: 20px;
-  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: medium;
+  margin-top: 15px;
 }
 
-.alternate-action a {
-  color: #FF8C00;
-  text-decoration: none;
+.alternate-action h6 {
+  color: orange;
+  cursor: pointer;
   margin-left: 5px;
-}
-
-.alternate-action a:hover {
-  text-decoration: underline;
+  font-weight: 500;
 }

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import hero from '../../assets/hero.png';  // Add hero image import
+import Modal from '../../components/Modal/Modal';
 import './Authentication.css';
 import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
   const navigate=useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -96,7 +97,6 @@ const Login = () => {
         <div className="signup-image">
           <h1>Welcome Back</h1>
           <p>to a little corner of calm and care made for you.....</p>
-          <img src={hero} alt="Hero" className="hero-image" />
         </div>
         
         <div className="signup-form">
@@ -148,11 +148,15 @@ const Login = () => {
             <button type="submit" className="signup-button">Log In</button>
 
             <div className="alternate-action">
-              Don't have an account? <a href="/signup">Sign up</a>
+              Don't have an account? <h6 onClick={() => setIsModalOpen(true)}>Sign up</h6>
             </div>
           </form>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

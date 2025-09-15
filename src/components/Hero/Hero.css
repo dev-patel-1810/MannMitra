@@ -81,6 +81,33 @@
   margin-right: 2.5rem !important;
 }
 
+.language-select {
+  background-color: transparent !important;
+  border: 1px solid #F9F7E1 !important;
+  color: #F9F7E1 !important;
+  font-weight: normal !important;
+  height: 2.5rem !important;
+  width: 9rem;
+  position: absolute;
+  right: 13rem;
+  border-radius: 20px;
+  padding: 0 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.language-select option {
+  background-color: #588157;
+  color: white;
+  padding: 0.5rem;
+}
+
+.language-select:focus {
+  border-color: #f8a145;
+}
+
+
 .logo {
   font-weight: bold;
   font-size: 1.5rem;

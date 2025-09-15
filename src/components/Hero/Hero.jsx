@@ -8,17 +8,23 @@ import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
+
   const navigate = useNavigate();
   
+   const handleLanguageChange = (event) => {
+    setSelectedLanguage(event.target.value);
+  };
+
   const handleLogin=()=>{
     navigate('/login');
   }
 
-  const options = [
-    'Student Sign Up',
-    'Counsellor Sign Up',
-    'Register University'
-  ];
+  // const options = [
+  //   'Student Sign Up',
+  //   'Counsellor Sign Up',
+  //   'Register University'
+  // ];
 
   return (
     <section className="hero">
@@ -37,7 +43,15 @@ const Hero = () => {
             <h3>MannMitra</h3>
           </div>
           <div className="header-buttons">
-            <button className="language-btn">English<span className="material-symbols-outlined">keyboard_arrow_down</span></button>
+             <select 
+              className="language-select" 
+              value={selectedLanguage} 
+              onChange={handleLanguageChange}
+            >
+              <option value="English">English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Gujarati">Gujarati</option>
+            </select>
             <button onClick={handleLogin} className="signin-btn" >Login</button>
           </div>
         </div>
@@ -61,7 +75,6 @@ const Hero = () => {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        options={options}
       />
     </section>
   );
