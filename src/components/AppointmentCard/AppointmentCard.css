@@ -1,0 +1,22 @@
+.appointment-card {
+    background: green;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    flex: 1;
+  }
+  
+  .appointment-card button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #2563eb; /* blue */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .appointment-card button:hover {
+    background: #1e40af;
+  }
+  

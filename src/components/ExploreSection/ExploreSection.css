@@ -1,0 +1,18 @@
+.explore-section {
+    margin: 1rem 0;
+  }
+  
+  .explore-grid {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  
+  .explore-grid .card {
+    background: green;
+    border-radius: 12px;
+    padding: 1rem;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  

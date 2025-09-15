@@ -1,0 +1,22 @@
+.chat-prompt {
+    background: green;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  
+  .chat-prompt button {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #10b981; /* green */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .chat-prompt button:hover {
+    background: #059669;
+  }
+  

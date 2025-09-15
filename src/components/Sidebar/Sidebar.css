@@ -1,0 +1,26 @@
+.sidebar {
+    background: #1f2937; /* dark gray */
+    color: #fff;
+    width: 220px;
+    transition: all 0.3s ease;
+    padding: 1rem;
+  }
+  
+  .sidebar.closed {
+    width: 60px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 0.75rem 0;
+    cursor: pointer;
+  }
+  
+  .sidebar li:hover {
+    color: #a5f3fc; /* teal highlight */
+  }
+  
