@@ -30,10 +30,16 @@ const login_user = async_handler(async (req, res) => {
 
         console.log("Successfully logged in:", user.user_name);
         console.log("[BACKEND] Login Successful response sent for:", user.user_email);
-        return res.status(200).json({message:"Login Successful" })
+        return res.status(200).json({message:"Login Successful",
+            data: {
+                _id: user._id,
+                name: user.user_name, 
+                userType: userType
+            }
+        })
     }
 
-    if (userType === "Institute" || userType === "College" || userType === "college") {
+    if (userType === "institute") {
         const user = await clg_user.findOne({clg_admin_email : email})
     
         if(!user){
@@ -45,10 +51,16 @@ const login_user = async_handler(async (req, res) => {
         }
         console.log("Successfully logged in:", user.clg_admin_name);
         console.log("[BACKEND] Login Successful response sent for:", user.clg_admin_email);
-        return res.status(200).json({message:"Login Successful" })
+        return res.status(200).json({message:"Login Successful",
+            data: {
+                _id: user._id,
+                name: user.user_name, 
+                userType: userType
+            }
+        })
     }
 
-    if(userType==="Counsellor" || userType==="counselor" || userType==="counsellor"){
+    if(userType==="counsellor"){
         const user = await counselor_user.findOne({counselor_email : email})
 
         if(!user){
@@ -60,7 +72,13 @@ const login_user = async_handler(async (req, res) => {
         }
         console.log("Successfully logged in:" ,user.counselor_name);
         console.log("[BACKEND] Login Successful response sent for:", user.counselor_email);
-        return res.status(200).json({message:"Login Successful" })
+        return res.status(200).json({message:"Login Successful",
+            data: {
+                _id: user._id,
+                name: user.user_name, 
+                userType: userType
+            }
+         })
     }    
 
 });

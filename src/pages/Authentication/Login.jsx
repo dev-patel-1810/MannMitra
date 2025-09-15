@@ -109,7 +109,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 className={`dropdown-select ${errors.userType ? 'error' : ''}`}
               >
-                <option value="">Select userType *</option>
+                <option value="">Select User Type *</option>
                 <option value="student">Student</option>
                 <option value="counsellor">Counsellor</option>
                 <option value="institute">Institute</option>
