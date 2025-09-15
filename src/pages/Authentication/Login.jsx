@@ -9,7 +9,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    role: ''
+    userType: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -18,7 +18,7 @@ const Login = () => {
     setFormData({
       email: '',
       password: '',
-      role: ''
+      userType: ''
     });
     setErrors({});
   };
@@ -41,7 +41,7 @@ const Login = () => {
     const newErrors = {};
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.password.trim()) newErrors.password = 'Password is required';
-    if (!formData.role) newErrors.role = 'Please select your role';
+    if (!formData.userType) newErrors.userType = 'Please select your userType';
     if (formData.password.length < 8) newErrors.password = 'Invalid Password';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -69,8 +69,8 @@ const Login = () => {
         // Store user data and redirect
         localStorage.setItem('user', JSON.stringify(data.data));
         
-        // Redirect based on role
-        switch(formData.role.toLowerCase()) {
+        // Redirect based on userType
+        switch(formData.userType.toLowerCase()) {
           case 'student':
             navigate('/dashboard/student');
             break;
@@ -104,17 +104,17 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <div className="user-type-selector">
               <select
-                name="role"
-                value={formData.role}
+                name="userType"
+                value={formData.userType}
                 onChange={handleInputChange}
-                className={`dropdown-select ${errors.role ? 'error' : ''}`}
+                className={`dropdown-select ${errors.userType ? 'error' : ''}`}
               >
-                <option value="">Select Role *</option>
+                <option value="">Select userType *</option>
                 <option value="student">Student</option>
                 <option value="counsellor">Counsellor</option>
                 <option value="institute">Institute</option>
               </select>
-              {errors.role && <span className="error-message">{errors.role}</span>}
+              {errors.userType && <span className="error-message">{errors.userType}</span>}
             </div>
 
             <div className="login-field">
