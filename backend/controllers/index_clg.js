@@ -61,7 +61,7 @@ const register_clg_user = async_handler(async(req,res)=>{
     const exist = await Promise.all([
     stud_user.findOne({ user_contact: phoneNumber }),
     clg_user.findOne({ clg_admin_contact: phoneNumber }),
-    counselor_user.findoOne({counselor_contact: phoneNumber})
+    counselor_user.findOne({counselor_contact: phoneNumber})
     ]);
 
     if (exists[0] || exists[1] || exists [2]) {

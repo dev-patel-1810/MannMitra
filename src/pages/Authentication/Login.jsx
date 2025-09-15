@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import hero from '../../assets/hero.png';  // Add hero image import
 import './Authentication.css';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    userType: ''
+    role: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -14,7 +17,7 @@ const Login = () => {
     setFormData({
       email: '',
       password: '',
-      userType: ''
+      role: ''
     });
     setErrors({});
   };
@@ -37,15 +40,13 @@ const Login = () => {
     const newErrors = {};
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     if (!formData.password.trim()) newErrors.password = 'Password is required';
-    if (!formData.userType) newErrors.userType = 'Please select your role';
+    if (!formData.role) newErrors.role = 'Please select your role';
     if (formData.password.length < 8) newErrors.password = 'Invalid Password';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
-    console.log("Login : \n");
-    console.log(formData);
     e.preventDefault();
     if (validateForm()) {
       try {
@@ -57,15 +58,33 @@ const Login = () => {
           body: JSON.stringify(formData)
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-          const errorData = await response.json();
-          alert(errorData.message || 'Login failed!');
+          alert(data.message || 'Login failed!');
           return;
         }
 
-        resetForm();
-        alert('Logged in successfully!');
+        // Store user data and redirect
+        localStorage.setItem('user', JSON.stringify(data.data));
+        
+        // Redirect based on role
+        switch(formData.role.toLowerCase()) {
+          case 'student':
+            navigate('/dashboard/student');
+            break;
+          case 'counsellor':
+            navigate('/dashboard/counsellor');
+            break;
+          case 'institute':
+            navigate('/dashboard/institute');
+            break;
+          default:
+            window.location.href = '/';
+        }
+
       } catch (error) {
+        console.error('Login error:', error);
         alert('Network error!');
       }
     }
@@ -77,6 +96,7 @@ const Login = () => {
         <div className="signup-image">
           <h1>Welcome Back</h1>
           <p>to a little corner of calm and care made for you.....</p>
+          <img src={hero} alt="Hero" className="hero-image" />
         </div>
         
         <div className="signup-form">
@@ -84,17 +104,17 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <div className="user-type-selector">
               <select
-                name="userType"
-                value={formData.userType}
+                name="role"
+                value={formData.role}
                 onChange={handleInputChange}
-                className={`dropdown-select ${errors.userType ? 'error' : ''}`}
+                className={`dropdown-select ${errors.role ? 'error' : ''}`}
               >
                 <option value="">Select Role *</option>
                 <option value="student">Student</option>
                 <option value="counsellor">Counsellor</option>
                 <option value="institute">Institute</option>
               </select>
-              {errors.userType && <span className="error-message">{errors.userType}</span>}
+              {errors.role && <span className="error-message">{errors.role}</span>}
             </div>
 
             <div className="login-field">
