@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import logo from '../../assets/logo.jpg';
+import { useNavigate } from "react-router-dom";
 import './GHQ12.css';
 
 const GHQ12 = () => {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
+  const navigate = useNavigate(); 
 
   const questions = [
     {
@@ -111,11 +113,17 @@ const GHQ12 = () => {
         <div className="content">
           <div className="header">
           <img src={logo} alt="MannMitra Logo" className="header-logo" />
-            <div className="nav">
-              <span className="nav-item">HOME</span>
-              <span className="nav-item">ABOUT US</span>
-              <button className="sign-up-btn">SIGN UP</button>
-            </div>
+          <div className="nav">
+            <span 
+              className="nav-item" 
+              onClick={() => navigate("/dashboard/student")}
+              style={{ cursor: "pointer" }}
+            >
+              DASHBOARD
+            </span>
+            <span className="nav-item">ABOUT US</span>
+          </div>
+
           </div>
           
           <div className="main-content">
@@ -150,11 +158,17 @@ const GHQ12 = () => {
         <div className="content">
           <header className="header">
             <img src={logo} alt="MannMitra Logo" className="header-logo" />
-            <nav className="nav">
-              <span className="nav-item">HOME</span>
+            <div className="nav">
+              <span 
+                className="nav-item" 
+                onClick={() => navigate("/dashboard/student")}
+                style={{ cursor: "pointer" }}
+              >
+                DASHBOARD
+              </span>
               <span className="nav-item">ABOUT US</span>
-              <button className="sign-up-btn">SIGN UP</button>
-            </nav>
+            </div>
+
           </header>
           <div className="main-content">
             <h1 className="title">GENERAL HEALTH QUESTIONNAIRE</h1>

@@ -9,6 +9,7 @@ import Login from './pages/Authentication/Login'
 import Dash_Student from './pages/Dashboard/Dash_Student';
 import Dash_Counsellor from './pages/Dashboard/Dash_Counsellor';
 import Dash_Institute from './pages/Dashboard/Dash_Institute';
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import './index.css';
 import './App.css';
 
@@ -20,11 +21,41 @@ function App() {
         <Route path="/user-signup" element={<UserSignUp />} />
         <Route path="/counsellor-signup" element={<CounsellorSignUp />} />
         <Route path="/college-signup" element={<CollegeSignUp />} />
-        <Route path="/ghq12-test" element={<GHQ12 />} />
+        <Route
+          path="/ghq12-test"
+          element={
+            <ProtectedRoute>
+              <GHQ12 />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/student"
+          element={
+            <ProtectedRoute>
+              <Dash_Student /> 
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/counsellor"
+          element={
+            <ProtectedRoute>
+              <Dash_Counsellor /> 
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/institute"
+          element={
+            <ProtectedRoute>
+              <Dash_Institute /> 
+            </ProtectedRoute>
+          }
+        />
+        
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard/student" element={<Dash_Student />} />
-        <Route path="/dashboard/counsellor" element={<Dash_Counsellor />} />
-        <Route path="/dashboard/institute" element={<Dash_Institute />} />
       </Routes>
     </Router>
   );
