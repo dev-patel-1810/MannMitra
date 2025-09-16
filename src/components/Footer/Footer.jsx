@@ -1,16 +1,19 @@
+
 import React from 'react';
 import './Footer.css';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="footer-links">
-        <a href="#">Helpline</a>
-        <a href="#">About Us</a>
-        <a href="#">Privacy</a>
-        <a href="#">Contact Us</a>
+        <a href="#">{t('footer.helpline')}</a>
+        <a href="#">{t('footer.aboutUs')}</a>
+        <a href="#">{t('footer.privacy')}</a>
+        <a href="#">{t('footer.contactUs')}</a>
       </div>
-      <p>&copy; 2025 Mann Mitra. All rights reserved.</p>
+      <p>&copy; 2025 Mann Mitra. {t('footer.rightsReserved')}</p>
     </footer>
   );
 };
