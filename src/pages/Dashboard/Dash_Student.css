@@ -33,6 +33,11 @@
     overflow: hidden; /* no scroll */
     z-index: 60;
     transition: width 0.25s ease;
+    background: #588157;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
   }
   
   /* collapsed state (toggle by adding class to .dashboard — see React snippet below) */
@@ -104,3 +109,50 @@
     .dashboard-right { display: none; }
   }
   
+
+.sidebar-item {
+  padding: 0.8rem 1rem;
+  margin: 0.3rem 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  
+}
+.sidebar-item:hover {
+  background: rgba(255,255,255,0.15);
+}
+.module-card {
+  background: white;
+  color: #1f4e3d;
+  border-radius: 16px;
+  padding: 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.module-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+.explore-section{
+    background-color: #58815742;
+}
+.resource-grid{
+  background-color: #F9F7E3;
+}
+.module-peer{
+  background-color: #B63C65;
+}
+.module-counselor{
+  background-color: #2653A0;
+}
+.module-analytics{
+  background-color: #54BABE;
+}
+.module-test{
+  background-color: #FAAF18;
+}

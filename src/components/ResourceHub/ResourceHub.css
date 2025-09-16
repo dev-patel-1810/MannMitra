@@ -1,5 +1,6 @@
 .resource-hub {
     margin: 1rem 0;
+    background-color: #234F56
   }
   
   .resource-grid {
@@ -9,11 +10,12 @@
   }
   
   .resource-grid .card {
-    background:green;
+    background:#F9F7E3;
     ;
     border-radius: 12px;
     padding: 1rem;
     flex: 1;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    color: #234F56;
   }
   

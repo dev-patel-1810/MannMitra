@@ -1,5 +1,5 @@
 .appointment-card {
-    background: green;
+    background: #588157;
     border-radius: 12px;
     padding: 1rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -9,7 +9,7 @@
   .appointment-card button {
     margin-top: 0.5rem;
     padding: 0.5rem 1rem;
-    background: #2563eb; /* blue */
+    background: #E58933; /* blue */
     color: white;
     border: none;
     border-radius: 6px;

@@ -34,10 +34,11 @@ const Dash_Student = () => {
           <ChatPrompt />
 
           <section className="modules">
-            <ModuleCard title="Peer Group" />
-            <ModuleCard title="Your Counselor" />
-            <ModuleCard title="Analytics" />
-            <ModuleCard title="Task Test" />
+            <ModuleCard title="Peer Group" className="module-peer" />
+            <ModuleCard title="Your Counselor" className="module-counselor" />
+            <ModuleCard title="Analytics" className="module-analytics" />
+            <ModuleCard title="Task Test" className="module-test" />
+
           </section>
 
           <ExploreSection />
