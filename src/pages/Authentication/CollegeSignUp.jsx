@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import './Authentication.css';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
+function About() {
+  const { t } = useTranslation();
+}
 const CollegeSignUp = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     collegeName: '',
     collegeType: '',
@@ -49,26 +55,26 @@ const CollegeSignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.collegeName.trim()) newErrors.collegeName = 'College name is required';
-    if (!formData.collegeType.trim()) newErrors.collegeType = 'College type is required';
-    if (!formData.state.trim()) newErrors.state = 'State is required';
-    if (!formData.pinCode.trim()) newErrors.pinCode = 'Pin code is required';
-    if (!formData.adminName.trim()) newErrors.adminName = 'Admin name is required';
-    if (!formData.adminDesignation.trim()) newErrors.adminDesignation = 'Designation is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
+    if (!formData.collegeName.trim()) newErrors.collegeName = t('clg_signup.clg_name');
+    if (!formData.collegeType.trim()) newErrors.collegeType = t('clg_signup.clg_type');
+    if (!formData.state.trim()) newErrors.state = t('common.state');
+    if (!formData.pinCode.trim()) newErrors.pinCode = t('common.pincode');
+    if (!formData.adminName.trim()) newErrors.adminName = t('clg_signup.name');
+    if (!formData.adminDesignation.trim()) newErrors.adminDesignation = t('clg_signup');
+    if (!formData.email.trim()) newErrors.email = t('common.email');
+    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = t('common.phonenumber');
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('common.pass_req');
     } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = 'Password must contain at least 8 characters, 1 uppercase, 1 lowercase, and 1 number';
+      newErrors.password = t('common.pass_condition');
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm password';
+      newErrors.confirmPassword = t('common.confirm_pass');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = t('common.pass_mismatch');
     }
 
     setErrors(newErrors);
@@ -91,33 +97,32 @@ const CollegeSignUp = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          alert(errorData.message || 'Signup failed!');
+          alert(errorData.message || t('common.signup_fail'));
           return;
         }
 
         resetForm();
-        alert('College account created successfully!');
+        alert(t('common.success'));
       } catch (error) {
-        alert('Network error!');
+        alert(t('common.error'));
       }
     }
   };
-
   return (
     <div className="signup-container">
       <div className="signup-content">
         <div className="signup-image">
-          <h1>Welcome</h1>
-          <p>to a little corner of calm and care made for you.....</p>
+          <h1>{t('common.welcome')}</h1>
+          <p>{t('common.welcome2')}</p>
         </div>
         
         <div className="signup-form">
-          <h2>Create A College Account</h2>
+          <h2>{t('clg_signup.signup')}</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               name="collegeName"
-              placeholder="College Name *"
+              placeholder={t('clg_signup.college_name_placeholder')}
               value={formData.collegeName}
               onChange={handleInputChange}
               className={errors.collegeName ? 'error' : ''}
@@ -131,10 +136,10 @@ const CollegeSignUp = () => {
                 onChange={handleInputChange}
                 className={`dropdown-select ${errors.collegeType ? 'error' : ''}`}
               >
-                <option value="">Institute Type *</option>
-                <option value="university">University</option>
-                <option value="college">College</option>
-                <option value="institute">Institute</option>
+                <option value="">{t('clg_signup.institute_type')} *</option>
+                <option value="university">{t('clg_signup.university')}</option>
+                <option value="college">{t('clg_signup.college')}</option>
+                <option value="institute">{t('clg_signup.institute')}</option>
               </select>
 
               <select
@@ -143,25 +148,27 @@ const CollegeSignUp = () => {
                 onChange={handleInputChange}
                 className={`dropdown-select ${errors.state ? 'error' : ''}`}
               >
-                <option value="">State *</option>
-                <option value="delhi">Delhi</option>
-                <option value="punjab">Punjab</option>
-                <option value="haryana">Haryana</option>
-                <option value="himachal_pradesh">Himachal Pradesh</option>
-                <option value="madhya_pradesh">Madhya Pradesh</option>
-                <option value="uttar_pradesh">Uttar Pradesh</option>
-                <option value="rajasthan">Rajasthan</option>
-                <option value="gujarat">Gujarat</option>
-                <option value="maharashtra">Maharashtra</option>
-                <option value="karnataka">Karnataka</option>
-                <option value="tamil_nadu">Tamil Nadu</option>
+                <option value="">{t('clg_signup.state')} *</option>
+                <option value="delhi">{t('states.delhi')}</option>
+                <option value="punjab">{t('states.punjab')}</option>
+                <option value="haryana">{t('states.haryana')}</option>
+                <option value="himachal_pradesh">{t('states.himachal_pradesh')}</option>
+                <option value="madhya_pradesh">{t('states.madhya_pradesh')}</option>
+                <option value="uttar_pradesh">{t('states.uttar_pradesh')}</option>
+                <option value="rajasthan">{t('states.rajasthan')}</option>
+                <option value="gujarat">{t('states.gujarat')}</option>
+                <option value="jammu_and_kashmir">{t('states.jammu_and_kashmir')}</option>
+                <option value="maharashtra">{t('states.maharashtra')}</option>
+                <option value="karnataka">{t('states.karnataka')}</option>
+                <option value="tamil_nadu">{t('states.tamil_nadu')}</option>
+
               </select>
             </div>
 
             <input
               type="text"
               name="pinCode"
-              placeholder="Pin Code *"
+              placeholder={t('common.pincode_placeholder')}
               value={formData.pinCode}
               onChange={handleInputChange}
               className={errors.pinCode ? 'error' : ''}
@@ -171,7 +178,7 @@ const CollegeSignUp = () => {
             <input
               type="text"
               name="adminName"
-              placeholder="Admin Name *"
+              placeholder={t('clg_signup.admin_name_placeholder')}
               value={formData.adminName}
               onChange={handleInputChange}
               className={errors.adminName ? 'error' : ''}
@@ -181,7 +188,7 @@ const CollegeSignUp = () => {
             <input
               type="text"
               name="adminDesignation"
-              placeholder="Admin Designation *"
+              placeholder={t('clg_signup.admin_designation_placeholder')}
               value={formData.adminDesignation}
               onChange={handleInputChange}
               className={errors.adminDesignation ? 'error' : ''}
@@ -191,7 +198,7 @@ const CollegeSignUp = () => {
             <input
               type="email"
               name="email"
-              placeholder="Email *"
+              placeholder={t('common.email_placeholder')}
               value={formData.email}
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
@@ -205,7 +212,7 @@ const CollegeSignUp = () => {
               <input
                 type="tel"
                 name="phoneNumber"
-                placeholder="Phone Number *"
+                placeholder={t('common.phone_placeholder')}
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className={errors.phoneNumber ? 'error' : ''}
@@ -216,7 +223,7 @@ const CollegeSignUp = () => {
             <input
               type="password"
               name="password"
-              placeholder="Password *"
+              placeholder={t('common.password_placeholder')}
               value={formData.password}
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
@@ -226,7 +233,7 @@ const CollegeSignUp = () => {
             <input
               type="password"
               name="confirmPassword"
-              placeholder="Re-enter Password *"
+              placeholder={t('common.confirm_password_placeholder')}
               value={formData.confirmPassword}
               onChange={handleInputChange}
               className={errors.confirmPassword ? 'error' : ''}
@@ -234,13 +241,13 @@ const CollegeSignUp = () => {
             {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
 
             <div className="terms">
-              <p>By creating an account, you agree to the Terms of use and Privacy Policy.</p>
+              <p>{t('common.privacypolicy')}</p>
             </div>
 
-            <button type="submit" className="signup-button">Sign Up</button>
+            <button type="submit" className="signup-button">{t('common.signup')}</button>
 
             <div className="login-link">
-              Already have an account? <a href="/login">Log in</a>
+              {t('common.have_account') }<a href="/login">{t('common.login')}</a>
             </div>
           </form>
         </div>

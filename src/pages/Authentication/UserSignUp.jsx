@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import GuardianConfirmModal from '../../components/GuardianConfirmModal/GuardianConfirmModal';
-import pic from '../../assets/signup.png'
+import pic from '../../assets/signup.png';
 import './Authentication.css';
+import { useTranslation } from 'react-i18next';
+import { FaCreativeCommons } from 'react-icons/fa';
 
 const UserSignUp = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -100,33 +103,33 @@ const UserSignUp = () => {
     const newErrors = {};
     
     // Required field validations
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
-    if (!formData.pinCode.trim()) newErrors.pinCode = 'Pin code is required';
+    if (!formData.username.trim()) newErrors.username = t('common.username');
+    if (!formData.email.trim()) newErrors.email = t('common.email');
+    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = t('common.phonenumber');
+    if (!formData.pinCode.trim()) newErrors.pinCode = t('common.pincode');
     
     // Password validations
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('common.pass_req');
     } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = 'Password must contain at least 8 characters, 1 uppercase, 1 lowercase, and 1 number';
+      newErrors.password = t('common.pass_condition');
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm password';
+      newErrors.confirmPassword = t('common.confirm_pass');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = t('common.pass_mismatch');
     }
 
     // Guardian validation
     if (!guardianChoice) {
-      newErrors.guardian = 'Please select guardian information option';
+      newErrors.guardian = t('user.guardian');
     }
 
     if (guardianChoice === 'show') {
       if (!formData.guardian1Name.trim() || !formData.guardian1Contact.trim()) {
-        newErrors.guardian1 = 'At least one guardian information is required';
+        newErrors.guardian1 = t('user.guardian_permission');
       }
     }
 
@@ -150,17 +153,17 @@ const UserSignUp = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          alert(errorData.message || 'Signup failed!');
+          alert(errorData.message || t('common.signup_fail'));
           return;
         }
 
         // Reset form after successful submission
         
         resetForm();
-        alert('Account created successfully!');
+        alert(t('common.user_success'));
       } catch (error) {
         // console.log(error);
-        alert('Network error!');
+        alert(t('common.error'));
       }
     }
   };
@@ -169,12 +172,12 @@ const UserSignUp = () => {
     <div className="signup-container">
       <div className="signup-content">
         <div className="signup-image">
-          <h1>Welcome</h1>
-          <p>to a little corner of calm and care made for you.....</p>
+          <h1>{t('common.welcome')}</h1>
+          <p>{('common.welcome2')}</p>
         </div>
         
         <div className="signup-form">
-          <h2>Create A User Account</h2>
+          <h2>{t('user.create_acc')}</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -189,7 +192,7 @@ const UserSignUp = () => {
             <input
               type="email"
               name="email"
-              placeholder="E-mail *"
+              placeholder={t('user.email')}
               value={formData.email}
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
@@ -203,7 +206,7 @@ const UserSignUp = () => {
               <input
                 type="tel"
                 name="phoneNumber"
-                placeholder="Phone Number *"
+                placeholder={t('user.phonenumber')}
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className={errors.phoneNumber ? 'error' : ''}
@@ -214,7 +217,7 @@ const UserSignUp = () => {
             <input
               type="text"
               name="pinCode"
-              placeholder="Pin Code *"
+              placeholder={t('user.pincode')}
               value={formData.pinCode}
               onChange={handleInputChange}
               className={errors.pinCode ? 'error' : ''}
@@ -227,9 +230,9 @@ const UserSignUp = () => {
                 className={`guardian-dropdown ${errors.guardian ? 'error' : ''}`}
                 value={guardianChoice}
               >
-                <option value="">Enter Guardian's Detail *</option>
-                <option value="show">Enter Guardian Information</option>
-                <option value="none">I opt not to choose one</option>
+                <option value="">{t('user.guardian_detail')}</option>
+                <option value="show">{t('user.guardian_info')}</option>
+                <option value="none">{t('user.no_guardian')}</option>
               </select>
               {errors.guardian && <span className="error-message">{errors.guardian}</span>}
 
@@ -239,7 +242,7 @@ const UserSignUp = () => {
                     <input
                       type="text"
                       name="guardian1Name"
-                      placeholder="Name of Guardian 1 *"
+                      placeholder={t('user.guardian1name')}
                       value={formData.guardian1Name}
                       onChange={handleInputChange}
                       className={errors.guardian1 ? 'error' : ''}
@@ -247,7 +250,7 @@ const UserSignUp = () => {
                     <input
                       type="text"
                       name="guardian1Contact"
-                      placeholder="Contact of Guardian 1 *"
+                      placeholder={t('user.guardian1Contact')}
                       value={formData.guardian1Contact}
                       onChange={handleInputChange}
                       className={errors.guardian1 ? 'error' : ''}
@@ -258,14 +261,14 @@ const UserSignUp = () => {
                     <input
                       type="text"
                       name="guardian2Name"
-                      placeholder="Name of Guardian 2"
+                      placeholder={t('user.guardian2name')}
                       value={formData.guardian2Name}
                       onChange={handleInputChange}
                     />
                     <input
                       type="text"
                       name="guardian2Contact"
-                      placeholder="Contact of Guardian 2"
+                      placeholder={t('user.guardian2contact')}
                       value={formData.guardian2Contact}
                       onChange={handleInputChange}
                     />
@@ -277,7 +280,7 @@ const UserSignUp = () => {
             <input
               type="password"
               name="password"
-              placeholder="Password *"
+              placeholder={t('user.password')}
               value={formData.password}
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
@@ -287,7 +290,7 @@ const UserSignUp = () => {
             <input
               type="password"
               name="confirmPassword"
-              placeholder="Re-enter Password *"
+              placeholder={t('user.confirm_password')}
               value={formData.confirmPassword}
               onChange={handleInputChange}
               className={errors.confirmPassword ? 'error' : ''}
@@ -297,19 +300,19 @@ const UserSignUp = () => {
             <input
               type="text"
               name="collegeId"
-              placeholder="Enter College Id if applicable"
+              placeholder={t('user.clg_id')}
               value={formData.collegeId}
               onChange={handleInputChange}
             />
 
             <div className="terms">
-              <p>By creating an account, you agree to the Terms of use and Privacy Policy.</p>
+              <p>{t('common.privacypolicy')}</p>
             </div>
 
-            <button type="submit" className="signup-button">Sign Up</button>
+            <button type="submit" className="signup-button">{t('common.signup')}</button>
 
             <div className="login-link">
-              Already have an account? <a href="/login">Log in</a>
+              {t('common.have_account')} <a href="/login">{t('common.login')}</a>
             </div>
             
             <GuardianConfirmModal

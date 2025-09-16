@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import './Authentication.css';
 import {useNavigate} from 'react-router-dom';
+import { t } from 'i18next';
 
 const Login = () => {
   const navigate=useNavigate();
@@ -39,10 +40,10 @@ const Login = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.password.trim()) newErrors.password = 'Password is required';
-    if (!formData.userType) newErrors.userType = 'Please select your userType';
-    if (formData.password.length < 8) newErrors.password = 'Invalid Password';
+    if (!formData.email.trim()) newErrors.email = t('common.email');
+    if (!formData.password.trim()) newErrors.password = t('common.password_req');
+    if (!formData.userType) newErrors.userType = t('login.user_type');
+    if (formData.password.length < 8) newErrors.password = t('login.invalid_pass');
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -62,7 +63,7 @@ const Login = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          alert(data.message || 'Login failed!');
+          alert(data.message || t('login.login_fail'));
           return;
         }
 
@@ -95,12 +96,12 @@ const Login = () => {
     <div className="signup-container">
       <div className="signup-content">
         <div className="signup-image">
-          <h1>Welcome Back</h1>
-          <p>to a little corner of calm and care made for you.....</p>
+          <h1>{t('login.welcome')}</h1>
+          <p>{t('login.welcome2')}</p>
         </div>
         
         <div className="signup-form">
-          <h2>Welcome Back</h2>
+          <h2>{t('login.welcome')}</h2>
           <form onSubmit={handleSubmit}>
             <div className="user-type-selector">
               <select
@@ -109,10 +110,10 @@ const Login = () => {
                 onChange={handleInputChange}
                 className={`dropdown-select ${errors.userType ? 'error' : ''}`}
               >
-                <option value="">Select User Type *</option>
-                <option value="student">Student</option>
-                <option value="counsellor">Counsellor</option>
-                <option value="institute">Institute</option>
+                <option value="" >{t('login.user_type')}</option>
+                <option value="student">{t('login.student')}</option>
+                <option value="counsellor">{t('login.counsellor')}</option>
+                <option value="institute">{t('login.institute')}</option>
               </select>
               {errors.userType && <span className="error-message">{errors.userType}</span>}
             </div>
@@ -121,7 +122,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
-                placeholder="Email *"
+                placeholder={t('login.email')}
                 value={formData.email}
                 onChange={handleInputChange}
                 className={errors.email ? 'error' : ''}
@@ -133,7 +134,7 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                placeholder="Password *"
+                placeholder={t('login.password')}
                 value={formData.password}
                 onChange={handleInputChange}
                 className={errors.password ? 'error' : ''}
@@ -142,13 +143,13 @@ const Login = () => {
             </div>
 
             <div className="forgot-password-link">
-              <a href="/forgot-password">Forgot Password?</a>
+              <a href="/forgot-password">{t('login.forgot_password')}</a>
             </div>
 
-            <button type="submit" className="signup-button">Log In</button>
+            <button type="submit" className="signup-button">{t('login.login')}</button>
 
             <div className="alternate-action">
-              Don't have an account? <h6 onClick={() => setIsModalOpen(true)}>Sign up</h6>
+              {t('login.no_account')} <h6 onClick={() => setIsModalOpen(true)}>{t('common.signup')}</h6>
             </div>
           </form>
         </div>

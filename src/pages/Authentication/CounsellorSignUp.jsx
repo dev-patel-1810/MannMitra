@@ -1,7 +1,10 @@
+
 import { useState } from 'react';
 import './Authentication.css';
+import { useTranslation } from 'react-i18next';
 
 const CounsellorSignUp = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -50,25 +53,25 @@ const CounsellorSignUp = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = 'Phone number is required';
-    if (!formData.pinCode.trim()) newErrors.pinCode = 'Pin code is required';
-    if (!formData.qualification.trim()) newErrors.qualification = 'Qualification is required';
-    if (!formData.specialization.trim()) newErrors.specialization = 'Specialization is required';
-    if (!formData.experience.trim()) newErrors.experience = 'Experience is required';
+    if (!formData.username.trim()) newErrors.username = t('common.username');
+    if (!formData.email.trim()) newErrors.email = t('common.email');
+    if (!formData.phoneNumber.trim()) newErrors.phoneNumber = t('common.phonenumber');
+    if (!formData.pinCode.trim()) newErrors.pinCode = t('common.pincode');
+    if (!formData.qualification.trim()) newErrors.qualification = t('counselor.qualification');
+    if (!formData.specialization.trim()) newErrors.specialization = t('counselor.specialization');
+    if (!formData.experience.trim()) newErrors.experience = t('counselor.experience');
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = t('common.pass_req');
     } else if (!passwordRegex.test(formData.password)) {
-      newErrors.password = 'Password must contain at least 8 characters, 1 uppercase, 1 lowercase, and 1 number';
+      newErrors.password = t('common.pass_condition');
     }
 
     if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm password';
+      newErrors.confirmPassword = t('common.confirm_pass');
     } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = t('common.pass_mismatch');
     }
 
     setErrors(newErrors);
@@ -76,7 +79,7 @@ const CounsellorSignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Counsellor Signup : \n");
+    console.log("Counselor Signup : \n");
     console.log(formData);
     e.preventDefault();
     if (validateForm()) {
@@ -91,14 +94,14 @@ const CounsellorSignUp = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          alert(errorData.message || 'Signup failed!');
+          alert(errorData.message || t('common.signup_fail'));
           return;
         }
 
         resetForm();
-        alert('Counsellor account created successfully!');
+        alert(t('common.counselor_success'));
       } catch (error) {
-        alert('Network error!');
+        alert(t('common.error'));
       }
     }
   };
@@ -107,17 +110,17 @@ const CounsellorSignUp = () => {
     <div className="signup-container">
       <div className="signup-content">
         <div className="signup-image">
-          <h1>Welcome</h1>
-          <p>to a little corner of calm and care made for you.....</p>
+          <h1>{t('common.welcome')}</h1>
+          <p>{t('common.welcome2')}</p>
         </div>
         
         <div className="signup-form">
-          <h2>Create A Counsellor Account</h2>
+          <h2>{t('counselor.signup')}</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               name="username"
-              placeholder="Username *"
+              placeholder={t('common.username_placeholder')}
               value={formData.username}
               onChange={handleInputChange}
               className={errors.username ? 'error' : ''}
@@ -127,7 +130,7 @@ const CounsellorSignUp = () => {
             <input
               type="email"
               name="email"
-              placeholder="Email *"
+              placeholder={t('common.email_placeholder')}
               value={formData.email}
               onChange={handleInputChange}
               className={errors.email ? 'error' : ''}
@@ -141,7 +144,7 @@ const CounsellorSignUp = () => {
               <input
                 type="tel"
                 name="phoneNumber"
-                placeholder="Phone Number *"
+                placeholder={t('common.phone_placeholder')}
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className={errors.phoneNumber ? 'error' : ''}
@@ -152,7 +155,7 @@ const CounsellorSignUp = () => {
             <input
               type="text"
               name="qualification"
-              placeholder="Qualification *"
+              placeholder={t('counselor.qualification_placeholder')}
               value={formData.qualification}
               onChange={handleInputChange}
               className={errors.qualification ? 'error' : ''}
@@ -162,7 +165,7 @@ const CounsellorSignUp = () => {
             <input
               type="text"
               name="specialization"
-              placeholder="Specialization *"
+              placeholder={t('counselor.specialization_placeholder')}
               value={formData.specialization}
               onChange={handleInputChange}
               className={errors.specialization ? 'error' : ''}
@@ -172,7 +175,7 @@ const CounsellorSignUp = () => {
             <input
               type="text"
               name="experience"
-              placeholder="Years of Experience *"
+              placeholder={t('counselor.experience_placeholder')}
               value={formData.experience}
               onChange={handleInputChange}
               className={errors.experience ? 'error' : ''}
@@ -182,7 +185,7 @@ const CounsellorSignUp = () => {
             <input
               type="text"
               name="pinCode"
-              placeholder="Pin Code *"
+              placeholder={t('common.pincode_placeholder')}
               value={formData.pinCode}
               onChange={handleInputChange}
               className={errors.pinCode ? 'error' : ''}
@@ -192,7 +195,7 @@ const CounsellorSignUp = () => {
             <input
               type="password"
               name="password"
-              placeholder="Password *"
+              placeholder={t('common.password_placeholder')}
               value={formData.password}
               onChange={handleInputChange}
               className={errors.password ? 'error' : ''}
@@ -202,7 +205,7 @@ const CounsellorSignUp = () => {
             <input
               type="password"
               name="confirmPassword"
-              placeholder="Re-enter Password *"
+              placeholder={t('common.confirm_password_placeholder')}
               value={formData.confirmPassword}
               onChange={handleInputChange}
               className={errors.confirmPassword ? 'error' : ''}
@@ -212,19 +215,19 @@ const CounsellorSignUp = () => {
             <input
               type="text"
               name="collegeId"
-              placeholder="Enter College Id if applicable"
+              placeholder={t('counselor.college_id_placeholder')}
               value={formData.collegeId}
               onChange={handleInputChange}
             />
 
             <div className="terms">
-              <p>By creating an account, you agree to the Terms of use and Privacy Policy.</p>
+              <p>{t('common.privacypolicy')}</p>
             </div>
 
-            <button type="submit" className="signup-button">Sign Up</button>
+            <button type="submit" className="signup-button">{t('common.signup')}</button>
 
             <div className="login-link">
-              Already have an account? <a href="/login">Log in</a>
+              {t('common.have_account')} <a href="/login">{t('common.login')}</a>
             </div>
           </form>
         </div>

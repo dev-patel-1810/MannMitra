@@ -1,24 +1,30 @@
+
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import './Hero.css';
-import logo from '../../assets/logo.jpg'
-import heroImg from '../../assets/hero.png'; 
+import logo from '../../assets/logo.jpg';
+import heroImg from '../../assets/hero.png';
 import Vector from "../../assets/Vector.svg";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+
 
 const Hero = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
+  const { t, i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language || 'en');
 
   const navigate = useNavigate();
-  
-   const handleLanguageChange = (event) => {
-    setSelectedLanguage(event.target.value);
+
+  const handleLanguageChange = (event) => {
+    const lang = event.target.value;
+    setSelectedLanguage(lang);
+    i18n.changeLanguage(lang);
   };
 
-  const handleLogin=()=>{
+  const handleLogin = () => {
     navigate('/login');
-  }
+  };
 
   // const options = [
   //   'Student Sign Up',
@@ -30,11 +36,11 @@ const Hero = () => {
     <section className="hero">
       {/* Add decorative SVGs */}
       <div className="background-svgs">
-      <img
-        src={Vector}
-        alt="background vector"
-        className="absolute inset-0 w-full h-full object-cover"
-      />
+        <img
+          src={Vector}
+          alt="background vector"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
       </div>
       <div className="hero-content">
         <div className="header-row">
@@ -43,35 +49,28 @@ const Hero = () => {
             <h3>MannMitra</h3>
           </div>
           <div className="header-buttons">
-             <select 
-              className="language-select" 
-              value={selectedLanguage} 
+            <select
+              className="language-select"
+              value={selectedLanguage}
               onChange={handleLanguageChange}
             >
-              <option value="English">English</option>
-              <option value="Hindi">Hindi</option>
-              <option value="Gujarati">Gujarati</option>
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
             </select>
-            <button onClick={handleLogin} className="signin-btn" >Login</button>
+            <button onClick={handleLogin} className="signin-btn" >{t('common.login')}</button>
           </div>
         </div>
         <div className="hero-text">
           <h1>
-            <span className="orange-text">YOUR</span> <span className='blue-text'>JOURNEY TO EMOTIONAL WELLNESS</span> 
+            <span className="orange-text">{t('hero.your')}</span> <span className='blue-text'>{t('hero.journey')}</span>
           </h1>
-          <p>
-              Life isn’t always sunshine and rainbows. Some days feel heavy, and that’s okay.
-              MannMitra is here to be your buddy — a space to chill, vent, and find little ways to feel lighter.
-              Ready to take that first step toward feeling good again?
-          </p>
-          <button className="get-started-btn" onClick={() => setIsModalOpen(true)}>GET STARTED</button>
+          <p>{t('hero.description')}</p>
+          <button className="get-started-btn" onClick={() => setIsModalOpen(true)}>{t('hero.getStarted')}</button>
         </div>
       </div>
-      
       <div className="hero-image-wrapper">
         <img src={heroImg} alt="Hero" className="hero-image" />
       </div>
-      
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
