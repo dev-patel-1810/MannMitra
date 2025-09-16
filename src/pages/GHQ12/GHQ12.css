@@ -88,22 +88,6 @@
 .nav-item:hover {
   color: #333;
 }
-
-.sign-up-btn {
-  background: #FF6B35;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.3s;
-}
-
-.sign-up-btn:hover {
-  background: #e55a2b;
-}
-
 /* Main Content */
 .main-content {
   flex: 1;
