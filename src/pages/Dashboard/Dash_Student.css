@@ -2,7 +2,8 @@
     --sidebar-width: 220px;
     --sidebar-collapsed-width: 60px;
     --right-width: 300px;
-    --navbar-height: 64px;
+    --navbar-height: 100px;
+    
   }
   
   /* make sure the page can scroll */
@@ -13,6 +14,7 @@
   /* container root (keeps markup same) */
   .dashboard {
     min-height: 100vh;
+    
     display: block; /* page-level scrolling */
   }
   
@@ -85,9 +87,9 @@
   
   .modules {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
+    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+    gap: 1.5rem;
+    margin: 1.5rem 0;
   }
   
   /* ===== Optional page-level scrollbar styling (WebKit) ===== */
@@ -128,11 +130,16 @@
   background: white;
   color: #1f4e3d;
   border-radius: 16px;
-  padding: 1.2rem;
+  padding: 2rem;            /* more inner space */
   text-align: center;
   font-weight: 600;
   box-shadow: 0 3px 6px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 180px;        /* force bigger height */
+  font-size: 1.2rem;        /* larger text */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .module-card:hover {
   transform: translateY(-4px);
