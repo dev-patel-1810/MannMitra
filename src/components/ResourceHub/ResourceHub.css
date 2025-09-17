@@ -10,12 +10,12 @@
   }
   
   .resource-grid .card {
-    background:#F9F7E3;
-    ;
-    border-radius: 12px;
-    padding: 1rem;
-    flex: 1;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    color: #234F56;
-  }
-  
+  background: #F9F7E3;
+  border-radius: 12px;
+  padding: 2rem;        /* more inner space */
+  flex: 1;
+  min-height: 180px;    /* force taller cards */
+  font-size: 1.2rem;    /* larger text */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  color: #234F56;
+}
