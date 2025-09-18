@@ -41,6 +41,7 @@ const Dash_Student = () => {
             <ModuleCard 
               title="Take Test" 
               className="module-test"
+              
               onClick={() => navigate("/ghq12-test")}
             />
           </section>

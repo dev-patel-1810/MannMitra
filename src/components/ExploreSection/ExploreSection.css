@@ -1,25 +1,55 @@
 .explore-section {
-    margin: 1rem 0;
-  }
-  
-  .explore-grid {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.5rem;
-  }
-  
-  .explore-grid .card {
-    
-    
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 16px;
+}
+
+.explore-section h2 {
+  text-align: center;
+  color: #234F56;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.explore-grid {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
+.explore-grid .card {
   background: #F9F7E3;
   color: #234F56;
-  border-radius: 12px;
-  padding: 2rem;      /* was 1rem → more space inside */
+  border-radius: 16px;
+  padding: 1.5rem;
   flex: 1;
-  font-size: 1.2rem;  /* bigger text */
-  min-height: 150px;  /* force taller cards */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-size: 1.2rem;
+  min-height: 250px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
 
+.explore-grid .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
 
-  }
-  
+.card-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img {
+  transform: scale(1.05);
+}

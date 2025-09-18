@@ -1,13 +1,23 @@
 import React from "react";
 import "./ExploreSection.css";
 
+// Import images
+import wellnessImg from "../../assets/wellness_task.png";
+import gamingImg from "../../assets/Gaming_zone.png";
+
 const ExploreSection = () => {
   return (
     <section className="explore-section">
       <h2>Explore</h2>
       <div className="explore-grid">
-        <div className="card">Wellness Tasks</div>
-        <div className="card">Gaming Zone</div>
+        <div className="card">
+          <img src={wellnessImg} alt="Wellness Tasks" className="card-img" />
+          <p>Wellness Tasks</p>
+        </div>
+        <div className="card">
+          <img src={gamingImg} alt="Gaming Zone" className="card-img" />
+          <p>Gaming Zone</p>
+        </div>
       </div>
     </section>
   );

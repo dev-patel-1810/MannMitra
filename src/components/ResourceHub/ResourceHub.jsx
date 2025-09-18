@@ -1,15 +1,26 @@
 import React from "react";
+import ModuleCard from "../../components/ModuleCard/ModuleCard";
 import "./ResourceHub.css";
+// ✅ import the images
+import calmingMusicImg from "../../assets/calming_music.png";
+import selfHelpImg from "../../assets/self_help_videos.jpg";
 
 const ResourceHub = () => {
   return (
-    <section className="resource-hub">
-      <h2>Resource Hub</h2>
+    <div className="resource-hub">
       <div className="resource-grid">
-        <div className="card">Self-Help Videos</div>
-        <div className="card">Calming Music</div>
+        <ModuleCard 
+          image={selfHelpImg} 
+          title="Self-Help Videos" 
+          className="card"
+        />
+        <ModuleCard 
+          image={calmingMusicImg} 
+          title="Calming Music" 
+          className="card"
+        />
       </div>
-    </section>
+    </div>
   );
 };
 
