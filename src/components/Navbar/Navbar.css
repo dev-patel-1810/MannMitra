@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: blue;
+    background-color: #588157;
     border-bottom: 1px solid #e5e7eb;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     z-index: 70;
@@ -29,6 +29,6 @@
   
   .navbar-profile {
     font-size: 0.9rem;
-    color: #555;
+    color: #2F327D;
   }
   
