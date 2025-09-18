@@ -10,6 +10,7 @@ import Dash_Student from './pages/Dashboard/Dash_Student';
 import Dash_Counsellor from './pages/Dashboard/Dash_Counsellor';
 import Dash_Institute from './pages/Dashboard/Dash_Institute';
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AppointmentBooking from "./pages/Appointment/AppointmentBooking"
 import './index.css';
 import './App.css';
 
@@ -54,7 +55,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+        <Route
+          path="/appointment"
+          element={
+            <ProtectedRoute>
+              <AppointmentBooking/>
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>

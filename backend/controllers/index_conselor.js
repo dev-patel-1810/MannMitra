@@ -1,10 +1,11 @@
+import mongoose from "mongoose";
 import { async_handler } from "../utils/async_handler.js";
 import{ApiError} from "../utils/api_error.js" 
 import {clg_user} from "../models/clg_user.js"
 import { ApiResponse }  from "../utils/api_response.js";
 import {stud_user} from "../models/stud_user.js"
 import {counselor_user} from "../models/counselor_user.js"
-
+import {Appointment} from "../models/appointment.js"
 
 const register_counselor_user = async_handler(async(req,res)=>{
     //OBJECTIVES---- 
@@ -86,4 +87,34 @@ const register_counselor_user = async_handler(async(req,res)=>{
 
 })
 
-export {register_counselor_user}
+const getCounsellors = async_handler(async (req, res) => {
+    const counsellors = await counselor_user.find()
+        .select('counselor_name counselor_specialization counselor_exp counselor_clg_id')
+        .lean();
+
+    return res.status(200).json(
+        new ApiResponse(200, counsellors, "Counsellors fetched successfully")
+    );
+});
+
+const getCounsellorAppointments = async_handler(async (req, res) => {
+    // The counsellor ID can be retrieved from the authenticated request object
+    const {counselorId} = req.params;
+    console.log(counselorId);
+    if (!counselorId) {
+        throw new ApiError(401, "Counsellor not authenticated");
+    }
+
+    const appointments = await Appointment.find({ counsellor: new mongoose.Types.ObjectId(counselorId) })
+                                                    .populate({
+                                                        path: 'student',
+                                                        model: 'stud_user',
+                                                        select: 'user_name user_email'
+                                                    }).lean();
+    console.log(appointments);
+    return res.status(200).json(
+        new ApiResponse(200, appointments, "Counsellor appointments fetched successfully")
+    );
+});
+
+export {register_counselor_user, getCounsellors, getCounsellorAppointments}

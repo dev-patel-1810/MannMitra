@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import MoodCard from "../../components/MoodCard/MoodCard";
-import AppointmentCard from "../../components/AppointmentCard/AppointmentCard";
 import ChatPrompt from "../../components/ChatPrompt/ChatPrompt";
 import ModuleCard from "../../components/ModuleCard/ModuleCard";
 import ExploreSection from "../../components/ExploreSection/ExploreSection";
@@ -27,7 +26,7 @@ const Dash_Student = () => {
         <main className="dashboard-main">
           <section className="top-section">
             <MoodCard />
-            <AppointmentCard />
+            {/* <AppointmentCard /> */}
           </section>
 
           <ChatPrompt />

@@ -1,9 +1,9 @@
 import React from 'react'
-
+import AppointmentsList from '../../components/AppointmentList/AppointmentList'
 const Dash_Counsellor = () => {
   return (
     <div>
-      You are a counsellor
+      <AppointmentsList userType="counsellor" />
     </div>
   )
 }
