@@ -1,16 +1,39 @@
 .module-card {
-    
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    flex: 1;
-    text-align: center;
-    background: #FFF1DA;
-  }
+  border-radius: 16px;
+  padding: 2rem;
+  flex: 1;
+  min-height: 180px;
+  font-size: 1.2rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  text-align: center;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: white;
+}
+
+.module-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
   
   .modules {
-    display: flex;
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+  .module-peer { background-color: #B63C65; }
+.module-counselor { background-color: #2653A0; }
+.module-analytics { background-color: #54BABE; }
+.module-test { background-color: #FAAF18; }
+
+.module-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
