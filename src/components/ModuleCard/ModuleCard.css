@@ -1,39 +1,42 @@
 .module-card {
   border-radius: 16px;
-  padding: 2rem;
-  flex: 1;
-  min-height: 180px;
-  font-size: 1.2rem;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
-  text-align: center;
-  font-weight: 600;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  min-height: 150px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: white;
+  background: #F9F7E3;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .module-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
-  
-  .modules {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  margin: 2rem 0;
-  padding: 0 1rem;
+
+.module-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
 }
-  .module-peer { background-color: #B63C65; }
-.module-counselor { background-color: #2653A0; }
-.module-analytics { background-color: #54BABE; }
-.module-test { background-color: #FAAF18; }
+
+.module-icon {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.module-card:hover .module-icon {
+  transform: scale(1.05);
+}
 
 .module-card h3 {
-  margin: 0;
-  font-size: 1.2rem;
+  color: white;
+  font-size: 1.25rem;
   font-weight: 600;
+  margin: 0;
 }

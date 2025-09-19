@@ -1,3 +1,22 @@
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
 .wellness-tasks {
   background-color: white;
   border-radius: 16px;
@@ -51,7 +70,6 @@
   border: 2px solid #588157;
   border-radius: 4px;
   cursor: pointer;
-  accent-color: #588157;
 }
 
 .task-checkbox:checked {

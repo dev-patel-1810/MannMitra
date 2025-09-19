@@ -1,10 +1,67 @@
 .mood-card {
-    background: #FFF1DA;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-right: 1rem;
-    flex: 1;
-    color:black
-  }
+  background-color: #FFF8E7;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.mood-card h2 {
+  color: #234F56;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.mood-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.mood-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mood-meter img {
+  width: 200px;
+  height: auto;
+}
+
+.mood-text {
+  color: #234F56;
+  font-weight: 500;
+}
+
+.appointment-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.appointment-section p {
+  color: #234F56;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.book-now-btn {
+  background-color: #588157;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.book-now-btn:hover {
+  background-color: #3a5a40;
+}
   
