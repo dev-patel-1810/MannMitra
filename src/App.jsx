@@ -11,6 +11,7 @@ import Dash_Counsellor from './pages/Dashboard/Dash_Counsellor';
 import Dash_Institute from './pages/Dashboard/Dash_Institute';
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppointmentBooking from "./pages/Appointment/AppointmentBooking"
+import WellnessForest from './pages/WellnessForest/WellnessForest';
 import './index.css';
 import './App.css';
 
@@ -63,6 +64,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/wellness-forest"
+          element={
+            <ProtectedRoute>
+              <WellnessForest/>
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>

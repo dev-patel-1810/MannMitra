@@ -1,0 +1,191 @@
+/* src/pages/WellnessForest/WellnessForest.css */
+:root {
+    --bg: #f7fafc;
+    --card: #ffffff;
+    --muted: #6b7280;
+    --accent: #10b981;
+    --shadow: rgba(10, 20, 40, 0.06);
+    --ground: #e6f6e9;
+  }
+  
+  .wf-page {
+    padding: 22px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #0f172a;
+    background: var(--bg);
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Layout */
+  .wf-container {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 18px;
+    align-items: start;
+  }
+  
+  /* LEFT: forest column */
+  .wf-left {
+    background: linear-gradient(180deg,#fff,#fbfdff);
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 8px 28px var(--shadow);
+  }
+  
+  .wf-left-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom: 8px;
+  }
+  .wf-left-header h2 { margin:0; font-size:18px; }
+  .wf-stats { font-size:13px; color:var(--muted); display:flex; gap:12px; align-items:center; }
+  
+  /* forest canvas */
+  .wf-forest {
+    position: relative;
+    height: 460px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(180deg,#eafaf0 0%, #f8fff9 60%);
+    border: 1px solid rgba(50, 80, 60, 0.04);
+    margin-top: 12px;
+  }
+  
+  .wf-ground {
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height: 80px;
+    background: linear-gradient(180deg,#d7f0d8,#cff0d3);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  
+  /* small tree sprite wrapper - absolutely positioned */
+  .wf-tree {
+    position: absolute;
+    width: 36px;
+    height: 48px;
+    pointer-events: none; /* optional: trees don't catch clicks */
+    transform-origin: center;
+    animation: treePop 400ms cubic-bezier(.2,.9,.3,1);
+    filter: drop-shadow(0 6px 8px rgba(14, 36, 20, 0.08));
+  }
+  @keyframes treePop {
+    from { transform: translateY(8px) scale(0.6); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  
+  /* empty placeholder */
+  .wf-empty {
+    position:absolute;
+    inset: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:10px;
+    color:var(--muted);
+  }
+  .wf-empty p { margin:0; }
+  .wf-empty .btn { margin-top:6px }
+  
+  /* history */
+  .wf-history {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(10,20,30,0.04);
+  }
+  .wf-history h4 { margin:0 0 8px 0; font-size:14px; }
+  .wf-history ul { margin:0; padding-left:18px; color:var(--muted); }
+  .wf-history li { margin-bottom:6px; font-size:13px; }
+  
+  /* RIGHT: tasks & controls */
+  .wf-right {
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  
+  .wf-tasks-card, .wf-controls-card {
+    background: var(--card);
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px var(--shadow);
+  }
+  
+  .wf-tasks-card h3 {
+    margin:0 0 8px 0;
+    font-size:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .muted { color: var(--muted); }
+  .small { font-size:12px; }
+  
+  /* task list */
+  .wf-tasks {
+    list-style:none;
+    padding:0;
+    margin: 8px 0 0 0;
+  }
+  .task-item {
+    display:flex;
+    align-items:center;
+    padding:8px 6px;
+    border-radius:8px;
+    transition: background 180ms;
+  }
+  .task-item:hover { background: #f7fbf7; }
+  .task-item.done { opacity: 0.6; text-decoration: line-through; }
+  .task-item label { display:flex; gap:10px; align-items:center; cursor:pointer; }
+  .task-text { font-size:14px; }
+  
+  /* buttons */
+  .btn {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #f1f5f9;
+    font-weight: 600;
+  }
+  .btn.primary { background: linear-gradient(90deg,#2bb673,#0ea06b); color:white; }
+  .btn.secondary { background: #eef2ff; color: #1f2937; }
+  
+  /* task action row */
+  .wf-task-actions { display:flex; gap:10px; margin-top:12px; }
+  
+  /* controls */
+  .wf-controls { display:flex; gap:8px; flex-direction:column; }
+  .wf-controls button { width:100%; text-align:center; }
+  
+  /* overlay login prompt */
+  .wf-overlay {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(9, 12, 17, 0.45);
+    z-index: 1400;
+  }
+  .wf-overlay-card {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    width: min(520px, 92%);
+    box-shadow: 0 18px 48px rgba(8,16,40,0.35);
+    text-align:center;
+  }
+  .wf-overlay-actions { margin-top:12px; display:flex; gap:10px; justify-content:center; }
+  
+  /* responsiveness */
+  @media (max-width: 980px) {
+    .wf-container { grid-template-columns: 1fr; }
+    .wf-right { order: 2; }
+    .wf-left { order: 1; }
+    .wf-forest { height: 360px; }
+  }
+  

@@ -1,8 +1,16 @@
 import React from 'react';
 import './MoodCard.css';
 import moodMeter from '../../assets/mood track balance.png';
+import { useNavigate } from "react-router-dom";
 
 const MoodCard = () => {
+
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    navigate("/appointment"); // 👈 redirects to AppointmentBooking.jsx
+  };
+
   return (
     <div className="mood-card">
       <h2>How's Your Mood Today?</h2>
@@ -13,7 +21,7 @@ const MoodCard = () => {
         </div>
         <div className="appointment-section">
           <p>Book appointment with our counsellor</p>
-          <button className="book-now-btn">Book Now!</button>
+          <button className="book-now-btn" onClick={handleBookNow}>Book Now!</button>
         </div>
       </div>
     </div>
