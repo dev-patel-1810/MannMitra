@@ -1,23 +1,57 @@
 .chat-prompt {
-    background:#F9F7E1;
-    border-radius: 12px;
-    padding: 1rem;
-    margin: 1rem 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    color: #2F327D;
-  }
-  
-  .chat-prompt button {
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: #9BB168; /* green */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .chat-prompt button:hover {
-    background: #059669;
-  }
+  background-color: #E9EDC9;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.chat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-text {
+  flex: 1;
+}
+
+.chat-text h3 {
+  color: #234F56;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.chat-text p {
+  color: #234F56;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+.chat-btn {
+  background-color: #588157;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-btn:hover {
+  background-color: #3a5a40;
+}
+
+.chat-image {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-image img {
+  width: 180px;
+  height: auto;
+}
   
