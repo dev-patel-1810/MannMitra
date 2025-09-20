@@ -1,3 +1,4 @@
+// src/pages/WellnessForest/WellnessForest.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./WellnessForest.css";
@@ -11,7 +12,7 @@ const TASK_POOL = [
   "Read 5 pages of a book",
   "Drink 2 glasses of water",
   "List 3 things you’re grateful for",
-  "Take a 10-min walk outside",
+  "Take a 10-min walk outside"
 ];
 
 const todayKey = () => new Date().toISOString().slice(0, 10);
@@ -21,28 +22,26 @@ const MONTH_KEY_PREFIX = "wellness_forest_currentMonth";
 const HISTORY_KEY = "wellness_forest_history";
 const MAX_TREES = 100;
 
-// Pick 3 random tasks for today
+/* pickDailyTasks: do NOT mutate TASK_POOL (copy first) */
 const pickDailyTasks = () => {
   const tk = todayKey();
-  return TASK_POOL.sort(() => Math.random() - 0.5)
-    .slice(0, 3)
-    .map((t, i) => ({
-      id: `task_${i}_${tk}`,
-      text: t,
-      done: false,
-      treeId: null,
-    }));
+  const pool = [...TASK_POOL]; // copy so we don't mutate the constant
+  pool.sort(() => Math.random() - 0.5);
+  return pool.slice(0, 3).map((t, i) => ({
+    id: `task_${i}_${tk}`,
+    text: t,
+    done: false,
+    treeId: null
+  }));
 };
 
-// Small tree sprite with style variations 🌳
-const SmallTree = ({ x, y, id, variant }) => {
+const SmallTree = ({ x, y, id, variant = 0 }) => {
   const colors = [
     { main: "#9bce8f", side: "#85c06b" },
     { main: "#a2d48a", side: "#7bbf5f" },
     { main: "#8ecf9a", side: "#6fbf7a" },
   ];
   const { main, side } = colors[variant % colors.length];
-
   return (
     <div className="wf-tree" style={{ left: x, top: y }} data-id={id}>
       <svg viewBox="0 0 36 48" width="36" height="48" aria-hidden>
@@ -63,126 +62,196 @@ const WellnessForest = () => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [showLoginOverlay, setShowLoginOverlay] = useState(false);
-  const [currentMonthData, setCurrentMonthData] = useState({
-    monthKey: monthKey(),
-    trees: [],
-  });
+  const [currentMonthData, setCurrentMonthData] = useState({ monthKey: monthKey(), trees: [] });
   const [history, setHistory] = useState([]);
   const [tasks, setTasks] = useState([]);
 
-  // Initial load: tasks, forest, history
+  // ----- Helpers that persist immediately -----
+  const persistMonth = (monthData) => {
+    try { localStorage.setItem(MONTH_KEY_PREFIX, JSON.stringify(monthData)); } catch (e) { /* ignore */ }
+  };
+  const persistTasks = (tk, tasksArr) => {
+    try { localStorage.setItem(`wellness_tasks_${tk}`, JSON.stringify({ tasks: tasksArr })); } catch (e) { /* ignore */ }
+  };
+
+  // plantTree uses functional update to avoid stale closure problems
+  const plantTree = (givenId = null) => {
+    const container = forestRef.current;
+    if (!container) return null;
+    const rect = container.getBoundingClientRect();
+    const spriteW = 36, spriteH = 48, pad = 12;
+    const attempts = 20;
+
+    // choose coords with simple overlap avoidance (reads prev inside updater)
+    let chosen;
+    // we need to compute coords before we create the tree object, but overlap check must read existing trees:
+    const pickCoords = (existing) => {
+      for (let a = 0; a < attempts; a++) {
+        const x = Math.floor(Math.random() * Math.max(1, rect.width - spriteW - pad * 2)) + pad;
+        const y = Math.floor(Math.random() * Math.max(1, rect.height - spriteH - pad * 2)) + pad;
+        const tooClose = existing.some((t) => {
+          const dx = t.x - x, dy = t.y - y;
+          return dx * dx + dy * dy < 36 * 36;
+        });
+        if (!tooClose) return { x, y };
+      }
+      // fallback random
+      return {
+        x: Math.floor(Math.random() * Math.max(1, rect.width - spriteW - pad * 2)) + pad,
+        y: Math.floor(Math.random() * Math.max(1, rect.height - spriteH - pad * 2)) + pad
+      };
+    };
+
+    const newTree = {
+      id: givenId || makeId(),
+      x: 0,
+      y: 0,
+      variant: Math.floor(Math.random() * 3),
+      timestamp: Date.now()
+    };
+
+    // functional update
+    setCurrentMonthData((prev) => {
+      const existing = prev?.trees || [];
+      const coords = pickCoords(existing);
+      newTree.x = coords.x;
+      newTree.y = coords.y;
+      const newList = [...existing, newTree].slice(0, MAX_TREES);
+      const updated = { ...prev, trees: newList };
+      persistMonth(updated);
+      return updated;
+    });
+
+    // return the constructed tree object (note: state update is async, but the returned tree has id and coords)
+    return newTree;
+  };
+
+  const removeTreeById = (id) => {
+    setCurrentMonthData((prev) => {
+      const newList = (prev.trees || []).filter((t) => t.id !== id);
+      const updated = { ...prev, trees: newList };
+      persistMonth(updated);
+      return updated;
+    });
+  };
+
+  // ----- Initial load: month & tasks, plus midnight timer -----
   useEffect(() => {
+    // login
     const logged = Boolean(localStorage.getItem("user"));
     setIsLoggedIn(logged);
     if (!logged) setShowLoginOverlay(true);
 
+    // history
     const his = JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-    setHistory(his);
+    setHistory(Array.isArray(his) ? his : []);
 
-    const stored = JSON.parse(localStorage.getItem(MONTH_KEY_PREFIX) || "null");
+    // load/rollover month
+    const rawMonth = localStorage.getItem(MONTH_KEY_PREFIX);
+    let storedMonth = null;
+    try { storedMonth = rawMonth ? JSON.parse(rawMonth) : null; } catch (e) { storedMonth = null; }
+
     const nowMonth = monthKey();
-
-    if (!stored || stored.monthKey !== nowMonth) {
-      if (stored && Array.isArray(stored.trees)) {
-        const prevCount = stored.trees.length;
-        const newHist = [...his, { monthKey: stored.monthKey, count: prevCount }];
+    if (!storedMonth || storedMonth.monthKey !== nowMonth) {
+      // archive previous if exists
+      if (storedMonth && Array.isArray(storedMonth.trees)) {
+        const prevCount = storedMonth.trees.length;
+        const newHist = [...(Array.isArray(his) ? his : []), { monthKey: storedMonth.monthKey, count: prevCount }];
         localStorage.setItem(HISTORY_KEY, JSON.stringify(newHist));
         setHistory(newHist);
       }
       const fresh = { monthKey: nowMonth, trees: [] };
-      localStorage.setItem(MONTH_KEY_PREFIX, JSON.stringify(fresh));
       setCurrentMonthData(fresh);
+      persistMonth(fresh);
     } else {
-      setCurrentMonthData(stored);
+      setCurrentMonthData(storedMonth);
     }
 
+    // load tasks for today (robust parsing)
     const tk = todayKey();
-    const storedTasks = JSON.parse(localStorage.getItem(`wellness_tasks_${tk}`) || "null");
-    if (storedTasks && Array.isArray(storedTasks.tasks)) {
-      setTasks(storedTasks.tasks);
-    } else {
-      const initial = pickDailyTasks();
-      localStorage.setItem(`wellness_tasks_${tk}`, JSON.stringify({ tasks: initial }));
-      setTasks(initial);
+    const rawTasks = localStorage.getItem(`wellness_tasks_${tk}`);
+    let loadedTasks = null;
+    try {
+      const parsed = rawTasks ? JSON.parse(rawTasks) : null;
+      if (parsed && Array.isArray(parsed.tasks) && parsed.tasks.length > 0) {
+        loadedTasks = parsed.tasks;
+      }
+    } catch (e) {
+      loadedTasks = null;
     }
 
-    const now = new Date();
-    const msUntilMidnight =
-      new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime() - now.getTime();
-    const midnightTimer = setTimeout(() => {
-      window.location.reload();
-    }, msUntilMidnight + 1000);
+    if (!loadedTasks) {
+      const initial = pickDailyTasks();
+      persistTasks(tk, initial);
+      setTasks(initial);
+    } else {
+      // If some tasks are done and have treeId but the month data doesn't contain those treeIds,
+      // replant so the forest matches the task state.
+      setTasks(loadedTasks);
+      setTimeout(() => {
+        const missing = loadedTasks.filter(
+          (t) => t.done && t.treeId && !(currentMonthData.trees || []).some(tr => tr.id === t.treeId)
+        );
+        if (missing.length > 0) {
+          const updatedTasks = [...loadedTasks];
+          missing.forEach((mTask) => {
+            const newTree = plantTree(); // plantTree will persist month
+            const idx = updatedTasks.findIndex((x) => x.id === mTask.id);
+            if (idx >= 0 && newTree) {
+              updatedTasks[idx] = { ...updatedTasks[idx], treeId: newTree.id };
+            }
+          });
+          setTasks(updatedTasks);
+          persistTasks(tk, updatedTasks);
+        }
+      }, 0);
+    }
 
-    return () => clearTimeout(midnightTimer);
-  }, []);
+    // midnight refresh: reset tasks at local midnight without touching forest
+const now = new Date();
+const msUntilMidnight =
+  new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).getTime() -
+  now.getTime();
 
+const midnightTimer = setTimeout(() => {
+  const newKey = todayKey();
+  const newTasks = pickDailyTasks();
+  persistTasks(newKey, newTasks);
+  setTasks(newTasks);
+  // forest stays as-is (only resets at month rollover)
+}, msUntilMidnight + 1000);
+
+return () => clearTimeout(midnightTimer);
+  }, []); // run once
+
+  // persist month whenever it changes (extra safety)
   useEffect(() => {
-    localStorage.setItem(MONTH_KEY_PREFIX, JSON.stringify(currentMonthData));
+    persistMonth(currentMonthData);
   }, [currentMonthData]);
 
+  // persist tasks whenever they change
   useEffect(() => {
     const tk = todayKey();
-    localStorage.setItem(`wellness_tasks_${tk}`, JSON.stringify({ tasks }));
+    persistTasks(tk, tasks);
   }, [tasks]);
 
-  // Plant tree in random position
-  const plantTree = () => {
-    const container = forestRef.current;
-    if (!container) return null;
-    const rect = container.getBoundingClientRect();
-
-    const spriteW = 36,
-      spriteH = 48,
-      pad = 12;
-    const existing = currentMonthData.trees || [];
-    let chosen = null;
-
-    for (let a = 0; a < 20; a++) {
-      const x = Math.floor(Math.random() * Math.max(1, rect.width - spriteW - pad * 2)) + pad;
-      const y = Math.floor(Math.random() * Math.max(1, rect.height - spriteH - pad * 2)) + pad;
-      const tooClose = existing.some((t) => {
-        const dx = t.x - x,
-          dy = t.y - y;
-        return dx * dx + dy * dy < 36 * 36;
-      });
-      if (!tooClose) {
-        chosen = { x, y };
-        break;
-      }
-    }
-    if (!chosen) {
-      chosen = {
-        x: Math.floor(Math.random() * Math.max(1, rect.width - spriteW - pad * 2)) + pad,
-        y: Math.floor(Math.random() * Math.max(1, rect.height - spriteH - pad * 2)) + pad,
-      };
-    }
-
-    const newTree = {
-      id: makeId(),
-      x: chosen.x,
-      y: chosen.y,
-      variant: Math.floor(Math.random() * 3), // pick random sprite
-      timestamp: Date.now(),
-    };
-    const newList = [...(currentMonthData.trees || []), newTree].slice(0, MAX_TREES);
-    const updated = { ...currentMonthData, trees: newList };
-    setCurrentMonthData(updated);
-    return newTree;
-  };
-
-  // Toggle task completion
+  // Toggle task completion: plant/remove tree and keep both month + tasks consistent
   const toggleTask = (taskId) => {
     if (!isLoggedIn) {
       setShowLoginOverlay(true);
       return;
     }
-
-    const updatedTasks = tasks.map((t) => {
+  
+    const updated = tasks.map((t) => {
       if (t.id === taskId) {
-        if (!t.done) {
+        const newDone = !t.done;
+  
+        if (!t.done && newDone && !t.treeId) {
+          // ✅ Only plant if no tree already linked
           const newTree = plantTree();
           return { ...t, done: true, treeId: newTree?.id };
-        } else {
+        } else if (t.done && !newDone) {
+          // ❌ Undoing → remove tree
           if (t.treeId) {
             setCurrentMonthData((prev) => ({
               ...prev,
@@ -194,33 +263,37 @@ const WellnessForest = () => {
       }
       return t;
     });
-
-    setTasks(updatedTasks);
+  
+    setTasks(updated);
   };
+  
 
-  // Refresh tasks
+  // Refresh tasks (explicit user action). Confirm if tasks already exist to avoid accidental overwrite.
   const refreshTasks = () => {
     const tk = todayKey();
-    const newSet = pickDailyTasks();
-    localStorage.setItem(`wellness_tasks_${tk}`, JSON.stringify({ tasks: newSet }));
+    if (tasks && tasks.length > 0 && !window.confirm("Replace today's tasks with a new random set?")) return;
+  
+    // Only reset tasks — forest stays intact
+    const newSet = pickDailyTasks().map(t => ({ ...t, done: false, treeId: null }));
     setTasks(newSet);
+    persistTasks(tk, newSet);
   };
+  
+  
 
-  // Reset month
   const clearMonth = () => {
     const stored = currentMonthData;
     if (stored && stored.monthKey) {
       const prevCount = (stored.trees || []).length;
-      const newHist = [...history, { monthKey: stored.monthKey, count: prevCount }];
+      const newHist = [...(history || []), { monthKey: stored.monthKey, count: prevCount }];
       localStorage.setItem(HISTORY_KEY, JSON.stringify(newHist));
       setHistory(newHist);
     }
     const fresh = { monthKey: monthKey(), trees: [] };
-    localStorage.setItem(MONTH_KEY_PREFIX, JSON.stringify(fresh));
     setCurrentMonthData(fresh);
+    persistMonth(fresh);
   };
 
-  // Overlay actions
   const handleLogin = () => navigate("/login");
   const continueGuest = () => setShowLoginOverlay(false);
 
@@ -230,43 +303,31 @@ const WellnessForest = () => {
         <div className="wf-overlay">
           <div className="wf-overlay-card">
             <h3>Login to Save Progress</h3>
-            <p>
-              To sync your forest across devices and months, please log in. You can also continue as
-              a guest (local storage only).
-            </p>
+            <p>To sync your forest across devices and months, please log in. Or continue as guest (local only).</p>
             <div className="wf-overlay-actions">
-              <button className="btn primary" onClick={handleLogin}>
-                Login
-              </button>
-              <button className="btn secondary" onClick={continueGuest}>
-                Continue as Guest
-              </button>
+              <button className="btn primary" onClick={handleLogin}>Login</button>
+              <button className="btn secondary" onClick={continueGuest}>Continue as Guest</button>
             </div>
           </div>
         </div>
       )}
 
       <div className="wf-container">
-        {/* Left: Forest */}
         <div className="wf-left">
           <div className="wf-left-header">
             <h2>Your Forest</h2>
             <div className="wf-stats">
-              <div>
-                Month: <strong>{currentMonthData.monthKey}</strong>
-              </div>
-              <div>
-                Trees grown: <strong>{currentMonthData.trees.length}</strong>
-              </div>
+              <div>Month: <strong>{currentMonthData.monthKey}</strong></div>
+              <div>Trees grown: <strong>{(currentMonthData.trees || []).length}</strong></div>
             </div>
           </div>
 
           <div className="wf-forest" ref={forestRef} aria-live="polite" role="region">
             <div className="wf-ground" />
-            {currentMonthData.trees.map((t) => (
-              <SmallTree key={t.id} x={t.x} y={t.y} id={t.id} variant={t.variant || 0} />
+            {(currentMonthData.trees || []).map((t) => (
+              <SmallTree key={t.id} x={t.x} y={t.y} id={t.id} variant={t.variant} />
             ))}
-            {currentMonthData.trees.length === 0 && (
+            {(currentMonthData.trees || []).length === 0 && (
               <div className="wf-empty">
                 <p>No trees yet — complete daily tasks to plant your forest 🌱</p>
                 <button className="btn" onClick={() => (isLoggedIn ? plantTree() : setShowLoginOverlay(true))}>
@@ -278,26 +339,14 @@ const WellnessForest = () => {
 
           <div className="wf-history">
             <h4>History</h4>
-            {history.length === 0 ? (
-              <p className="muted small">No previous months yet.</p>
-            ) : (
-              <ul>
-                {history.slice(-6).reverse().map((h) => (
-                  <li key={h.monthKey}>
-                    <strong>{h.monthKey}</strong>: {h.count} trees
-                  </li>
-                ))}
-              </ul>
-            )}
+            {(!history || history.length === 0) ? <p className="muted small">No previous months yet.</p> :
+              <ul>{history.slice(-6).reverse().map(h => <li key={h.monthKey}><strong>{h.monthKey}</strong>: {h.count} trees</li>)}</ul>}
           </div>
         </div>
 
-        {/* Right: Tasks + Controls */}
         <div className="wf-right">
           <div className="wf-tasks-card">
-            <h3>
-              Today's Tasks <span className="muted">({todayKey()})</span>
-            </h3>
+            <h3>Today's Tasks <span className="muted">({todayKey()})</span></h3>
             <ul className="wf-tasks">
               {tasks.map((t) => (
                 <li key={t.id} className={`task-item ${t.done ? "done" : ""}`}>
@@ -308,22 +357,17 @@ const WellnessForest = () => {
                 </li>
               ))}
             </ul>
+
             <div className="wf-task-actions">
-              <button className="btn" onClick={refreshTasks}>
-                Refresh Tasks
-              </button>
+              <button className="btn" onClick={refreshTasks}>Refresh Tasks</button>
             </div>
           </div>
 
           <div className="wf-controls-card">
             <h3>Controls</h3>
             <div className="wf-controls">
-              <button className="btn" onClick={plantTree}>
-                Plant a Tree
-              </button>
-              <button className="btn secondary" onClick={clearMonth}>
-                End Month (Archive & Reset)
-              </button>
+              <button className="btn" onClick={() => (isLoggedIn ? plantTree() : setShowLoginOverlay(true))}>Plant a Tree</button>
+              <button className="btn secondary" onClick={clearMonth}>End Month (Archive & Reset)</button>
             </div>
           </div>
         </div>
