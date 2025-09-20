@@ -1,9 +1,16 @@
 .sidebar {
-    background: #588157; /* dark gray */
-    color: #fff;
-    width: 220px;
-    transition: all 0.3s ease;
+    position: fixed;
+    top: 250px;
+    left: 0;
+    bottom: 0;
+    background: #344E41;
+    color: white;
+    width: 250px;
+    transition: width 0.3s ease;
     padding: 1rem;
+    z-index: 80;
+    overflow-y: auto;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .sidebar.closed {
@@ -13,14 +20,18 @@
   .sidebar ul {
     list-style: none;
     padding: 0;
+    margin-top: 1rem;
   }
   
   .sidebar li {
     padding: 0.75rem 0;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
   
   .sidebar li:hover {
-    color: #a5f3fc; /* teal highlight */
+    color: #e0e7e0;
   }
   
