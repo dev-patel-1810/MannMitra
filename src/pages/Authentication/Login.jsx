@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
 import './Authentication.css';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { t } from 'i18next';
 
 const Login = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    userType: ''
+    userType: '',
+    instituteName: '' // Add instituteName to the state
   });
 
   const [errors, setErrors] = useState({});
@@ -19,7 +20,8 @@ const Login = () => {
     setFormData({
       email: '',
       password: '',
-      userType: ''
+      userType: '',
+      instituteName: ''
     });
     setErrors({});
   };
@@ -44,6 +46,12 @@ const Login = () => {
     if (!formData.password.trim()) newErrors.password = t('common.password_req');
     if (!formData.userType) newErrors.userType = t('login.user_type');
     if (formData.password.length < 8) newErrors.password = t('login.invalid_pass');
+    
+    // Conditional validation for institute name
+    if (formData.userType.toLowerCase() === 'institute' && !formData.instituteName.trim()) {
+      newErrors.instituteName = t('login.institute_name_req');
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -52,12 +60,22 @@ const Login = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
+        const payload = {
+          email: formData.email,
+          password: formData.password,
+          userType: formData.userType
+        };
+        // Add instituteName to the payload if userType is institute
+        if (formData.userType.toLowerCase() === 'institute') {
+          payload.instituteName = formData.instituteName;
+        }
+
         const response = await fetch('http://localhost:5000/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(payload)
         });
 
         const data = await response.json();
@@ -67,11 +85,9 @@ const Login = () => {
           return;
         }
 
-        // Store user data and redirect
         localStorage.setItem('user', JSON.stringify(data.data));
         
-        // Redirect based on userType
-        switch(formData.userType.toLowerCase()) {
+        switch (formData.userType.toLowerCase()) {
           case 'student':
             navigate('/dashboard/student');
             break;
@@ -84,7 +100,6 @@ const Login = () => {
           default:
             window.location.href = '/';
         }
-
       } catch (error) {
         console.error('Login error:', error);
         alert('Network error!');
@@ -110,13 +125,28 @@ const Login = () => {
                 onChange={handleInputChange}
                 className={`dropdown-select ${errors.userType ? 'error' : ''}`}
               >
-                <option value="" >{t('login.user_type')}</option>
+                <option value="">{t('login.user_type')}</option>
                 <option value="student">{t('login.student')}</option>
                 <option value="counsellor">{t('login.counsellor')}</option>
                 <option value="institute">{t('login.institute')}</option>
               </select>
               {errors.userType && <span className="error-message">{errors.userType}</span>}
             </div>
+
+            {/* Conditionally render the institute name input */}
+            {formData.userType.toLowerCase() === 'institute' && (
+              <div className="login-field">
+                <input
+                  type="text"
+                  name="instituteName"
+                  placeholder="Institute Name *"
+                  value={formData.instituteName}
+                  onChange={handleInputChange}
+                  className={errors.instituteName ? 'error' : ''}
+                />
+                {errors.instituteName && <span className="error-message">{errors.instituteName}</span>}
+              </div>
+            )}
 
             <div className="login-field">
               <input

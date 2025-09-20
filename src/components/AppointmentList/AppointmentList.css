@@ -130,6 +130,34 @@
     animation: fadeInOut 3s forwards;
 }
 
+.student-header {
+    display: flex;
+    align-items: center; /* Vertically centers items */
+    gap: 10px; /* Adds space between the name and the badge */
+}
+
+/* Optional: Style for the same-college badge */
+.same-college-badge {
+    padding: 3px 8px; /* Adjusted padding for better visual */
+    border-radius: 12px;
+    background-color: #007bff; /* Changed to match the border color */
+    color: white;
+    font-weight: bold;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.appointment-item-card.same-college {
+    border: 2px solid #007bff; /* A blue border to highlight */
+    background-color: #e6f3ff; /* A light blue background */
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+.appointment-item-card.same-college:hover {
+    transform: translateY(-5px); /* Add a more prominent lift on hover */
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+}
+
 @keyframes fadeInOut {
     0% { opacity: 0; transform: translateY(-20px); }
     10% { opacity: 1; transform: translateY(0); }

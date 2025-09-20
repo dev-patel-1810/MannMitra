@@ -30,12 +30,11 @@ const AppointmentBooking = () => {
             }
             const response = await fetch(`http://localhost:5000/user/${user._id}`);
             const userData = await response.json();
-            
-            if (userData.data.collegeId) {
-                const collegeResponse = await fetch(`http://localhost:5000/college/${userData.data.collegeId}`);
-                const collegeData = await collegeResponse.json();
-                setUserCollege(collegeData.data);
+            // Assuming the user data has a collegeId string
+            if (userData.data.user_clg_id) {
+                setUserCollege(userData.data.user_clg_id);
             }
+            
         } catch (error) {
             toast.error('Error fetching user details');
         }
@@ -113,20 +112,20 @@ const AppointmentBooking = () => {
                         <div 
                             key={counsellor._id} 
                             className={`counsellor-card ${
-                                userCollege && counsellor.collegeId === userCollege._id ? 'same-college' : ''
+                                userCollege && counsellor.counselor_clg_id === userCollege ? 'same-college' : ''
                             } ${selectedCounsellor?._id === counsellor._id ? 'selected' : ''}`}
                             onClick={() => handleCounsellorSelect(counsellor)}
                         >
                             <div className="counsellor-header">
                                 <h3>{counsellor.counselor_name}</h3>
-                                {userCollege && counsellor.collegeId === userCollege._id && (
+                                {userCollege && counsellor.counselor_clg_id === userCollege && (
                                     <span className="same-college-badge">Your Institute</span>
                                 )}
                             </div>
                             <div className="counsellor-details">
                                 <p><strong>Specialization:</strong> {counsellor.counselor_specialization}</p>
                                 <p><strong>Experience:</strong> {counsellor.counselor_exp} years</p>
-                                <p><strong>Institute:</strong> {counsellor.counselor_clg_id || 'Independent'}</p>
+                                <p><strong>Institute:</strong> {counsellor.counselor_clg_name || 'Independent'}</p>
                             </div>
                         </div>
                     ))}

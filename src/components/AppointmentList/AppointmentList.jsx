@@ -6,18 +6,28 @@ const AppointmentsList = ({ userType }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
-    const [userName, setUserName] = useState('');
-    
+    const [counsellorCollegeId, setCounsellorCollegeId] = useState('');
+
     useEffect(() => {
         const fetchAppointments = async () => {
             try {
                 const userInfo = JSON.parse(localStorage.getItem('user'));
+                
                 if (!userInfo || !userInfo._id) {
                     throw new Error('User ID not found in local storage.');
                 }
-                
+
                 const userId = userInfo._id;
-                setUserName(userInfo.name);
+                
+                if (userType === 'counsellor') {
+                    const counselorResponse = await fetch(`http://localhost:5000/counsellor/${userId}`);
+                    if (!counselorResponse.ok) {
+                        throw new Error(`HTTP error! status: ${counselorResponse.status}`);
+                    }
+                    const counselorData = await counselorResponse.json();
+                    setCounsellorCollegeId(counselorData.data.counselor_clg_id);
+                }
+
                 let apiUrl = '';
                 if (userType === 'student') {
                     apiUrl = `http://localhost:5000/user/appointments/${userId}`;
@@ -34,6 +44,7 @@ const AppointmentsList = ({ userType }) => {
 
                 const data = await response.json();
                 setAppointments(data.data);
+
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -90,17 +101,31 @@ const AppointmentsList = ({ userType }) => {
             {appointments.length > 0 ? (
                 <ul className="appointment-items">
                     {appointments.map(appointment => (
-                        <li key={appointment._id} className="appointment-item-card">
+                        <li 
+                            key={appointment._id} 
+                            className={`appointment-item-card ${userType === 'counsellor' && appointment.student && counsellorCollegeId === appointment.student.user_clg_id ? 'same-college' : ''}`}
+                        >
                             <div className="appointment-header">
                                 {userType === 'student' ? (
                                     <p><strong>Counsellor:</strong> {appointment.counsellor ? appointment.counsellor.counselor_name : 'N/A'}</p>
                                 ) : (
-                                    <p><strong>Student:</strong> {appointment.student ? appointment.student.user_name : 'N/A'}</p>
+                                    <p>
+                                        <span className="student-header">
+                                            <strong>Student:</strong> 
+                                            <span>{appointment.student ? appointment.student.user_name : 'N/A'}</span>
+                                            {counsellorCollegeId && appointment.student && counsellorCollegeId === appointment.student.user_clg_id && (
+                                                <span className="same-college-badge">🏛️ Same College</span>
+                                            )}
+                                        </span>
+                                    </p>
                                 )}
                                 <span className={`status-badge ${appointment.status.toLowerCase()}`}>{appointment.status}</span>
                             </div>
                             <div className="appointment-details-grid">
                                 <p><strong>Email:</strong> {userType === 'student' ? (appointment.counsellor ? appointment.counsellor.counselor_email : 'N/A') : (appointment.student ? appointment.student.user_email : 'N/A')}</p>
+                                {userType === 'counsellor' && appointment.student && appointment.student.user_clg_name && (
+                                    <p><strong>College:</strong> {appointment.student.user_clg_name}</p>
+                                )}
                                 <p><strong>Date:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
                                 <p><strong>Start Time:</strong> {appointment.startTime}</p>
                                 <p><strong>End Time:</strong> {appointment.endTime}</p>

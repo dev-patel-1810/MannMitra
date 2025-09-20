@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {register_stud_user, getUserInfo, getUserAppointments} from "../controllers/index_stud.js"
-import {register_clg_user} from "../controllers/index_clg.js"
-import {register_counselor_user, getCounsellors, getCounsellorAppointments} from "../controllers/index_conselor.js"
+import {register_clg_user, getUserAndCounsellor} from "../controllers/index_clg.js"
+import {register_counselor_user, getCounsellors, getCounsellorAppointments, getCounsellorInfo} from "../controllers/index_conselor.js"
 import {login_user} from "../controllers/login.js"
 import {bookAppointment, getAppointments, updateAppointmentStatus} from "../controllers/appointment.js"
 const router = Router()
@@ -18,5 +18,7 @@ router.route("/user/:userId").get(getUserInfo)
 router.route("/user/appointments/:userId").get(getUserAppointments); 
 router.route("/counsellor/appointments/:counselorId").get(getCounsellorAppointments); 
 router.route("/counsellor/appointments/status/:appointmentId").put(updateAppointmentStatus);
+router.route("/admin/studentAndUser/:clgId").get(getUserAndCounsellor);
+router.route("/counsellor/:counselorId").get(getCounsellorInfo);
 
 export default router
