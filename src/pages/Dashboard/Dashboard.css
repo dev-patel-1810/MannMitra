@@ -1,13 +1,16 @@
 .dashboard {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: #F9F7E3;
+  min-height: 100vh;
+  margin-left: 250px; /* Width of sidebar */
+  margin-top: 300px; /* Height of navbar + hero section */
+  overflow-y: auto;
 }
 
 .dashboard-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  padding-bottom: 3rem;
 }
 
 .modules-grid {
