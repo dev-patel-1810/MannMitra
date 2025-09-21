@@ -4,14 +4,15 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import UserSignUp from './pages/Authentication/UserSignUp';
 import CounsellorSignUp from './pages/Authentication/CounsellorSignUp';
 import CollegeSignUp from './pages/Authentication/CollegeSignUp';
-import GHQ12 from './pages/GHQ12/GHQ12'
-import Login from './pages/Authentication/Login'
+import GHQ12 from './pages/GHQ12/GHQ12';
+import Login from './pages/Authentication/Login';
 import Dash_Student from './pages/Dashboard/Dash_Student';
 import Dash_Counsellor from './pages/Dashboard/Dash_Counsellor';
 import Dash_Institute from './pages/Dashboard/Dash_Institute';
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import AppointmentBooking from "./pages/Appointment/AppointmentBooking"
+import AppointmentBooking from "./pages/Appointment/AppointmentBooking";
 import WellnessForest from './pages/WellnessForest/WellnessForest';
+import Unauthorized from './pages/Unauthorized/Unauthorized'; // 👈 create/import this
 import './index.css';
 import './App.css';
 
@@ -19,31 +20,37 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/user-signup" element={<UserSignUp />} />
         <Route path="/counsellor-signup" element={<CounsellorSignUp />} />
         <Route path="/college-signup" element={<CollegeSignUp />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected routes for specific roles */}
         <Route
           path="/ghq12-test"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute allowedRoles={["student"]}>
               <GHQ12 />
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/dashboard/student"
           element={
-            <ProtectedRoute>
-              <Dash_Student /> 
+            <ProtectedRoute allowedRoles={["student"]}>
+              <Dash_Student />
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/dashboard/counsellor"
           element={
-            <ProtectedRoute>
-              <Dash_Counsellor /> 
+            <ProtectedRoute allowedRoles={["counsellor"]}>
+              <Dash_Counsellor />
             </ProtectedRoute>
           }
         />
@@ -51,16 +58,17 @@ function App() {
         <Route
           path="/dashboard/institute"
           element={
-            <ProtectedRoute>
-              <Dash_Institute /> 
+            <ProtectedRoute allowedRoles={["institute"]}>
+              <Dash_Institute />
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/appointment"
           element={
-            <ProtectedRoute>
-              <AppointmentBooking/>
+            <ProtectedRoute allowedRoles={["student"]}>
+              <AppointmentBooking />
             </ProtectedRoute>
           }
         />
@@ -68,17 +76,17 @@ function App() {
         <Route
           path="/wellness-forest"
           element={
-            <ProtectedRoute>
-              <WellnessForest/>
+            <ProtectedRoute allowedRoles={["student"]}>
+              <WellnessForest />
             </ProtectedRoute>
           }
         />
 
-        <Route path="/login" element={<Login />} />
+        {/* Unauthorized fallback */}
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
-
