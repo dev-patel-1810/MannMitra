@@ -33,12 +33,15 @@ const register_stud_user = async_handler(async (req, res) => {
         throw new ApiError(400, 'Invalid email format.');
     }
 
-    // Fetch the college document first
-    const college = await clg_user.findOne({ clg_student_id: collegeId });
-    if (!college) {
-        throw new ApiError(400, 'Invalid College ID.');
+    let college = null;
+    // Fetch the college document only if a collegeId is provided
+    if (collegeId) {
+        college = await clg_user.findOne({ clg_student_id: collegeId });
+        if (!college) {
+            throw new ApiError(400, 'Invalid College ID.');
+        }
     }
-
+    
     // Check for existing users with the same email or phone number across all user types
     const exists = await Promise.all([
         stud_user.findOne({ user_email: email }),
@@ -60,8 +63,8 @@ const register_stud_user = async_handler(async (req, res) => {
         throw new ApiError(409, "Phone Number already registered.");
     }
 
-    // Create the new student user
-    const newUser = await stud_user.create({
+    // Prepare the user creation data
+    const userData = {
         user_name: username,
         user_email: email,
         user_pincode: pinCode,
@@ -70,10 +73,17 @@ const register_stud_user = async_handler(async (req, res) => {
         user_guardian_1_name: guardian1Name || "",
         user_guardian_1_contact: guardian1Contact || "",
         user_guardian_2_name: guardian2Name || "",
-        user_guardian_2_contact: guardian2Contact || "",
-        user_clg_id: college._id, // Use the fetched college's ObjectId
-        user_clg_name: college.clg_name, // Populate the college name directly
-    });
+        user_guardian_2_contact: guardian2Contact || ""
+    };
+
+    // Conditionally add college details if a college was found
+    if (college) {
+        userData.user_clg_id = college._id;
+        userData.user_clg_name = college.clg_name;
+    }
+
+    // Create the new student user
+    const newUser = await stud_user.create(userData);
 
     // Check if user was created successfully
     const check_stud_user = await stud_user.findById(newUser._id).select("-user_password");
@@ -81,11 +91,13 @@ const register_stud_user = async_handler(async (req, res) => {
         throw new ApiError(500, "Something went wrong with user creation.");
     }
     
-    // Now, update the college's student count. This happens after a successful student creation.
-    await clg_user.updateOne(
-        { _id: college._id },
-        { $inc: { clg_student_count: 1 } }
-    );
+    // Now, conditionally update the college's student count if a college was found
+    if (college) {
+        await clg_user.updateOne(
+            { _id: college._id },
+            { $inc: { clg_student_count: 1 } }
+        );
+    }
 
     return res.status(201).json(
         new ApiResponse(200, check_stud_user, "User registered successfully.")
