@@ -7,9 +7,9 @@
     flex-direction: column;
     background-color: #588157;
     z-index: 100;
-    height: 120px;
-    padding: 0.75rem;
-    overflow: hidden;
+
+    height: 110px;
+    padding: 0.5rem 2rem;
   }
 
   .navbar-content {
@@ -17,37 +17,37 @@
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
 
-  .hero-section {
-    position: relative;
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    height: 100%;
+
   }
 
   .hero-image {
     position: absolute;
-    top: 0;
-    right: 40px;
-    height: 110px;
+
+    top: -15px;
+    right: 0;
+    height: 140px;
     width: auto;
     object-fit: contain;
-    max-width: 40%;
+    max-width: 45%;
+
   }
 
   .welcome-text {
     font-size: 1.6rem;
-    font-weight: bold;
+
+    font-weight: 500;
     color: white;
-    margin-bottom: 0.5rem;
-    z-index: 1;
+    z-index: 2;
+
     position: relative;
+    margin-left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
   
   .hamburger {

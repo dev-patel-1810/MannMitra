@@ -1,6 +1,6 @@
 .dashboard {
-  position: fixed;
-  top: 140px;
+  position: fixed
+  top: 110px;
   left: 250px;
   right: 250px;
   bottom: 0;
@@ -13,11 +13,73 @@
   max-width: 1200px;
   margin: 0 auto;
   padding-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mood-section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.mood-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.mood-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.mood-tracker {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.mood-scale {
+  flex: 1;
+  max-width: 300px;
+}
+
+.mood-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-appointment {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-now-btn {
+  background-color: #588157;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.book-now-btn:hover {
+  background-color: #4a6d4a;
 }
 
 .wellness-tasks {
   position: fixed;
-  top: 200px;
+  top: 110px;
   right: 0;
   width: 250px;
   bottom: 0;
@@ -26,4 +88,86 @@
   overflow-y: auto;
   z-index: 80;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.chat-section {
+  background-color: #f0f4e8;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.chat-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.chat-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.chat-now-btn {
+  background-color: #588157;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.menu-cards {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.menu-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.menu-card:hover {
+  transform: translateY(-2px);
+}
+
+.menu-card.peer-group {
+  background-color: #D14D72;
+  color: white;
+}
+
+.menu-card.counsellor {
+  background-color: #3559E0;
+  color: white;
+}
+
+.menu-card.analytics {
+  background-color: #29ADB2;
+  color: white;
+}
+
+.menu-card.take-test {
+  background-color: #FFB534;
+  color: white;
+}
+
+.menu-card-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.9;
+}
+
+.menu-card-title {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
