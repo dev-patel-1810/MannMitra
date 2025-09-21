@@ -56,6 +56,26 @@ const clg_user_schema=new mongoose.Schema({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ]
     },
+    clg_student_id: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    clg_counsellor_id: {
+        type: String,
+        required: true,
+        trim: true,
+        unique: true
+    },
+    clg_student_count:{
+        type:Number,
+        default:0
+    },
+    clg_counsellor_count:{ 
+        type:Number,
+        default:0
+    },
     // clg_confirm_password:{
     //     type:String,
     //     required:true,

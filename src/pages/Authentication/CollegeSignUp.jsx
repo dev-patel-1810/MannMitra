@@ -17,6 +17,8 @@ const CollegeSignUp = () => {
     adminDesignation: '',
     email: '',
     phoneNumber: '',
+    studentId: '',
+    counsellorId: '',
     password: '',
     confirmPassword: ''
   });
@@ -33,6 +35,8 @@ const CollegeSignUp = () => {
       adminDesignation: '',
       email: '',
       phoneNumber: '',
+      studentId: '',
+      counsellorId: '',
       password: '',
       confirmPassword: ''
     });
@@ -63,6 +67,8 @@ const CollegeSignUp = () => {
     if (!formData.adminDesignation.trim()) newErrors.adminDesignation = t('clg_signup');
     if (!formData.email.trim()) newErrors.email = t('common.email');
     if (!formData.phoneNumber.trim()) newErrors.phoneNumber = t('common.phonenumber');
+    if (!formData.studentId.trim()) newErrors.studentId = "Student ID is required";
+    if (!formData.counsellorId.trim()) newErrors.counsellorId = "Counsellor ID is required";
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!formData.password) {
@@ -219,6 +225,28 @@ const CollegeSignUp = () => {
               />
             </div>
             {errors.phoneNumber && <span className="error-message">{errors.phoneNumber}</span>}
+            
+            
+            <input
+              type="text"
+              name="studentId"
+              placeholder="Create Student Id *"
+              value={formData.studentId}
+              onChange={handleInputChange}
+              className={errors.studentId ? 'error' : ''}
+            />
+            {errors.studentId && <span className="error-message">{errors.studentId}</span>}
+
+            
+            <input
+              type="text"
+              name="counsellorId"
+              placeholder="Create Counsellor Id *"
+              value={formData.counsellorId}
+              onChange={handleInputChange}
+              className={errors.counsellorId ? 'error' : ''}
+            />
+            {errors.counsellorId && <span className="error-message">{errors.counsellorId}</span>}
 
             <input
               type="password"

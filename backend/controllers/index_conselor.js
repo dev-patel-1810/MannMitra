@@ -12,84 +12,88 @@ const register_counselor_user = async_handler(async(req,res)=>{
     // tpye - collegeId , username , exp , email , password ,phoneNumber , pinCode , qualification , specialization
 
     const {
-        collegeId ,
-        username ,
-        email ,
-        password ,
-        phoneNumber ,
-        pinCode ,
+        collegeId,
+        username,
+        email,
+        password,
+        phoneNumber,
+        pinCode,
         experience,
-        qualification ,
+        qualification,
         specialization
-    }= req.body
+    } = req.body
 
-    console.log("inputs:" , req.body)
-
+    // 1. Basic input validation
     if (
-        [username , email , password , phoneNumber ].some((field) =>
-            !field || typeof field !== "string" || field.trim() === "")
+        [username, email, password, phoneNumber].some((field) =>
+            !field || typeof field !== "string" || field.trim() === ""
+        )
     ) {
-        throw new ApiError(400 , "These fields are necessary")
+        throw new ApiError(400, "Username, email, password, and phone number are necessary fields.");
     }
 
-    if (!email || typeof email !== "string" || email.trim() === "") {
-        throw new ApiError(400, 'Email is required');
+    if (!email.includes('@')) {
+        throw new ApiError(400, 'Please enter a correct email format.');
     }
-    if(!email.includes('@')){
-        throw new ApiError(400 , 'Enter correct email')
+
+    const validClg = await clg_user.findOne({clg_counsellor_id: collegeId});
+    if (!validClg) {
+        throw new ApiError(400, 'Invalid College ID.');
     }
+
     const exists = await Promise.all([
-    stud_user.findOne({ user_email: email }),
-    clg_user.findOne({ clg_admin_email: email }),
-    counselor_user.findOne({counselor_email:email})
+        stud_user.findOne({ user_email: email }),
+        clg_user.findOne({ clg_admin_email: email }),
+        counselor_user.findOne({counselor_email:email})
     ]);
 
     const exist = await Promise.all([
-    stud_user.findOne({ user_contact: phoneNumber }),
-    clg_user.findOne({ clg_admin_contact: phoneNumber }),
-    counselor_user.findOne({counselor_contact: phoneNumber})
+        stud_user.findOne({ user_contact: phoneNumber }),
+        clg_user.findOne({ clg_admin_contact: phoneNumber }),
+        counselor_user.findOne({counselor_contact: phoneNumber})
     ]);
 
-    if (exists[0] || exists[1] || exists[2]) {
-        throw new Error("Email already registered");
+    if (exists.some(user => user)) {
+        throw new ApiError(409, "Email already registered.");
     }
 
-    if (exist[0] || exist[1] || exist[2]) {
-        throw new Error("Phone Number already registered");
+    if (exist.some(user => user)) {
+        throw new ApiError(409, "Phone Number already registered.");
     }
 
-
-    const new_counselor_user= await counselor_user.create({
-        counselor_name:username,
-        counselor_clg_id:collegeId,
-        counselor_specialization: specialization ,
+    const new_counselor_user = await counselor_user.create({
+        counselor_name: username,
+        counselor_clg_id: validClg._id, 
+        counselor_clg_name: validClg.clg_name,
+        counselor_specialization: specialization,
         counselor_exp: experience,
-        counselor_pincode:pinCode,
-        counselor_contact:phoneNumber,
+        counselor_pincode: pinCode,
+        counselor_contact: phoneNumber,
         counselor_email: email,
         counselor_qualification: qualification,
-        counselor_password:password,
-    })
-
+        counselor_password: password,
+    });
     const check_counselor_user = await counselor_user.findById(new_counselor_user._id).select(
-            "-user_password"
-        )
-    
+        "-counselor_password"
+    );
     
     if(!check_counselor_user){
-        throw new ApiError(500 , "Something wrong with backend")
+        throw new ApiError(500, "Something went wrong with user creation on the backend.");
     }
-    
-    return res.status(201).json(
-        new ApiResponse(200 , check_counselor_user , "User registered successfully")
-    )
-    
 
-})
+    await clg_user.updateOne(
+        { _id: validClg._id },
+        { $inc: { clg_counsellor_count: 1 } } // Use the correct field for counselor count
+    );
+
+    return res.status(201).json(
+        new ApiResponse(200, check_counselor_user, "Counselor registered successfully")
+    );
+});
 
 const getCounsellors = async_handler(async (req, res) => {
     const counsellors = await counselor_user.find()
-        .select('counselor_name counselor_specialization counselor_exp counselor_clg_id')
+        .select('counselor_name counselor_specialization counselor_exp counselor_clg_id counselor_clg_name')
         .lean();
 
     return res.status(200).json(
@@ -106,15 +110,29 @@ const getCounsellorAppointments = async_handler(async (req, res) => {
     }
 
     const appointments = await Appointment.find({ counsellor: new mongoose.Types.ObjectId(counselorId) })
-                                                    .populate({
-                                                        path: 'student',
-                                                        model: 'stud_user',
-                                                        select: 'user_name user_email'
-                                                    }).lean();
+                                    .populate({
+                                        path: 'student',
+                                        model: 'stud_user',
+                                        select: 'user_name user_email user_clg_id user_clg_name'
+                                    }).lean();
     console.log(appointments);
     return res.status(200).json(
         new ApiResponse(200, appointments, "Counsellor appointments fetched successfully")
     );
 });
 
-export {register_counselor_user, getCounsellors, getCounsellorAppointments}
+const getCounsellorInfo = async_handler(async (req, res) => {
+    const { counselorId } = req.params;
+    if (!counselorId) {
+        throw new ApiError(401, "Counsellor ID is required");
+    }
+    const counselor = await counselor_user.findById(counselorId).select('-counselor_password').lean();
+    if (!counselor) {
+        throw new ApiError(404, "Counsellor not found");
+    }
+    return res.status(200).json(
+        new ApiResponse(200, counselor, "Counsellor info fetched successfully")
+    );
+})
+
+export {register_counselor_user, getCounsellors, getCounsellorAppointments, getCounsellorInfo}

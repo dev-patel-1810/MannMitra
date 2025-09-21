@@ -7,6 +7,7 @@
     flex-direction: column;
     background-color: #588157;
     z-index: 100;
+
     height: 110px;
     padding: 0.5rem 2rem;
   }
@@ -16,26 +17,32 @@
     max-width: 1400px;
     margin: 0 auto;
     position: relative;
+
     display: flex;
     align-items: center;
     height: 100%;
+
   }
 
   .hero-image {
     position: absolute;
+
     top: -15px;
     right: 0;
     height: 140px;
     width: auto;
     object-fit: contain;
     max-width: 45%;
+
   }
 
   .welcome-text {
     font-size: 1.6rem;
+
     font-weight: 500;
     color: white;
     z-index: 2;
+
     position: relative;
     margin-left: 2rem;
     display: flex;

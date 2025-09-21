@@ -1,18 +1,13 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { stringify } from 'postcss'
+import { clg_user } from './clg_user.js' // Make sure the path is correct
 
 const counselor_schema=new mongoose.Schema({
     counselor_name:{
         type:String,
         required:true
     },
-    // institution:{
-    //     type:String,
-    //     required:true,
-    //     default:"Private"
-    // },
     counselor_email:{
         type:String,
         required:true,
@@ -53,33 +48,32 @@ const counselor_schema=new mongoose.Schema({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ]
     },
-    // counselor_confirm_password:{
-    //     type:String,
-    //     required:true,
-    //     validate:{
-    //         validator:function(value){
-    //             return value==this.clg_password
-    //         },
-    //     message:"Password does not match \n Please Try Again!"
-    //     }
-    // },
-    counselor_clg_id:{
-        type:String,
-        required:false,
-        trim:true,
-        default:"N/A"
+    counselor_clg_id: {
+        type: mongoose.Schema.Types.ObjectId, // Use ObjectId for references
+        ref: 'clg_user', // Reference the 'clg_user' model
+        required: false,
+        trim: true
+    },
+    counselor_clg_name: {
+        type: String,
+        required: false,
+        default: "N/A"
     }
 },{timestamps:true, strict:true})
 
 counselor_schema.pre('save', async function(next){
-    if(!this.isModified('counselor_password')){
-        return next()
-    }
-    this.counselor_password= await bcrypt.hash(this.counselor_password, 10)
-    next()
-})
+    // Use `this` to refer to the document being saved
+    const counselor = this;
 
-counselor_schema.methods.comparePassword= async function(password){
+    // Password Hashing Logic
+    if(counselor.isModified('counselor_password')){
+        counselor.counselor_password = await bcrypt.hash(counselor.counselor_password, 10)
+    }
+
+    next();
+});
+
+counselor_schema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password, this.counselor_password)
 }
 
@@ -111,5 +105,4 @@ counselor_schema.methods.generate_refresh_token = function(){
     )
 }
 
-
-export const counselor_user=mongoose.model('counselor_user',counselor_schema)
+export const counselor_user = mongoose.model('counselor_user', counselor_schema)

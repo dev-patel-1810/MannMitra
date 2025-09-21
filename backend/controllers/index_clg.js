@@ -18,13 +18,15 @@ const register_clg_user = async_handler(async(req,res)=>{
         password,
         phoneNumber,
         pinCode,
-        state
+        state,
+        studentId,
+        counsellorId,
     }= req.body
 
     console.log("inputs:" , req.body)
 
     if (
-        [adminName , collegeName , email , password , phoneNumber ].some((field) =>
+        [adminName , collegeName , email , password , phoneNumber, studentId, counsellorId ].some((field) =>
             !field || typeof field !== "string" || field.trim() === "")
     ) {
         throw new ApiError(400 , "These fields are necessary")
@@ -83,6 +85,8 @@ const register_clg_user = async_handler(async(req,res)=>{
         clg_admin_email: email,
         clg_admin_designation: adminDesignation,
         clg_password:password,
+        clg_student_id:studentId,
+        clg_counsellor_id:counsellorId,
     })
 
     const check_clg_user = await clg_user.findById(new_clg_user._id).select(
@@ -101,4 +105,17 @@ const register_clg_user = async_handler(async(req,res)=>{
 
 })
 
-export {register_clg_user}
+const getUserAndCounsellor = async_handler(async(req,res)=>{
+    const {clgId}=req.params;
+    const users = await stud_user.find({user_clg_id:clgId})
+        .select('user_name user_email user_contact user_guardian_1_name user_guardian_1_contact user_guardian_2_name user_guardian_2_contact')
+        .lean();
+    const counsellors = await counselor_user.find({counselor_clg_id:clgId})
+        .select('counselor_name counselor_specialization counselor_exp counselor_qualification counselor_contact counselor_email')
+        .lean();
+    return res.status(200).json(
+        new ApiResponse(200, {users, counsellors}, "Users and Counsellors fetched successfully")
+    );
+});
+
+export {register_clg_user, getUserAndCounsellor}

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { clg_user } from './clg_user.js'
 
 const stud_user_schema = new mongoose.Schema({
     user_name:{
@@ -58,35 +59,34 @@ const stud_user_schema = new mongoose.Schema({
             "Password must contain at least one uppercase, one lowercase, one number, and one special character and more than 6 characters"
         ]
     },
-    // user_confirm_password:{
-    //     type:String,
-    //     required:true,
-    //     validate:{
-    //         validator:function(value){
-    //             return value==this.user_password
-    //         },
-    //     message:"Password does not match \n Please Try Again!"
-    //     }
-    // },
-    user_college_id:{
-        type:String,
-        default:"N/A"
+    user_clg_id: {
+        type: mongoose.Schema.Types.ObjectId, // Use ObjectId for references
+        ref: 'clg_user', // Reference the 'clg_user' model
+        required: false,
+        trim: true
+    },
+    user_clg_name: {
+        type: String,
+        required: false,
+        default: "N/A"
     }
 
 },{timestamps:true , strict:true})
 
 stud_user_schema.pre('save', async function(next){
-    if(!this.isModified('user_password')){
-        return next()
+    const user = this;
+
+    if(user.isModified('user_password')){
+        user.user_password = await bcrypt.hash(user.user_password, 10);
     }
-    this.user_password= await bcrypt.hash(this.user_password, 10)
-    next()
+
+    next();
 })
+
 
 stud_user_schema.methods.comparePassword = async function(password){
     return await bcrypt.compare(password, this.user_password)
 }
-
 
 // Generate Access Token
 stud_user_schema.methods.generate_access_token = function(){
@@ -115,6 +115,5 @@ stud_user_schema.methods.generate_refresh_token = function(){
         }
     )
 }
-
 
 export const stud_user = mongoose.model('stud_user', stud_user_schema)
