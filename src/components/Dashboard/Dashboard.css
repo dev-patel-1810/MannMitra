@@ -1,6 +1,6 @@
 .dashboard {
   position: fixed;
-  top: 110px;
+  top: 80px;
   left: 250px;
   right: 250px;
   bottom: 0;
@@ -79,7 +79,7 @@
 
 .wellness-tasks {
   position: fixed;
-  top: 110px;
+  top: 80px;
   right: 0;
   width: 250px;
   bottom: 0;
@@ -123,22 +123,24 @@
 
 .menu-cards {
   display: grid;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
 .menu-card {
-  padding: 1.5rem;
-  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   gap: 1rem;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
+  height: 80px;
 }
 
 .menu-card:hover {
-  transform: translateY(-2px);
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .menu-card.peer-group {
@@ -162,12 +164,22 @@
 }
 
 .menu-card-icon {
-  width: 24px;
-  height: 24px;
-  opacity: 0.9;
+  width: 32px;
+  height: 32px;
+  opacity: 1;
+  filter: brightness(1);
 }
 
 .menu-card-title {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.menu-card-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
 }

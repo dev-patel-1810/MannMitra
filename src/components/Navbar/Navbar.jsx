@@ -21,7 +21,7 @@ const Navbar = ({ toggleSidebar }) => {
           <h2>{(`${t('dashboard.welcome_user')}, ${userName}!`)} </h2>
         </div>
         <div className="hero-image">
-          <img src={dashboardImage} alt={t('dashboard.dashboard_illustration')} />
+          
         </div>
       </div>
       <div className="navbar-profile">{t('dashboard.profile')}</div>
