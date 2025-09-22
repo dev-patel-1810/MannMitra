@@ -2,15 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './Dash_Institute.css';
 import { FaUserGraduate, FaUserTie, FaSpinner, FaExclamationTriangle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
-
-function About() {
-  const { t } = useTranslation();
-}
 
 
 const ProfileCard = ({ user }) => {
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation(); 
   const isStudent = user.user_name !== undefined;
 
   return (
@@ -19,7 +14,7 @@ const ProfileCard = ({ user }) => {
         <div className="profile-content student-profile">
           <div className="profile-header">
             <FaUserGraduate className="profile-icon" />
-            <h3 className="profile-title">{t('dashboard_stud_profile')}</h3>
+            <h3 className="profile-title">{t('dashboard.stud_profile')}</h3>
           </div>
           <p className="profile-name">{user.user_name}</p>
           <div className="profile-details">
@@ -50,6 +45,7 @@ const ProfileCard = ({ user }) => {
 };
 
 const Dash_Institute = () => {
+  const { t, i18n } = useTranslation();
   const [students, setStudents] = useState([]);
   const [counsellors, setCounsellors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +55,6 @@ const Dash_Institute = () => {
   const [userEmail, setUserEmail] = useState(''); // Add state for user email
 
   useEffect(() => {
-    const { t, i18n } = useTranslation();
     const fetchData = async () => {
       try {
         const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -169,5 +164,4 @@ const Dash_Institute = () => {
     </>
   );
 }
-
 export default Dash_Institute;

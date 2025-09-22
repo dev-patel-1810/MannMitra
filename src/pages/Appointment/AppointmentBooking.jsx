@@ -125,7 +125,7 @@ const AppointmentBooking = () => {
                             <div className="counsellor-header">
                                 <h3>{counsellor.counselor_name}</h3>
                                 {userCollege && counsellor.counselor_clg_id === userCollege && (
-                                    <span className="same-college-badge">Your Institute</span>
+                                    <span className="same-college-badge">{t('appointment.your_institute')}</span>
                                 )}
                             </div>
                             <div className="counsellor-details">
@@ -139,11 +139,11 @@ const AppointmentBooking = () => {
 
                 {selectedCounsellor && (
                     <div className="booking-form-container">
-                        <h3 className="form-title">{t('appointments.appointment_with')} {selectedCounsellor.counselor_name}</h3>
+                        <h3 className="form-title">{t('appointment.appointment_with')} {selectedCounsellor.counselor_name}</h3>
                         <form onSubmit={handleSubmit} className="appointment-form">
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Date:</label>
+                                    <label>{t('appointment.date')}:</label>
                                     <input
                                         type="date"
                                         name="appointmentDate"
@@ -176,7 +176,7 @@ const AppointmentBooking = () => {
                             </div>
 
                             <div className="form-group full-width">
-                                <label>{('appointment.notes')}</label>
+                                <label>{t('appointment.notes')}:</label>
                                 <textarea
                                     name="notes"
                                     value={formData.notes}

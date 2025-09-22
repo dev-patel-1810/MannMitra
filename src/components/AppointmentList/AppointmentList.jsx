@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './AppointmentList.css'; // Import the new CSS file
+import { useTranslation } from 'react-i18next';
+function About() {
+  const { t } = useTranslation();
+}
 
 const AppointmentsList = ({ userType }) => {
+    const { t } = useTranslation();
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +19,7 @@ const AppointmentsList = ({ userType }) => {
                 const userInfo = JSON.parse(localStorage.getItem('user'));
                 
                 if (!userInfo || !userInfo._id) {
-                    throw new Error('User ID not found in local storage.');
+                    throw new Error(t('dashboard.user_error'));
                 }
 
                 const userId = userInfo._id;
@@ -34,7 +39,7 @@ const AppointmentsList = ({ userType }) => {
                 } else if (userType === 'counsellor') {
                     apiUrl = `http://localhost:5000/counsellor/appointments/${userId}`;
                 } else {
-                    throw new Error('Invalid user type.');
+                    throw new Error(t('dashboard.invalid_user_type'));
                 }
 
                 const response = await fetch(apiUrl);
@@ -77,25 +82,25 @@ const AppointmentsList = ({ userType }) => {
                     app._id === appointmentId ? { ...app, status: newStatus } : app
                 )
             );
-            setSuccessMessage('Appointment status updated successfully!');
+            setSuccessMessage(t('dashboard.appointment_status_updated'));
             setTimeout(() => setSuccessMessage(''), 3000);
         } catch (err) {
-            console.error('Failed to update appointment status:', err);
+            console.error(t('dashboard.failed_update_appointment_status'), err);
             setError(err.message);
         }
     };
 
     if (loading) {
-        return <p className="loading-message">Loading appointments...</p>;
+        return <p className="loading-message">{(t('dashboard.loading'))}</p>;
     }
 
     if (error) {
-        return <p className="error-message">Error: {error}</p>;
+        return <p className="error-message">{(t('dashboard.error'))}: {error}</p>;
     }
 
     return (
         <div className="appointment-list-container">
-            <h2 className="section-title">Your Appointments</h2>
+            <h2 className="section-title">{(t('dashboard.appointments'))}</h2>
             {successMessage && <div className="success-popup">{successMessage}</div>}
             
             {appointments.length > 0 ? (
@@ -107,14 +112,14 @@ const AppointmentsList = ({ userType }) => {
                         >
                             <div className="appointment-header">
                                 {userType === 'student' ? (
-                                    <p><strong>Counsellor:</strong> {appointment.counsellor ? appointment.counsellor.counselor_name : 'N/A'}</p>
+                                    <p><strong>{(t('dashboard.counsellor'))}:</strong> {appointment.counsellor ? appointment.counsellor.counselor_name : 'N/A'}</p>
                                 ) : (
                                     <p>
                                         <span className="student-header">
-                                            <strong>Student:</strong> 
+                                            <strong>{(t('dashboard.student'))}:</strong> 
                                             <span>{appointment.student ? appointment.student.user_name : 'N/A'}</span>
                                             {counsellorCollegeId && appointment.student && counsellorCollegeId === appointment.student.user_clg_id && (
-                                                <span className="same-college-badge">🏛️ Same College</span>
+                                                <span className="same-college-badge">{(t('dashboard.same_college'))}</span>
                                             )}
                                         </span>
                                     </p>
@@ -122,40 +127,40 @@ const AppointmentsList = ({ userType }) => {
                                 <span className={`status-badge ${appointment.status.toLowerCase()}`}>{appointment.status}</span>
                             </div>
                             <div className="appointment-details-grid">
-                                <p><strong>Email:</strong> {userType === 'student' ? (appointment.counsellor ? appointment.counsellor.counselor_email : 'N/A') : (appointment.student ? appointment.student.user_email : 'N/A')}</p>
+                                <p><strong>{(t('dashboard.email'))}:</strong> {userType === 'student' ? (appointment.counsellor ? appointment.counsellor.counselor_email : 'N/A') : (appointment.student ? appointment.student.user_email : 'N/A')}</p>
                                 {userType === 'counsellor' && appointment.student && appointment.student.user_clg_name && (
-                                    <p><strong>College:</strong> {appointment.student.user_clg_name}</p>
+                                    <p><strong>{(t('dashboard.college'))}:</strong> {appointment.student.user_clg_name}</p>
                                 )}
-                                <p><strong>Date:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
-                                <p><strong>Start Time:</strong> {appointment.startTime}</p>
-                                <p><strong>End Time:</strong> {appointment.endTime}</p>
+                                <p><strong>{(t('dashboard.date'))}:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
+                                <p><strong>{(t('dashboard.start_time'))}:</strong> {appointment.startTime}</p>
+                                <p><strong>{(t('dashboard.end_time'))}:</strong> {appointment.endTime}</p> 
                             </div>
                             
                             {userType === 'counsellor' && (
                                 <div className="status-update-section">
-                                    <label htmlFor={`status-${appointment._id}`}>Change Status:</label>
+                                    <label htmlFor={`status-${appointment._id}`}>{(t('dashboard.change_status'))}:</label>
                                     <select
                                         id={`status-${appointment._id}`}
                                         value={appointment.status}
                                         onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
                                     >
-                                        <option value="pending">Pending</option>
-                                        <option value="confirmed">Confirmed</option>
-                                        <option value="cancelled">Cancelled</option>
-                                        <option value="completed">Completed</option>
+                                        <option value="pending">{(t('dashboard.pending'))}</option>
+                                        <option value="confirmed">{(t('dashboard.confirmed'))}</option>
+                                        <option value="cancelled">{(t('dashboard.cancelled'))}</option>
+                                        <option value="completed">{(t('dashboard.completed'))}</option>
                                     </select>
                                 </div>
                             )}
 
                             <div className="appointment-notes">
-                                <p><strong>Notes:</strong> {appointment.notes || 'N/A'}</p>
-                                <p className="booked-on"><strong>Booked On:</strong> {new Date(appointment.createdAt).toLocaleString()}</p>
+                                <p><strong>{(t('dashboard.notes'))}:</strong> {appointment.notes || 'N/A'}</p>
+                                <p className="booked-on"><strong>{(t('dashboard.booked_on'))}:</strong> {new Date(appointment.createdAt).toLocaleString()}</p>
                             </div>
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>You have no appointments scheduled.</p>
+                <p>{(t('dashboard.no_appointments'))}</p>
             )}
         </div>
     );

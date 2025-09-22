@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import AppointmentsList from '../../components/AppointmentList/AppointmentList.jsx';
 import { useTranslation } from 'react-i18next';
-import AppointmentsList from '../../components/AppointmentList/AppointmentList';
 import './Dash_Counsellor.css';
 
 
@@ -37,8 +37,9 @@ const Dash_Counsellor = () => {
           <option value="doi">Dogri</option>
         </select>
       </div>
-      <AppointmentsList userType={t('modal.counsellorTitle')} />
+      <AppointmentsList userType="counsellor" />
     </div>
+    
   );
 }
 

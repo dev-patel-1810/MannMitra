@@ -139,7 +139,7 @@ const Login = () => {
                 <input
                   type="text"
                   name="instituteName"
-                  placeholder="Institute Name *"
+                  placeholder={t('login.institute_name')}
                   value={formData.instituteName}
                   onChange={handleInputChange}
                   className={errors.instituteName ? 'error' : ''}

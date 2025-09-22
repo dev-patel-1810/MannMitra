@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import './GuardianConfirmModal.css';
+import { useTranslation } from 'react-i18next';
 
 const GuardianConfirmModal = ({ isOpen, onClose, onConfirm }) => {
+  const { t } = useTranslation();
   const [timer, setTimer] = useState(10);
   const [isChecked, setIsChecked] = useState(false);
 
@@ -39,11 +41,9 @@ const GuardianConfirmModal = ({ isOpen, onClose, onConfirm }) => {
       <div className="modal-content">
         <h2>DISCLAIMER</h2>
         <div className="modal-body">
-          <p className="warning-text">No guardian information added !</p>
+          <p className="warning-text">{(t('common.no_guardian_info'))}</p>
           <p className="info-text">
-            In case you ever press SOS, we'll directly connect you to the suicide 
-            prevention helpline, emergency number 112, and your campus 
-            counselor to make sure you get immediate support.
+            {t('common.guardian_confirm_info')}
           </p>
           <label className="checkbox-container">
             <input 
@@ -52,7 +52,7 @@ const GuardianConfirmModal = ({ isOpen, onClose, onConfirm }) => {
               onChange={handleCheckboxChange}
             />
             <span className="checkbox-text">
-              I have read the above disclaimer and I willingly choose to have no guardian's contact.
+              {t('common.guardian_confirm_checkbox')}
             </span>
           </label>
         </div>
@@ -62,10 +62,10 @@ const GuardianConfirmModal = ({ isOpen, onClose, onConfirm }) => {
             disabled={timer > 0 && !isChecked}
             onClick={handleAccept}
           >
-            Accept {timer > 0 && !isChecked ? `(${timer}s)` : ''}
+            {t('common.accept')} {timer > 0 && !isChecked ? `(${timer}s)` : ''}
           </button>
           <button className="decline-btn" onClick={onClose}>
-            Decline
+            {t('common.decline')}
           </button>
         </div>
       </div>

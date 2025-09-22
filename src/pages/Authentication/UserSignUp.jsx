@@ -173,7 +173,7 @@ const UserSignUp = () => {
       <div className="signup-content">
         <div className="signup-image">
           <h1>{t('common.welcome')}</h1>
-          <p>{('common.welcome2')}</p>
+          <p>{t('common.welcome2')}</p>
         </div>
         
         <div className="signup-form">
@@ -182,7 +182,7 @@ const UserSignUp = () => {
             <input
               type="text"
               name="username"
-              placeholder="Username *"
+              placeholder={t('common.username_placeholder')}
               value={formData.username}
               onChange={handleInputChange}
               className={errors.username ? 'error' : ''}

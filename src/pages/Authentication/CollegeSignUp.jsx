@@ -1,11 +1,7 @@
 import { useState } from 'react';
-import './Authentication.css';
+import './Authentication.css';  
 import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
 
-function About() {
-  const { t } = useTranslation();
-}
 const CollegeSignUp = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
@@ -283,5 +279,4 @@ const CollegeSignUp = () => {
     </div>
   );
 };
-
 export default CollegeSignUp;
