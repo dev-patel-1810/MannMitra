@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Dashboard.css';
 import MoodCard from '../../components/MoodCard/MoodCard';
 import ChatPrompt from '../../components/ChatPrompt/ChatPrompt';
@@ -10,27 +10,64 @@ import testIcon from '../../assets/take test.png';
 import profile1 from '../../assets/profile1.png';
 import profile2 from '../../assets/profile2.png';
 import profile3 from '../../assets/profile3.png';
+import { useTranslation } from 'react-i18next';
+
+function About() {
+  const { t } = useTranslation();
+}
+
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState(() => {
+    // Try to get from localStorage, else use i18n default
+    return localStorage.getItem('appLanguage') || i18n.language || 'en';
+  });
+
+  useEffect(() => {
+    // On mount, set i18n language from localStorage if available
+    const storedLang = localStorage.getItem('appLanguage');
+    if (storedLang && storedLang !== i18n.language) {
+      i18n.changeLanguage(storedLang);
+    }
+  }, [i18n]);
+
+  const handleLanguageChange = (event) => {
+    const lang = event.target.value;
+    setSelectedLanguage(lang);
+    i18n.changeLanguage(lang);
+    localStorage.setItem('appLanguage', lang);
+  };
+
   const modules = [
-    { title: 'Peer Group', icon: peerIcon, color: '#B63C65' },
-    { title: 'Counsellor', icon: counselorIcon, color: '#2653A0' },
-    { title: 'Analytics', icon: analyticsIcon, color: '#54BABE' },
-    { title: 'Take Test', icon: testIcon, color: '#FAAF18' }
+    { title: t('dashboard.peer'), icon: peerIcon, color: '#B63C65' },
+    { title: t('modal.counsellorTitle'), icon: counselorIcon, color: '#2653A0' },
+    { title: t('dashboard.analytics'), icon: analyticsIcon, color: '#54BABE' },
+    { title: t('dashboard.take_test'), icon: testIcon, color: '#FAAF18' }
   ];
 
   const wellnessTasks = [
-    { id: 1, task: 'Complete daily mood check-in', completed: true, image: profile1 },
-    { id: 2, task: 'Join peer support group', completed: false, image: profile2 },
-    { id: 3, task: 'Schedule counseling session', completed: false, image: profile3 }
+    { id: 1, task: t('dashboard.daily_mood'), completed: true, image: profile1 },
+    { id: 2, task: t('dashboard.join_peer'), completed: false, image: profile2 },
+    { id: 3, task: t('dashboard.schedule_session'), completed: false, image: profile3 }
   ];
 
   return (
     <div className="dashboard">
+      {/* Language dropdown at the true top right of dashboard */}
+      <div className="dashboard-lang-select">
+        <select
+          className="language-select"
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+      </div>
       <div className="dashboard-content">
         <MoodCard />
         <ChatPrompt />
-        
         <div className="modules-grid">
           {modules.map((module, index) => (
             <ModuleCard
@@ -41,9 +78,8 @@ const Dashboard = () => {
             />
           ))}
         </div>
-
         <div className="wellness-tasks">
-          <h2>Wellness Tasks</h2>
+          <h2>{t('dashboard.wellness_task')}</h2>
           <div className="tasks-list">
             {wellnessTasks.map(task => (
               <div key={task.id} className="task-item">

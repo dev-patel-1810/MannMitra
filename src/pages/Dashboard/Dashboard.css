@@ -4,6 +4,7 @@
   margin-left: 250px; /* Width of sidebar */
   margin-top: 300px; /* Height of navbar + hero section */
   overflow-y: auto;
+  position: relative;
 }
 
 .dashboard-content {
@@ -11,6 +12,34 @@
   margin: 0 auto;
   padding: 1rem 2rem;
   padding-bottom: 3rem;
+  position: relative;
+}
+
+/* Language selector styles */
+.dashboard-lang-select {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.language-select {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 1rem;
+  color: #234F56;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: border 0.2s;
+}
+
+.language-select:focus {
+  border: 1.5px solid #588157;
 }
 
 .modules-grid {

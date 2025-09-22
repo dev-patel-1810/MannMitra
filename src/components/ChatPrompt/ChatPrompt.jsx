@@ -1,15 +1,23 @@
 import React from 'react';
 import './ChatPrompt.css';
 import chatCharacter from '../../assets/chat_buddy.png';
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
+
+function About() {
+  const { t } = useTranslation();
+}
+
+
 
 const ChatPrompt = () => {
   return (
     <div className="chat-prompt">
       <div className="chat-content">
         <div className="chat-text">
-          <h3>Let's Talk!</h3>
-          <p>Share your thoughts and feelings with me</p>
-          <button className="chat-btn">Chat Now</button>
+          <h3>{t('dashboard.lets_talk')}</h3>
+          <p>{t('dashboard.lets_talk2')}</p>
+          <button className="chat-btn">{t('dashboard.chat')}</button>
         </div>
         <div className="chat-image">
           <img src={chatCharacter} alt="Chat Character" />

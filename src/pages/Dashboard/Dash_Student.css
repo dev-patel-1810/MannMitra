@@ -1,3 +1,29 @@
+/* Language selector styles */
+.dashboard-lang-select {
+  position: fixed;
+  top: 18px;
+  right: 32px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.language-select {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 1rem;
+  color: #234F56;
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: border 0.2s;
+}
+
+.language-select:focus {
+  border: 1.5px solid #588157;
+}
 :root{
     --sidebar-width: 220px;
     --sidebar-collapsed-width: 60px;

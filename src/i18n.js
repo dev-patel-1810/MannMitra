@@ -5,19 +5,23 @@ import enTranslations from './locales/en.json';
 import hiTranslations from './locales/hi.json';
 
 
+
+// Get language from localStorage if available, else default to 'en'
+const savedLang = localStorage.getItem('appLanguage') || 'en';
+
 i18n
-.use(initReactI18next)
-.init({
-    resources: {
-    en: { translation: enTranslations },
-    // gu: { translation: guTranslations },
-    hi: { translation: hiTranslations }
-    },
-    lng: 'en',
-    fallbackLng: 'en',
-    interpolation: {
-    escapeValue: false
-    }
-});
+    .use(initReactI18next)
+    .init({
+        resources: {
+            en: { translation: enTranslations },
+            // gu: { translation: guTranslations },
+            hi: { translation: hiTranslations }
+        },
+        lng: savedLang,
+        fallbackLng: 'en',
+        interpolation: {
+            escapeValue: false
+        }
+    });
 
 export default i18n;

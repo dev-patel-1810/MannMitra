@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import './AppointmentBooking.css';
 import AppointmentList from '../../components/AppointmentList/AppointmentList'
 import { toast } from 'react-toastify';
+import { t } from 'i18next';
+function About() {
+  const { t } = useTranslation();
+}
 
 const AppointmentBooking = () => {
     const [counsellors, setCounsellors] = useState([]);
@@ -36,7 +40,7 @@ const AppointmentBooking = () => {
             }
             
         } catch (error) {
-            toast.error('Error fetching user details');
+            toast.error(t('appointment.fetch_user_error'));
         }
     };
 
@@ -46,10 +50,33 @@ const AppointmentBooking = () => {
             const data = await response.json();
             setCounsellors(data.data);
         } catch (error) {
-            toast.error('Error fetching counsellors');
+            toast.error('appointment.fetch_counsellor_error');
         }
     };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     const handleCounsellorSelect = (counsellor) => {
         setSelectedCounsellor(counsellor);
         setFormData(prev => ({
@@ -75,7 +102,7 @@ const AppointmentBooking = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                toast.error(data.message || 'Failed to book appointment');
+                toast.error(data.message || t('appointment.fail'));
                 return;
             }
 

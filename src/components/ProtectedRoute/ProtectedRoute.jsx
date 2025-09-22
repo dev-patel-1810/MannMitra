@@ -2,6 +2,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import "./ProtectedRoute.css";
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
+
+function About() {
+  const { t } = useTranslation();
+}
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const rawUser = localStorage.getItem("user");
@@ -18,10 +24,10 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     return (
       <div className="popup-overlay">
         <div className="popup">
-          <h2>Login Required</h2>
-          <p>You must be logged in to access this page.</p>
+          <h2>{t('dashboard.login_required')}</h2>
+          <p>{t('dashboard.login_required_message')}</p>
           <button onClick={() => (window.location.href = "/login")}>
-            Go to Login
+            {t('dashboard.go_to_login')}
           </button>
         </div>
       </div>

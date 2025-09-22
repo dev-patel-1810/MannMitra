@@ -1,14 +1,14 @@
 import React from "react";
 import "./Schedule.css";
-
+import {t} from 'i18next';
 const Schedule = () => {
   return (
     <div className="card schedule-card">
-      <h2>Schedule</h2>
+      <h2>{t('dashboard.schedule')}</h2>
       <ul>
-        <li>Session 1</li>
-        <li>Session 2</li>
-        <li>Session 3</li>
+        <li>{t('dashboard.session_1')}</li>
+        <li>{t('dashboard.session_2')}</li>
+        <li>{t('dashboard.session_3')}</li>
       </ul>
     </div>
   );
