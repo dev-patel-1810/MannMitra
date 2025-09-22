@@ -152,7 +152,17 @@
     "appointment":{
         "fail":"Failed to book appointment",
         "fetcherror":"Error fetching user details",
-        "fetch_counsellor_error":"Error fetching counsellors"
+        "fetch_counsellor_error":"Error fetching counsellors",
+        "success":"Appointment Booked Successfully",
+        "error":"Error booking appointment",
+        "book_appointment":"Book a new appointment",
+        "institute":"Institute:",
+        "appointment_with":"Book an Appointment with",        
+        "start":"Start Time:",
+        "end":"End Time:",
+        "notes":"Notes:",
+        "book":"Book Appointment",
+        "note":"Add any notes or concerns..."
     },
     "dashboard":{
         "user_error":"User ID not found in local storage.",
@@ -208,7 +218,19 @@
         "task_2":"Join peer support group",
         "task_3":"Schedule counseling session",
         "resource_hub":"Resource Hub"
+    },
+    "wellness_forest":{
+        "morning_meditation":"Morning meditation (5-10 min)",
+        "write_journal_entry":"Write a short journal entry",
+        "move_for_15_minutes":"Move for 15 minutes (walk/stretch)",
+        "check_in_with_friend":"Check-in with a friend",
+        "practice_deep_breathing":"Practice deep breathing for 3 minutes",
+        "read_5_pages_book":"Read 5 pages of a book",
+        "drink_2_glasses_water":"Drink 2 glasses of water",
+        "list_3_things_grateful":"List 3 things you’re grateful for",
+        "take_10_min_walk_outside":"Take a 10-min walk outside"
 
-
+        
     }
+
 }

@@ -56,6 +56,7 @@ const Hero = () => {
             >
               <option value="en">English</option>
               <option value="hi">Hindi</option>
+              <option value="doi">Dogri</option>
             </select>
             <button onClick={handleLogin} className="signin-btn" >{t('common.login')}</button>
           </div>

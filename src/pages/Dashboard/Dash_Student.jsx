@@ -29,23 +29,23 @@ import "./Dash_Student.css";
 const Dash_Student = () => {
   const { t, i18n } = useTranslation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
-    return localStorage.getItem('appLanguage') || i18n.language || 'en';
+    const storedLang = localStorage.getItem('appLanguage');
+    return storedLang || 'en'; // Force localStorage first
   });
+
   const navigate = useNavigate();
 
+  // Sync i18n language with state on mount and when state changes
   useEffect(() => {
-    const storedLang = localStorage.getItem('appLanguage');
-    if (storedLang && storedLang !== i18n.language) {
-      i18n.changeLanguage(storedLang);
-    }
-  }, [i18n]);
+    i18n.changeLanguage(selectedLanguage);
+    localStorage.setItem('appLanguage', selectedLanguage);
+  }, [i18n, selectedLanguage]);
 
   const handleLanguageChange = (event) => {
     const lang = event.target.value;
-    setSelectedLanguage(lang);
-    i18n.changeLanguage(lang);
-    localStorage.setItem('appLanguage', lang);
+    setSelectedLanguage(lang); // triggers useEffect to sync i18n and localStorage
   };
 
   const modules = [
@@ -66,6 +66,7 @@ const Dash_Student = () => {
         >
           <option value="en">English</option>
           <option value="hi">Hindi</option>
+          <option value="doi">Dogri</option>
         </select>
       </div>
       <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />

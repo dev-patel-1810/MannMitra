@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import './AppointmentBooking.css';
 import AppointmentList from '../../components/AppointmentList/AppointmentList'
 import { toast } from 'react-toastify';
+import { useTranslation} from 'react-i18next';
 import { t } from 'i18next';
+
 function About() {
   const { t } = useTranslation();
 }
+
 
 const AppointmentBooking = () => {
     const [counsellors, setCounsellors] = useState([]);
@@ -53,30 +56,6 @@ const AppointmentBooking = () => {
             toast.error('appointment.fetch_counsellor_error');
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     const handleCounsellorSelect = (counsellor) => {
         setSelectedCounsellor(counsellor);
         setFormData(prev => ({
@@ -106,7 +85,7 @@ const AppointmentBooking = () => {
                 return;
             }
 
-            toast.success('Appointment booked successfully');
+            toast.success(t('appointment.success'));
             setFormData({
                 counsellorId: '',
                 appointmentDate: '',
@@ -116,7 +95,7 @@ const AppointmentBooking = () => {
             });
             setSelectedCounsellor(null);
         } catch (error) {
-            toast.error('Error booking appointment');
+            toast.error(t('appointment.error'));
         }
     };
 
@@ -132,7 +111,7 @@ const AppointmentBooking = () => {
         <div className="main-appointment-page-container">
             <div className="booking-section">
                 <h1 className="welcome-heading">Hello, {userName}!</h1>
-                <h2 className="section-title">Book a New Appointment</h2>
+                <h2 className="section-title">{t('appointment.book_appointment')}</h2>
                 
                 <div className="counsellors-grid">
                     {counsellors.map(counsellor => (
@@ -150,9 +129,9 @@ const AppointmentBooking = () => {
                                 )}
                             </div>
                             <div className="counsellor-details">
-                                <p><strong>Specialization:</strong> {counsellor.counselor_specialization}</p>
-                                <p><strong>Experience:</strong> {counsellor.counselor_exp} years</p>
-                                <p><strong>Institute:</strong> {counsellor.counselor_clg_name || 'Independent'}</p>
+                                <p><strong>{t('dashboard.counsellor_specialization')}</strong> {counsellor.counselor_specialization}</p>
+                                <p><strong>{t('dashboard.counsellor_experience')}</strong> {counsellor.counselor_exp} years</p>
+                                <p><strong>{t('appointment.institute')}</strong> {counsellor.counselor_clg_name || 'Independent'}</p>
                             </div>
                         </div>
                     ))}
@@ -160,7 +139,7 @@ const AppointmentBooking = () => {
 
                 {selectedCounsellor && (
                     <div className="booking-form-container">
-                        <h3 className="form-title">Book an Appointment with {selectedCounsellor.counselor_name}</h3>
+                        <h3 className="form-title">{t('appointments.appointment_with')} {selectedCounsellor.counselor_name}</h3>
                         <form onSubmit={handleSubmit} className="appointment-form">
                             <div className="form-row">
                                 <div className="form-group">
@@ -175,7 +154,7 @@ const AppointmentBooking = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Start Time:</label>
+                                    <label>{t('appointment.start')}</label>
                                     <input
                                         type="time"
                                         name="startTime"
@@ -185,7 +164,7 @@ const AppointmentBooking = () => {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>End Time:</label>
+                                    <label>{t('appointment.end')}</label>
                                     <input
                                         type="time"
                                         name="endTime"
@@ -197,16 +176,16 @@ const AppointmentBooking = () => {
                             </div>
 
                             <div className="form-group full-width">
-                                <label>Notes:</label>
+                                <label>{('appointment.notes')}</label>
                                 <textarea
                                     name="notes"
                                     value={formData.notes}
                                     onChange={handleInputChange}
-                                    placeholder="Add any notes or concerns..."
+                                    placeholder={t('appointment.note')}
                                     rows="4"
                                 />
                             </div>
-                            <button type="submit" className="book-button">Book Appointment</button>
+                            <button type="submit" className="book-button">{t('appointment.book')}</button>
                         </form>
                     </div>
                 )}

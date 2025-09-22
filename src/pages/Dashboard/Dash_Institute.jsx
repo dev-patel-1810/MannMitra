@@ -111,46 +111,63 @@ const Dash_Institute = () => {
   }
 
   return (
-    
-    <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">{t('dashboard.dashboard')}</h1>
-        <p className="dashboard-subtitle">
-          {t('dashboard.welcome1')}<span className="college-name">{clgName}</span>{t('dashboard.welcome2')}
-        </p>
-        <div className="admin-info">
-          <p className="admin-detail"><span className="detail-label">{t('dashboard.admin_name')}</span> {userName}</p>
-          <p className="admin-detail"><span className="detail-label">{t('dashboard.admin_email')}</span> {userEmail}</p>
-        </div>
+    <>
+      {/* Language dropdown at the true top right of dashboard */}
+      <div className="dashboard-lang-select">
+        <select
+          className="language-select"
+          value={typeof window !== 'undefined' ? localStorage.getItem('appLanguage') || 'en' : 'en'}
+          onChange={e => {
+            const lang = e.target.value;
+            if (typeof window !== 'undefined') localStorage.setItem('appLanguage', lang);
+            if (i18n.language !== lang) i18n.changeLanguage(lang);
+          }}
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="doi">Dogri</option>
+        </select>
       </div>
-
-      <section className="dashboard-section">
-        <h2 className="section-title">{t('dashboard.Students')} ({students.length})</h2>
-        {students.length > 0 ? (
-          <div className="grid-container">
-            {students.map((student, index) => (
-              <ProfileCard key={index} user={student} />
-            ))}
+      <div className="dashboard-container">
+        <div className="dashboard-header">
+          <h1 className="dashboard-title">{t('dashboard.dashboard')}</h1>
+          <p className="dashboard-subtitle">
+            {t('dashboard.welcome1')}<span className="college-name">{clgName}</span>{t('dashboard.welcome2')}
+          </p>
+          <div className="admin-info">
+            <p className="admin-detail"><span className="detail-label">{t('dashboard.admin_name')}</span> {userName}</p>
+            <p className="admin-detail"><span className="detail-label">{t('dashboard.admin_email')}</span> {userEmail}</p>
           </div>
-        ) : (
-          <p className="no-data-message">{t('dashboard.no_stud')}</p>
-        )}
-      </section>
+        </div>
 
-      <section className="dashboard-section">
-        <h2 className="section-title">{t('modal.counsellorTitle')} ({counsellors.length})</h2>
-        {counsellors.length > 0 ? (
-          <div className="grid-container">
-            {counsellors.map((counsellor, index) => (
-              <ProfileCard key={index} user={counsellor} />
-            ))}
-          </div>
-        ) : (
-          <p className="no-data-message">{t('dashboard.no_counsellor')}</p>
-        )}
-      </section>
-    </div>
+        <section className="dashboard-section">
+          <h2 className="section-title">{t('dashboard.Students')} ({students.length})</h2>
+          {students.length > 0 ? (
+            <div className="grid-container">
+              {students.map((student, index) => (
+                <ProfileCard key={index} user={student} />
+              ))}
+            </div>
+          ) : (
+            <p className="no-data-message">{t('dashboard.no_stud')}</p>
+          )}
+        </section>
+
+        <section className="dashboard-section">
+          <h2 className="section-title">{t('modal.counsellorTitle')} ({counsellors.length})</h2>
+          {counsellors.length > 0 ? (
+            <div className="grid-container">
+              {counsellors.map((counsellor, index) => (
+                <ProfileCard key={index} user={counsellor} />
+              ))}
+            </div>
+          ) : (
+            <p className="no-data-message">{t('dashboard.no_counsellor')}</p>
+          )}
+        </section>
+      </div>
+    </>
   );
-};
+}
 
 export default Dash_Institute;

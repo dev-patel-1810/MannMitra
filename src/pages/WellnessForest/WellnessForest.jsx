@@ -2,17 +2,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./WellnessForest.css";
-
+import { useTranslation } from 'react-i18next';
+import {t} from 'i18next'
+function About() {
+  const { t } = useTranslation();
+}
 const TASK_POOL = [
-  "Morning meditation (5-10 min)",
-  "Write a short journal entry",
-  "Move for 15 minutes (walk/stretch)",
-  "Check-in with a friend",
-  "Practice deep breathing for 3 minutes",
-  "Read 5 pages of a book",
-  "Drink 2 glasses of water",
-  "List 3 things you’re grateful for",
-  "Take a 10-min walk outside"
+  t('wellness_forest.morning_meditation'),
+  t('wellness_forest.write_journal_entry'),
+  t('wellness_forest.move_for_15_minutes'),
+  t('wellness_forest.check_in_with_friend'),
+  t('wellness_forest.practice_deep_breathing'),
+  t('wellness_forest.read_5_pages_book'),
+  t('wellness_forest.drink_2_glasses_water'),
+  t('wellness_forest.list_3_things_grateful'),
+  t('wellness_forest.take_10_min_walk_outside')
 ];
 
 const todayKey = () => new Date().toISOString().slice(0, 10);

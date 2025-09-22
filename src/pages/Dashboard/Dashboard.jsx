@@ -19,24 +19,21 @@ function About() {
 
 const Dashboard = () => {
   const { t, i18n } = useTranslation();
+
   const [selectedLanguage, setSelectedLanguage] = useState(() => {
-    // Try to get from localStorage, else use i18n default
-    return localStorage.getItem('appLanguage') || i18n.language || 'en';
+    const storedLang = localStorage.getItem('appLanguage');
+    return storedLang || 'en'; // always default to localStorage first, then 'en'
   });
 
+  // Sync i18n and localStorage whenever selectedLanguage changes
   useEffect(() => {
-    // On mount, set i18n language from localStorage if available
-    const storedLang = localStorage.getItem('appLanguage');
-    if (storedLang && storedLang !== i18n.language) {
-      i18n.changeLanguage(storedLang);
-    }
-  }, [i18n]);
+    i18n.changeLanguage(selectedLanguage);
+    localStorage.setItem('appLanguage', selectedLanguage);
+  }, [i18n, selectedLanguage]);
 
   const handleLanguageChange = (event) => {
     const lang = event.target.value;
-    setSelectedLanguage(lang);
-    i18n.changeLanguage(lang);
-    localStorage.setItem('appLanguage', lang);
+    setSelectedLanguage(lang); // triggers useEffect to update i18n & localStorage
   };
 
   const modules = [
@@ -63,6 +60,7 @@ const Dashboard = () => {
         >
           <option value="en">English</option>
           <option value="hi">Hindi</option>
+          <option value="doi">Dogri</option>
         </select>
       </div>
       <div className="dashboard-content">
