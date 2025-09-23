@@ -28,7 +28,7 @@ const Dash_Counsellor = () => {
       {/* Language dropdown at the true top right of dashboard */}
       <div className="dashboard-lang-select">
         <select
-          className="language-select"
+          className="language-select-counsellor"
           value={selectedLanguage}
           onChange={handleLanguageChange}
         >
