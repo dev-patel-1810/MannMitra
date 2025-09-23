@@ -28,6 +28,7 @@
 
 .language-select {
   padding: 6px 14px;
+  position: absolute;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;

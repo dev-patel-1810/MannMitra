@@ -6,13 +6,16 @@
   z-index: 1000;
   display: flex;
   align-items: center;
+  position: absolute;
   gap: 0.5rem;
 }
 
 .language-select {
-  padding: 6px 14px;
+  padding: 6px 14 px;
+  top: 3px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  position: absolute;
   background: #fff;
   font-size: 1rem;
   color: #234F56;
