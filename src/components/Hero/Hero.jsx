@@ -49,6 +49,7 @@ const Hero = () => {
             <h3>MannMitra</h3>
           </div>
           <div className="header-buttons">
+          <div className="language-select-wrapper">
             <select
               className="language-select"
               value={selectedLanguage}
@@ -58,6 +59,9 @@ const Hero = () => {
               <option value="hi">Hindi</option>
               <option value="doi">Dogri</option>
             </select>
+            <span className="material-symbols-outlined">arrow_drop_down</span>
+          </div>
+
             <button onClick={handleLogin} className="signin-btn" >{t('common.login')}</button>
           </div>
         </div>
@@ -69,9 +73,9 @@ const Hero = () => {
           <button className="get-started-btn" onClick={() => setIsModalOpen(true)}>{t('hero.getStarted')}</button>
         </div>
       </div>
-      <div className="hero-image-wrapper">
+
         <img src={heroImg} alt="Hero" className="hero-image" />
-      </div>
+        
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
