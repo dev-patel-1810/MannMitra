@@ -110,7 +110,7 @@ const Dash_Institute = () => {
       {/* Language dropdown at the true top right of dashboard */}
       <div className="dashboard-lang-select">
         <select
-          className="language-select"
+          className="language-select-institute"
           value={typeof window !== 'undefined' ? localStorage.getItem('appLanguage') || 'en' : 'en'}
           onChange={e => {
             const lang = e.target.value;
