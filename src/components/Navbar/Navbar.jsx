@@ -16,6 +16,7 @@ const Navbar = ({ toggleSidebar }) => {
         ☰
       </button>
       <h1 className="navbar-title">{t('dashboard.dashboard')}</h1>
+      
       <div className="hero-section">
         <div className="welcome-text">
           <h2>{(`${t('dashboard.welcome_user')}, ${userName}!`)} </h2>
