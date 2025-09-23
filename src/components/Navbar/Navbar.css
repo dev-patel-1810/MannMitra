@@ -37,15 +37,38 @@
   }
 
   .language-select {
-    background: transparent;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 4px;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.9rem;
-    top:0px;
-  }
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2C3333;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
   
+.language-select:hover {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.language-select:focus {
+  background-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.language-select option {
+  background: #ffffff;
+  color: #2C3333;
+  font-weight: 500;
+  padding: 8px;
+}
+
   .hamburger {
     position: absolute;
     top: 1rem;
