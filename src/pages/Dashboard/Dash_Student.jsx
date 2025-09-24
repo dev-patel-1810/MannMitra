@@ -113,7 +113,7 @@ const Dashboard = () => {
       />
 
       <div className="dashboard-body">
-        <Sidebar isOpen={sidebarOpen} />
+        {/* <Sidebar isOpen={sidebarOpen} /> */}
 
         <main className="dashboard-main">
           <div className="hero-section">
@@ -144,10 +144,10 @@ const Dashboard = () => {
           </div>
         </main>
 
-        <aside className="dashboard-right">
+        {/* <aside className="dashboard-right">
           <Schedule />
           <WellnessTasks />
-        </aside>
+        </aside> */}
       </div>
     </div>
   );
