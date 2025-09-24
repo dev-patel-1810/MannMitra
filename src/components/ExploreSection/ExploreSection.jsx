@@ -3,7 +3,7 @@ import "./ExploreSection.css";
 import { useNavigate } from "react-router-dom";
 
 // Import images
-import wellnessImg from "../../assets/wellness_task.png";
+import wellnessImg from "../../assets/wellness_Task1.png";
 import gamingImg from "../../assets/Gaming_zone.png";
 import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';

@@ -1,6 +1,6 @@
 import React from 'react';
 import './WellnessTasks.css';
-import defaultProfile from '../../assets/wellness_task.png';
+import defaultProfile from '../../assets/wellness_Task1.png';
 import {t} from 'i18next';
 const WellnessTasks = () => {
   const tasks = [
