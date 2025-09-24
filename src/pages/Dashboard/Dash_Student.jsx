@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
 
-// External components (kept as-is since they exist in your project)
+// External components (kept as-is)
 import MoodCard from "../../components/MoodCard/MoodCard";
 import ChatPrompt from "../../components/ChatPrompt/ChatPrompt";
 import ModuleCard from "../../components/ModuleCard/ModuleCard";
@@ -11,6 +10,7 @@ import ExploreSection from "../../components/ExploreSection/ExploreSection";
 import ResourceHub from "../../components/ResourceHub/ResourceHub";
 import Schedule from "../../components/Schedule/Schedule";
 import WellnessTasks from "../../components/WellnessTasks/WellnessTasks";
+import BookNowCard from "../../components/BookNowCard/BookNowCard";
 
 // Import module icons
 import peerIcon from '../../assets/peer_group.jpg';
@@ -18,20 +18,26 @@ import counselorIcon from '../../assets/your_counsellor.jpg';
 import analyticsIcon from '../../assets/analytics.jpg';
 import testIcon from '../../assets/take_test.jpg';
 
+import heroImg from '../../assets/hero.png'; 
+
 import "./Dash_student.css";
 
 // ================= NAVBAR =================
-const Navbar = ({ toggleSidebar, selectedLanguage, handleLanguageChange }) => {
-  const userName = localStorage.getItem("userName") || "User";
+const Navbar = ({ selectedLanguage, handleLanguageChange, handleLogout }) => {
+  const { t } = useTranslation();
 
   return (
     <nav className="navbar">
-      <button className="hamburger" onClick={toggleSidebar}>☰</button>
-      <h1 className="navbar-title">{t('dashboard.dashboard')}</h1>
+      <div className="navbar-center">
+        <span>{t("dashboard.dashboard")}</span>
+        <span>{t("dashboard.peer")}</span>
+        <span>{t("dashboard.analytics")}</span>
+        <span>{t("dashboard.resource_hub")}</span>
+      </div>
 
-      <div className="nav-right">
+      <div className="navbar-right">
         <select
-          className="language-select-student"
+          className="language-select-std"
           value={selectedLanguage}
           onChange={handleLanguageChange}
         >
@@ -39,6 +45,9 @@ const Navbar = ({ toggleSidebar, selectedLanguage, handleLanguageChange }) => {
           <option value="hi">Hindi</option>
           <option value="doi">Dogri</option>
         </select>
+        <button className="logout-btn" onClick={handleLogout}>
+          {t("dashboard.logout")}
+        </button>
       </div>
     </nav>
   );
@@ -47,6 +56,7 @@ const Navbar = ({ toggleSidebar, selectedLanguage, handleLanguageChange }) => {
 // ================= SIDEBAR =================
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleLogout = () => {
     if (window.confirm(t('dashboard.confirm_logout'))) {
@@ -97,6 +107,13 @@ const Dashboard = () => {
     setSelectedLanguage(lang);
   };
 
+  const handleLogout = () => {
+    if (window.confirm(t('dashboard.confirm_logout'))) {
+      localStorage.removeItem("user");
+      navigate("/");
+    }
+  };
+
   const modules = [
     { title: t('dashboard.peer'), icon: peerIcon, color: '#B63C65' },
     { title: t('modal.counsellorTitle'), icon: counselorIcon, color: '#2653A0' },
@@ -104,30 +121,41 @@ const Dashboard = () => {
     { title: t('dashboard.take_test'), icon: testIcon, color: '#FAAF18', onClick: () => navigate("/ghq12-test") }
   ];
 
+
   return (
     <div className={`dashboard ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
       <Navbar
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         selectedLanguage={selectedLanguage}
         handleLanguageChange={handleLanguageChange}
+        handleLogout={handleLogout}
       />
 
       <div className="dashboard-body">
         {/* <Sidebar isOpen={sidebarOpen} /> */}
 
         <main className="dashboard-main">
-          <div className="hero-section">
-            <div className="welcome-text">
-              <h2>{`${t('dashboard.welcome_user')}, ${localStorage.getItem("userName") || "User"}!`}</h2>
-            </div>
-            <div className="hero-image"></div>
+        <div className="top-section">
+          <div className="welcome-text">
+            <h2>{`${t('dashboard.welcome_user')}, ${(JSON.parse(localStorage.getItem("user"))).name || "User"}!`}</h2>
           </div>
 
-          <div className="dashboard-content">
-            <MoodCard />
-            <ChatPrompt />
+          <img className="std-dash-img" src={heroImg} alt="image" />
 
-            <div className="modules-grid">
+          {/* Add BookNowCard */}
+          <div className="book-now-wrapper">
+            <BookNowCard />
+          </div>
+        </div>
+
+          <div className="dashboard-content">
+            <div className="mid-section">
+              <MoodCard />
+              <ChatPrompt />
+            </div>
+            
+
+            <div className="modules-grid" >
+              
               {modules.map((module, index) => (
                 <ModuleCard
                   key={index}
@@ -139,8 +167,11 @@ const Dashboard = () => {
               ))}
             </div>
 
-            <ExploreSection />
-            <ResourceHub />
+              <div className="bottom-section">
+                <ExploreSection />
+                <ResourceHub />
+              </div>
+            
           </div>
         </main>
 

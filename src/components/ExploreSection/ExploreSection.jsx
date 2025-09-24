@@ -27,7 +27,7 @@ const ExploreSection = () => {
           <img src={wellnessImg} alt="Wellness Tasks" className="card-img" />
           <p>{t('dashboard.wellness_tasks')}</p>
         </div>
-        <div className="card">
+        <div className="card gaming">
           <img src={gamingImg} alt="Gaming Zone" className="card-img" />
           <p>{t('dashboard.gaming_zone')}</p>
         </div>

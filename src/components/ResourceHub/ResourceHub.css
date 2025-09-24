@@ -1,8 +1,20 @@
 .resource-hub {
   margin: 2rem 0;
   padding: 2rem;
-  background-color: #58815742;
+  background-color: #F9F7E3;
   border-radius: 16px;
+  width: 45vw;
+  height: 70vh;
+  border: 1px solid brown;
+}
+
+.resource-hub h2{
+  color: #452700 !important;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bolder !important;
+  text-align: left;
+  margin-left: 1rem;
 }
   
   .resource-grid {
@@ -28,10 +40,12 @@
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
+  height: 17rem;
+  margin-top: -1.7rem;
 }
 
 .resource-grid .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(0) !important;
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
@@ -46,5 +60,21 @@
 }
 
 .card-img:hover {
-  transform: scale(1.05);
+  transform: scale(1) !important;
+}
+
+.self-help{
+  background-color: #68C4C1 !important;
+  color: white !important;
+  font-weight: bolder !important;
+}
+.music{
+  background-color: #F79B4D !important;
+  color: white !important;
+  font-weight: bolder !important;
+}
+
+.card-music-img{
+  height: 10rem;
+  padding: 1rem;
 }

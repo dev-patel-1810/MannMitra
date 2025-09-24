@@ -1,6 +1,6 @@
 import React from 'react';
 import './ChatPrompt.css';
-import chatCharacter from '../../assets/chat_buddy.png';
+import ChatPen from '../../assets/ChatPenguin.png';
 import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
 
@@ -20,7 +20,7 @@ const ChatPrompt = () => {
           <button className="chat-btn">{t('dashboard.chat')}</button>
         </div>
         <div className="chat-image">
-          <img src={chatCharacter} alt="Chat Character" />
+          <img src={ChatPen} alt="Chat Character" />
         </div>
       </div>
     </div>
