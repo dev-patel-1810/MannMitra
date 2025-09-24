@@ -1,143 +1,112 @@
-/* Language selector styles */
-.dashboard-lang-select {
+/* ================= GLOBAL VARIABLES ================= */
+:root {
+  --sidebar-width: 220px;
+  --sidebar-collapsed-width: 60px;
+  --right-width: 300px;
+  --navbar-height: 110px;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
   position: fixed;
-  top: 18px;
-  right: 32px;
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
-  position: absolute;
-  gap: 0.5rem;
+  justify-content: space-between;
+  background-color: blue;
+  z-index: 100;
+  height: 13vh;
+  padding: 0 2rem;
 }
 
-.language-select {
-  padding: 6px 14 px;
-  top: 3px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  position: absolute;
-  background: #fff;
-  font-size: 1rem;
-  color: #234F56;
-  outline: none;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-  transition: border 0.2s;
+.hamburger {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #452700;
 }
 
-.language-select:focus {
-  border: 1.5px solid #588157;
+.navbar-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #452700;
+  margin: 0 auto;
+  text-align: center;
 }
-:root{
-    --sidebar-width: 220px;
-    --sidebar-collapsed-width: 60px;
-    --right-width: 300px;
-    --navbar-height: 100px;
-    
-  }
-  
-  /* make sure the page can scroll */
-  html, body, #root {
-    height: 100%;
-  }
-  
-  /* container root (keeps markup same) */
-  .dashboard {
-    min-height: 100vh;
-    
-    display: block; /* page-level scrolling */
-  }
-  
-  /* NAVBAR reserved space (body content sits below it) */
-  .dashboard-body {
-    /* push content down below the fixed navbar */
-    padding-top: var(--navbar-height);
-    /* no overflow here — body scroll will be used */
-  }
-  
-  /* ===== Left sidebar (fixed, non-scrolling) ===== */
-  .sidebar {
-    position: fixed;
-    top: var(--navbar-height);
-    left: 0;
-    bottom: 0;
-    width: var(--sidebar-width);
-    overflow: hidden; /* no scroll */
-    z-index: 60;
-    transition: width 0.25s ease;
-    background: #588157;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
-  }
-  
-  /* collapsed state (toggle by adding class to .dashboard — see React snippet below) */
-  .dashboard.sidebar-closed .sidebar {
-    width: var(--sidebar-collapsed-width);
-  }
-  
-  /* ===== Right sidebar (fixed, non-scrolling) ===== */
-  .dashboard-right {
-    position: fixed;
-    top: var(--navbar-height);
-    right: 0;
-    bottom: 0;
-    width: var(--right-width);
-    overflow: hidden; /* no scroll */
-    z-index: 60;
-    background: #f9fafb;
-    padding: 1rem;
-    border-left: 1px solid #e5e7eb;
-  }
-  
-  /* ===== MAIN content: flows normally (body/page scrolls) ===== */
-  /* Give left/right margins so the fixed sidebars don't cover content */
-  .dashboard-main {
-    margin-left: var(--sidebar-width);
-    margin-right: var(--right-width);
-    padding: 1rem;
-    background: #f3f4f6;
-    min-height: calc(100vh - var(--navbar-height)); /* ensure enough height for scrolling */
-    box-sizing: border-box;
-    /* Optional: keep some comfortable inner spacing to avoid content hiding under right panel */
-    padding-bottom: 4rem;
-  }
-  
-  .dashboard.sidebar-closed .dashboard-main {
-    margin-left: var(--sidebar-collapsed-width);
-  }
-  
-  /* ===== Layout utilities used by components ===== */
-  .top-section {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .modules-grid {
+
+.nav-right {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 1rem;
-  margin: 2rem 0;
 }
 
-/* ===== Optional page-level scrollbar styling (WebKit) ===== */
-body::-webkit-scrollbar {
-  width: 10px;
-}
-body::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 6px;
-}
-body::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.language-select-student {
+  background-color: #ffffff;
+  color: #452700 !important;
+  border: 1px solid !important;
+  border-radius: 20px !important;
+  padding: 4px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+  /* min-width: 90px; */
+  height: 2rem !important;
+  margin-top: -0.7rem;
+  position: absolute;
+  right: 3rem;
 }
 
-/* === small responsive tweak === */
-@media (max-width: 900px) {
-  :root { --right-width: 0px; } /* hide right column on small screens if you want */
-  .dashboard-main { margin-right: 0; }
-  .dashboard-right { display: none; }
+.language-select-student:hover {
+  background-color: #F8F9FA;
+  border-color: #DDE0E3;
+}
+
+.language-select-student:focus {
+  background-color: #ffffff;
+  border-color: #588157;
+  box-shadow: 0 0 0 2px rgba(88, 129, 87, 0.1);
+}
+
+.language-select-student option {
+  background: #ffffff;
+  color: #344D67;
+  font-weight: 500;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  background: #344E41;
+  color: white;
+  transition: width 0.3s ease;
+  padding: 1rem;
+  z-index: 80;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.closed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar-item {
@@ -146,13 +115,92 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   cursor: pointer;
   font-weight: 500;
+  gap: 0.5rem;
 }
 
 .sidebar-item:hover {
   background: rgba(255,255,255,0.15);
+}
+
+/* ================= DASHBOARD BODY ================= */
+.dashboard {
+  min-height: 100vh;
+  display: block;
+}
+
+.dashboard-body {
+  padding-top: var(--navbar-height);
+}
+
+.dashboard-main {
+  margin-left: var(--sidebar-width);
+  margin-right: var(--right-width);;
+  padding: 1rem;
+  background: #f3f4f6;
+  box-sizing: border-box;
+  padding-bottom: 4rem;
+}
+
+.dashboard.sidebar-closed .dashboard-main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+.dashboard-right {
+  position: fixed;
+  top: var(--navbar-height);
+  right: 0;
+  bottom: 0;
+  width: var(--right-width);
+  overflow: hidden;
+  background: #f9fafb;
+  padding: 1rem;
+  border-left: 1px solid #e5e7eb;
+}
+
+/* ================= HERO SECTION ================= */
+.hero-section {
+  position: relative;
+  margin: 1rem 0;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background-color: #588157;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.welcome-text {
+  position: absolute;
+  left: 2rem;
+  z-index: 2;
+}
+
+.welcome-text h2 {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hero-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 65%;
+  overflow: hidden;
+}
+
+/* ================= MODULES ================= */
+.modules-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
 .module-card {
@@ -192,6 +240,7 @@ body::-webkit-scrollbar-thumb:hover {
   text-transform: uppercase;
 }
 
+/* ================= SECTIONS ================= */
 .explore-section {
   background-color: #58815742;
   border-radius: 16px;
@@ -202,4 +251,25 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: #F9F7E3;
   border-radius: 16px;
   padding: 1.5rem;
+}
+
+/* ================= SCROLLBAR ================= */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  :root { --right-width: 0px; }
+  .dashboard-main { margin-right: 0; }
+  .dashboard-right { display: none; }
 }
