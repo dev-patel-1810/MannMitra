@@ -1,16 +1,26 @@
 .modules-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
+  display: flex;             
+  flex-direction: row;       
+  gap: 1.5rem;               
+  overflow-x: auto;          
   margin: 1.5rem 0;
+  padding-bottom: 0.5rem;    
+  width: 100%;
+  box-sizing: border-box;
 }
+
+.module-card {
+  flex: 0 0 220px;   /* fixed width */
+  max-width: 220px;
+  min-width: 220px;
+}
+
 
 /* Base module card styles */
 .module-card {
   border-radius: 16px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;
 }
 
 /* Dashboard module cards */
@@ -25,10 +35,11 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
 }
 
-.module-card:not(.card):hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-}
+/* .module-card:not(.card):hover {
+  transform: translateY(0) !important;
+  transform: scale(1.01) !important;
+  box-shadow: 2px black;
+} */
 
 .icon-container {
   width: 56px;
@@ -40,8 +51,8 @@
 }
 
 .module-icon {
-  width: 48px;
-  height: 48px;
+  width: 15rem !important;
+  height: 15rem !important;
   object-fit: contain;
 }
 
@@ -67,26 +78,21 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
-.resource-content {
+.module-content,.resource-content {
+  width: 100%; /* or auto if you want it shrink to content */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  gap: 1.5rem;
-  height: 100%;
+  box-sizing: border-box;
 }
 
 .card-img {
-  width: 100%;
-  height: 180px;
+  /* width: 100%;
+  height: 180px; */
   object-fit: cover;
   border-radius: 12px;
   transition: transform 0.3s ease;
-}
-
-.card-img:hover {
-  transform: scale(1.05);
 }
 
 .resource-title {

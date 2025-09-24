@@ -2,13 +2,19 @@
   margin: 2rem 0;
   padding: 1.5rem;
   border-radius: 16px;
+  background-color: #F9F7E3 !important;
+  width: 45vw;
+  height: 70vh;
+  border: 1px solid brown;
 }
 
 .explore-section h2 {
-  text-align: center;
-  color: #234F56;
+  color: #452700 !important;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: bolder !important;
+  text-align: left;
+  margin-left: 1rem;
 }
 
 .explore-grid {
@@ -19,13 +25,14 @@
 }
 
 .explore-grid .card {
-  background: #F9F7E3;
+  background: #EBE4FD;
   color: #234F56;
   border-radius: 16px;
   padding: 1.5rem;
   flex: 1;
   font-size: 1.2rem;
   min-height: 250px;
+  font-weight: bolder;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-align: center;
   display: flex;
@@ -35,10 +42,13 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
 }
-
+.gaming{
+  background-color: #1655FE !important;
+  color: white !important;
+}
 .explore-grid .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  /* transform: translateY(-5px); */
+  box-shadow: 0 6px 12px rgba(135, 213, 26, 0.15);
 }
 
 .card-img {
@@ -51,7 +61,7 @@
 }
 
 .card:hover .card-img {
-  transform: scale(1.05);
+  transform: scale(1)!important;
 }
 
 .card.clickable {
@@ -59,7 +69,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card.clickable:hover {
-  transform: translateY(-4px);
+.card.clickable .gaming:hover {
+  /* transform: translateY(-4px); */
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }

@@ -91,7 +91,7 @@
   height: 2.5rem !important;
   width: 9rem;
   position: absolute;
-  top :3rem !important;
+  top :2.7rem !important;
   right: 13rem;
   border-radius: 50px !important;
   padding: 0 1rem;
@@ -115,10 +115,12 @@
   margin-top: 0.2rem;
 }
 
-
-.logo {
-  font-weight: bold;
-  font-size: 1.5rem;
+.logo .logoo{
+  position: fixed;
+  left: 0;
+  top: -30;
+  height: 300px;
+  width: 300px;
 }
 
 .hero-text {

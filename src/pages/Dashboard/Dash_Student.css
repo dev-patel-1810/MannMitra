@@ -12,6 +12,7 @@ html, body, #root {
 
 /* ================= NAVBAR ================= */
 .navbar {
+  backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
@@ -19,68 +20,80 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: blue;
+  background-color: #F3F4F6;
   z-index: 100;
-  height: 13vh;
+  height: 4rem;
   padding: 0 2rem;
+  border-bottom: 1px solid black;
 }
 
-.hamburger {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #452700;
-}
-
-.navbar-title {
-  font-size: 1.5rem;
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
   font-weight: 600;
   color: #452700;
-  margin: 0 auto;
-  text-align: center;
+  margin-left: -3.5rem;
 }
 
-.nav-right {
+.navbar-right {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.language-select-student {
-  background-color: #ffffff;
-  color: #452700 !important;
-  border: 1px solid !important;
-  border-radius: 20px !important;
-  padding: 4px 12px;
+.logout-btn {
+  background-color: #B63C65; /* Matches one of your module colors */
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 16px;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  appearance: none;
-  outline: none;
   transition: all 0.2s ease;
-  /* min-width: 90px; */
+}
+
+.logout-btn:hover {
+  background-color: #942948; /* Slightly darker on hover */
+}
+
+.logout-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(182, 60, 101, 0.3);
+}
+
+.language-select-std {
+  background-color: transparent !important;
+  border: 1px solid #000000 !important;
+  color: #000000 !important;
+  font-weight: normal !important;
   height: 2rem !important;
-  margin-top: -0.7rem;
+  width: 9rem;
   position: absolute;
-  right: 3rem;
+  top :1rem !important;
+  right: 8rem;
+  border-radius: 50px !important;
+  padding: 0 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  outline: none;
 }
 
-.language-select-student:hover {
-  background-color: #F8F9FA;
-  border-color: #DDE0E3;
+.language-select-std option {
+  background-color: #588157;
+  color: white;
+  padding: 0.5rem;
 }
 
-.language-select-student:focus {
-  background-color: #ffffff;
-  border-color: #588157;
-  box-shadow: 0 0 0 2px rgba(88, 129, 87, 0.1);
+.language-select-std:focus {
+  border-color: #f8a145;
 }
 
-.language-select-student option {
-  background: #ffffff;
-  color: #344D67;
-  font-weight: 500;
+.language-select-std-wrapper{
+  margin-right: 1.5rem;
+  margin-top: 0.2rem;
 }
 
 /* ================= SIDEBAR ================= */
@@ -136,21 +149,14 @@ html, body, #root {
 }
 
 .dashboard-main {
-  /* margin-left: var(--sidebar-width);
-  margin-right: var(--right-width);; */
   padding: 1rem;
   background: #f3f4f6;
   box-sizing: border-box;
   padding-bottom: 4rem;
 }
 
-.dashboard.sidebar-closed .dashboard-main {
-  /* margin-left: var(--sidebar-collapsed-width); */
-}
-
 .dashboard-right {
   position: fixed;
-  /* top: var(--navbar-height); */
   right: 0;
   bottom: 0;
   width: var(--right-width);
@@ -161,22 +167,34 @@ html, body, #root {
 }
 
 /* ================= HERO SECTION ================= */
-.hero-section {
+.top-section {
   position: relative;
   margin: 1rem 0;
   width: 100%;
-  height: 120px;
+  height: 45vh;
   overflow: hidden;
   background-color: #588157;
   display: flex;
   align-items: center;
   border-radius: 10px;
+  margin-top: -2.8rem;
 }
 
 .welcome-text {
   position: absolute;
+  top:2rem;
   left: 2rem;
   z-index: 2;
+}
+
+.std-dash-img{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin-left: -25rem;
 }
 
 .welcome-text h2 {
@@ -199,9 +217,11 @@ html, body, #root {
 /* ================= MODULES ================= */
 .modules-grid {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 1rem;
   margin: 2rem 0;
+  margin-left: 0rem;
+  justify-content: space-evenly;
 }
 
 .module-card {
@@ -273,4 +293,15 @@ body::-webkit-scrollbar-thumb:hover {
   :root { --right-width: 0px; }
   .dashboard-main { margin-right: 0; }
   .dashboard-right { display: none; }
+}
+
+.mid-section{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.bottom-section{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

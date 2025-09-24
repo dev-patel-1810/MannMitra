@@ -4,6 +4,8 @@ import moodMeter from '../../assets/mood track balance.png';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { t } from 'i18next';
+import emotionImg from '../../assets/Emotion.png';
+
 
 function About() {
   const { t } = useTranslation();
@@ -25,10 +27,14 @@ const MoodCard = () => {
           <img src={moodMeter} alt="Mood Meter" />
           <span className="mood-text">{t('dashboard.feeling')}</span>
         </div>
-        <div className="appointment-section">
+        <div className='emoji'>
+          <img src={emotionImg} alt="Emotion" />
+          <h3>I Feel Neutral</h3>
+        </div>
+        {/* <div className="appointment-section">
           <p>{t('dashboard.book_appointments')}</p>
           <button className="book-now-btn" onClick={handleBookNow}>{t('dashboard.book_now')}</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

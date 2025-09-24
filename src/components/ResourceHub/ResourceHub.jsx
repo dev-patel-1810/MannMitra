@@ -9,20 +9,23 @@ import { t } from 'i18next';
 
 const ResourceHub = () => {
   return (
-    <div className="resource-hub">
+  
+    <section className="resource-hub">
+      <h2>{t('dashboard.resource_hub')}</h2>
       <div className="resource-grid">
-        <ModuleCard 
-          image={selfHelpImg} 
-          title={t('dashboard.self_help_videos')} 
-          className="card"
-        />
-        <ModuleCard 
-          image={calmingMusicImg} 
-          title={t('dashboard.calming_music')} 
-          className="card"
-        />
+        <div
+          className="card self-help"
+          // onClick={() => navigate("/wellness-forest")}
+        >
+          <img src={selfHelpImg} alt="Self Help" className="self-help-img" />
+          <p>{t('dashboard.self_help_videos')}</p>
+        </div>
+        <div className="card music">
+          <img src={calmingMusicImg} alt="Gaming Zone" className="card-music-img" />
+          <p>{t('dashboard.calming_music')}</p>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

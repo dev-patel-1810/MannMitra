@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import './Hero.css';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/logo.png';
 import heroImg from '../../assets/hero.png';
 import Vector from "../../assets/Vector.svg";
 import { useNavigate } from "react-router-dom";
@@ -45,8 +45,8 @@ const Hero = () => {
       <div className="hero-content">
         <div className="header-row">
           <div className="logo">
-            <img src={logo} alt='Logo'/>
-            <h3>MannMitra</h3>
+            <img className="logoo" src={logo} alt='Logo'/>
+            {/* <h3>MannMitra</h3> */}
           </div>
           <div className="header-buttons">
           <div className="language-select-wrapper">
@@ -59,7 +59,7 @@ const Hero = () => {
               <option value="hi">Hindi</option>
               <option value="doi">Dogri</option>
             </select>
-            <span className="material-symbols-outlined">arrow_drop_down</span>
+            {/* <span className="material-symbols-outlined">arrow_drop_down</span> */}
           </div>
 
             <button onClick={handleLogin} className="signin-btn" >{t('common.login')}</button>

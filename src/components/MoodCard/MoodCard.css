@@ -3,13 +3,17 @@
   border-radius: 16px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  margin-left: 0rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  width: 48vw;
 }
 
 .mood-card h2 {
-  color: #234F56;
+  color: #2F327D;
+  font-weight: bolder !important;
   font-size: 1.25rem;
   font-weight: 600;
+  text-align: left;
   margin-bottom: 1rem;
 }
 
@@ -65,3 +69,24 @@
   background-color: #3a5a40;
 }
   
+.emoji{
+  position: relative;
+  bottom: 2.5rem;
+  right: 3rem;
+  background-color: #ffe4937d;
+  height: 13rem;
+  width: 12rem;
+  border-radius: 15px;
+}
+.emoji img{
+  margin-top: 2rem;
+  margin-left: 2rem;
+  height: 8rem;
+  width: 8rem;
+}
+.emoji h3{
+  color: #452700;
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+
