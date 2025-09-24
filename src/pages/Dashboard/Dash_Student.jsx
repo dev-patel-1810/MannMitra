@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
+
+// External components (kept as-is since they exist in your project)
 import MoodCard from "../../components/MoodCard/MoodCard";
 import ChatPrompt from "../../components/ChatPrompt/ChatPrompt";
 import ModuleCard from "../../components/ModuleCard/ModuleCard";
@@ -8,15 +11,6 @@ import ExploreSection from "../../components/ExploreSection/ExploreSection";
 import ResourceHub from "../../components/ResourceHub/ResourceHub";
 import Schedule from "../../components/Schedule/Schedule";
 import WellnessTasks from "../../components/WellnessTasks/WellnessTasks";
-import { useNavigate } from "react-router-dom";
-import { useTranslation} from 'react-i18next';
-import { t } from 'i18next';
-
-function About() {
-  const { t } = useTranslation();
-}
-
-
 
 // Import module icons
 import peerIcon from '../../assets/peer_group.jpg';
@@ -24,20 +18,75 @@ import counselorIcon from '../../assets/your_counsellor.jpg';
 import analyticsIcon from '../../assets/analytics.jpg';
 import testIcon from '../../assets/take_test.jpg';
 
-import "./Dash_Student.css";
+import "./Dash_student.css";
 
-const Dash_Student = () => {
-  const { t, i18n } = useTranslation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+// ================= NAVBAR =================
+const Navbar = ({ toggleSidebar, selectedLanguage, handleLanguageChange }) => {
+  const userName = localStorage.getItem("userName") || "User";
 
-  const [selectedLanguage, setSelectedLanguage] = useState(() => {
-    const storedLang = localStorage.getItem('appLanguage');
-    return storedLang || 'en'; // Force localStorage first
-  });
+  return (
+    <nav className="navbar">
+      <button className="hamburger" onClick={toggleSidebar}>☰</button>
+      <h1 className="navbar-title">{t('dashboard.dashboard')}</h1>
 
+      <div className="nav-right">
+        <select
+          className="language-select-student"
+          value={selectedLanguage}
+          onChange={handleLanguageChange}
+        >
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="doi">Dogri</option>
+        </select>
+      </div>
+    </nav>
+  );
+};
+
+// ================= SIDEBAR =================
+const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
 
-  // Sync i18n language with state on mount and when state changes
+  const handleLogout = () => {
+    if (window.confirm(t('dashboard.confirm_logout'))) {
+      localStorage.removeItem("user");
+      navigate("/");
+    }
+  };
+
+  return (
+    <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
+      <ul>
+        <li className="sidebar-item">{t('dashboard.dashboard')}</li>
+        <li className="sidebar-item">{t('dashboard.schedule')}</li>
+        <li className="sidebar-item">{t('dashboard.peer')}</li>
+        <li className="sidebar-item">{t('dashboard.analytics')}</li>
+        <li className="sidebar-item">{t('dashboard.resource_hub')}</li>
+        <li
+          className="sidebar-item"
+          onClick={handleLogout}
+          style={{ cursor: "pointer", color: "red" }}
+        >
+          {t('dashboard.logout')}
+        </li>
+      </ul>
+    </aside>
+  );
+};
+
+// ================= MAIN DASHBOARD =================
+const Dashboard = () => {
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+
+  const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default
+  const [selectedLanguage, setSelectedLanguage] = useState(() => {
+    const storedLang = localStorage.getItem('appLanguage');
+    return storedLang || 'en';
+  });
+
+  // Sync language selection with i18n + localStorage
   useEffect(() => {
     i18n.changeLanguage(selectedLanguage);
     localStorage.setItem('appLanguage', selectedLanguage);
@@ -45,7 +94,7 @@ const Dash_Student = () => {
 
   const handleLanguageChange = (event) => {
     const lang = event.target.value;
-    setSelectedLanguage(lang); // triggers useEffect to sync i18n and localStorage
+    setSelectedLanguage(lang);
   };
 
   const modules = [
@@ -56,28 +105,28 @@ const Dash_Student = () => {
   ];
 
   return (
-    <div className={`dashboard ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}> 
-      {/* Language dropdown at the true top right of dashboard */}
-      <div className="dashboard-lang-select">
-        <select
-          className="language-select"
-          value={selectedLanguage}
-          onChange={handleLanguageChange}
-        >
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="doi">Dogri</option>
-        </select>
-      </div>
-      <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+    <div className={`dashboard ${sidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
+      <Navbar
+        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        selectedLanguage={selectedLanguage}
+        handleLanguageChange={handleLanguageChange}
+      />
 
       <div className="dashboard-body">
         <Sidebar isOpen={sidebarOpen} />
 
         <main className="dashboard-main">
+          <div className="hero-section">
+            <div className="welcome-text">
+              <h2>{`${t('dashboard.welcome_user')}, ${localStorage.getItem("userName") || "User"}!`}</h2>
+            </div>
+            <div className="hero-image"></div>
+          </div>
+
           <div className="dashboard-content">
             <MoodCard />
             <ChatPrompt />
+
             <div className="modules-grid">
               {modules.map((module, index) => (
                 <ModuleCard
@@ -89,6 +138,7 @@ const Dash_Student = () => {
                 />
               ))}
             </div>
+
             <ExploreSection />
             <ResourceHub />
           </div>
@@ -103,4 +153,4 @@ const Dash_Student = () => {
   );
 };
 
-export default Dash_Student;
+export default Dashboard;
