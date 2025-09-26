@@ -4,11 +4,11 @@ import { stud_user } from "../models/stud_user.js";
 import { clg_user } from "../models/clg_user.js";
 import { counselor_user } from "../models/counselor_user.js";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken'; 
 
 const login_user = async_handler(async (req, res) => {
     const { userType, email, password, instituteName } = req.body;
 
-    // Validate required fields
     if ([userType, email, password].some(field => !field || typeof field !== "string" || field.trim() === "")) {
         throw new ApiError(400, 'All fields are required');
     }
@@ -19,21 +19,22 @@ const login_user = async_handler(async (req, res) => {
 
     let user = null;
     let userFound = false;
-    let nameKey, emailKey, passwordKey;
+    let nameKey, emailKey, passwordKey, UserModel;
 
     // Determine model and field keys based on userType
     switch (userType.toLowerCase()) {
         case "student":
-            user = await stud_user.findOne({ user_email: email });
+            UserModel = stud_user;
+            user = await UserModel.findOne({ user_email: email });
             userFound = !!user;
             nameKey = "user_name";
             emailKey = "user_email";
             passwordKey = "user_password";
             break;
         case "institute":
-            user = await clg_user.findOne({ clg_admin_email: email });
+            UserModel = clg_user;
+            user = await UserModel.findOne({ clg_admin_email: email });
             userFound = !!user;
-            // Additional check for institute name
             if (user && user.clg_name.toLowerCase() !== instituteName.toLowerCase()) {
                 throw new ApiError(401, "Invalid institute name");
             }
@@ -42,7 +43,8 @@ const login_user = async_handler(async (req, res) => {
             passwordKey = "clg_password";
             break;
         case "counsellor":
-            user = await counselor_user.findOne({ counselor_email: email });
+            UserModel = counselor_user;
+            user = await UserModel.findOne({ counselor_email: email });
             userFound = !!user;
             nameKey = "counselor_name";
             emailKey = "counselor_email";
@@ -51,22 +53,34 @@ const login_user = async_handler(async (req, res) => {
         default:
             throw new ApiError(400, "Invalid user type");
     }
-
-    // Handle user not found
     if (!userFound) {
         throw new ApiError(404, "Email not found");
     }
 
-    // Compare passwords using bcrypt
     const match = await bcrypt.compare(password, user[passwordKey]);
     if (!match) {
         throw new ApiError(401, "Incorrect password");
     }
 
-    // Successful login response
+    
+    const accessToken = await user.generate_access_token(); 
+    const refreshToken = await user.generate_refresh_token();
+
+    
+    const cookieOptions = {
+        httpOnly: true, 
+        secure: true,
+    };
+
+    res.cookie('refreshToken', refreshToken, { 
+        ...cookieOptions, 
+        maxAge: 10 * 24 * 60 * 60 * 1000 
+    });
+
     console.log(`Successfully logged in: ${user[nameKey]}`);
     console.log(`[BACKEND] Login Successful for: ${user[emailKey]}`);
 
+    
     return res.status(200).json({
         message: "Login Successful",
         data: {
@@ -74,7 +88,7 @@ const login_user = async_handler(async (req, res) => {
             name: user[nameKey],
             userType: userType,
             email: user[emailKey],
-            // Include clg_name for institute user type
+            accessToken: accessToken, 
             ...(userType.toLowerCase() === 'institute' && { clg_name: user.clg_name })
         }
     });

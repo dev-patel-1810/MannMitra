@@ -76,16 +76,7 @@ const clg_user_schema=new mongoose.Schema({
         type:Number,
         default:0
     },
-    // clg_confirm_password:{
-    //     type:String,
-    //     required:true,
-    //     validate:{
-    //         validator:function(value){
-    //             return value==this.clg_password
-    //         },
-    //     message:"Password does not match \n Please Try Again!"
-    //     }
-    // },
+
 },{timestamps:true, strict:true})
 
 clg_user_schema.pre('save', async function(next){
@@ -105,6 +96,8 @@ clg_user_schema.methods.generate_access_token = function(){
         {
             _id: this._id,
             email: this.clg_admin_email,
+            name: this.clg_admin_name,
+            userType: 'institute'
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

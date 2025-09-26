@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './AppointmentBooking.css';
 import AppointmentList from '../../components/AppointmentList/AppointmentList'
+import AlertModal from '../../components/AlertModal/AlertModal'; // Import the AlertModal
 import { toast } from 'react-toastify';
 import { useTranslation} from 'react-i18next';
 import { t } from 'i18next';
@@ -9,12 +10,19 @@ function About() {
   const { t } = useTranslation();
 }
 
-
 const AppointmentBooking = () => {
     const [counsellors, setCounsellors] = useState([]);
     const [userCollege, setUserCollege] = useState(null);
     const [selectedCounsellor, setSelectedCounsellor] = useState(null);
     const [userName, setUserName] = useState('');
+    
+    // AlertModal state
+    const [alertModal, setAlertModal] = useState({
+        isOpen: false,
+        title: '',
+        message: '',
+        buttonText: 'Close'
+    });
 
     const [formData, setFormData] = useState({
         counsellorId: '',
@@ -56,12 +64,33 @@ const AppointmentBooking = () => {
             toast.error('appointment.fetch_counsellor_error');
         }
     };
+
     const handleCounsellorSelect = (counsellor) => {
         setSelectedCounsellor(counsellor);
         setFormData(prev => ({
             ...prev,
             counsellorId: counsellor._id
         }));
+    };
+
+    // Function to show alert modal
+    const showAlertModal = (title, message, buttonText = 'Close') => {
+        setAlertModal({
+            isOpen: true,
+            title,
+            message,
+            buttonText
+        });
+    };
+
+    // Function to close alert modal
+    const closeAlertModal = () => {
+        setAlertModal({
+            isOpen: false,
+            title: '',
+            message: '',
+            buttonText: 'Close'
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -81,7 +110,12 @@ const AppointmentBooking = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                toast.error(data.message || t('appointment.fail'));
+                // Use AlertModal instead of toast for errors
+                showAlertModal(
+                    t('appointment.booking_failed') || 'Booking Failed',
+                    data.message || t('appointment.fail') || 'Failed to book appointment. Please try again.',
+                    t('common.ok') || 'OK'
+                );
                 return;
             }
 
@@ -95,7 +129,12 @@ const AppointmentBooking = () => {
             });
             setSelectedCounsellor(null);
         } catch (error) {
-            toast.error(t('appointment.error'));
+            // You can also use AlertModal for network errors if preferred
+            showAlertModal(
+                t('appointment.error_title') || 'Network Error',
+                t('appointment.error') || 'Unable to process your request. Please check your connection and try again.',
+                t('common.retry') || 'Retry'
+            );
         }
     };
 
@@ -194,6 +233,15 @@ const AppointmentBooking = () => {
             <div className="appointments-list-section">
                 <AppointmentList userType="student" />
             </div>
+
+            {/* AlertModal for error handling */}
+            <AlertModal
+                isOpen={alertModal.isOpen}
+                onClose={closeAlertModal}
+                title="Appointment Error"
+                message={alertModal.message}
+                buttonText={alertModal.buttonText}
+            />
         </div>
     );
 };

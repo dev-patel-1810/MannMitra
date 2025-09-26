@@ -6,9 +6,7 @@ import {stud_user} from "../models/stud_user.js"
 import {counselor_user} from "../models/counselor_user.js"
 
 const register_clg_user = async_handler(async(req,res)=>{
-    //OBJECTIVES---- 
-    // tpye - adminDesignation , adminName , collegeName , collegeType , email , password ,phoneNumber , pinCode , state
-
+    
     const {
         adminDesignation,
         adminName,
@@ -22,8 +20,6 @@ const register_clg_user = async_handler(async(req,res)=>{
         studentId,
         counsellorId,
     }= req.body
-
-    console.log("inputs:" , req.body)
 
     if (
         [adminName , collegeName , email , password , phoneNumber, studentId, counsellorId ].some((field) =>
@@ -39,21 +35,6 @@ const register_clg_user = async_handler(async(req,res)=>{
         throw new ApiError(400 , 'Enter correct email')
     }
 
-    // const user_exists = await clg_user.findOne({
-    //     $or: [{email}, {phoneNumber}]
-    // })
-
-    // const user_exist = await stud_user.findOne({
-    //     $or: [{user_contact:phoneNumber}, {user_email:email}]
-    // })
-
-    // if(user_exist){
-    //     throw new ApiError(409, 'User already exists for this number or email')
-    // }
-
-    // if(user_exists){
-    //     throw new ApiError(409, 'User already exists for this number or email')
-    // }
     const exists = await Promise.all([
     stud_user.findOne({ user_email: email }),
     clg_user.findOne({ clg_admin_email: email }),
@@ -95,7 +76,7 @@ const register_clg_user = async_handler(async(req,res)=>{
     
     
     if(!check_clg_user){
-        throw new ApiError(500 , "Something wrong with backend")
+        throw new ApiError(500 , "Something went wrong");
     }
     
     return res.status(201).json(
@@ -106,13 +87,17 @@ const register_clg_user = async_handler(async(req,res)=>{
 })
 
 const getUserAndCounsellor = async_handler(async(req,res)=>{
+
     const {clgId}=req.params;
+
     const users = await stud_user.find({user_clg_id:clgId})
         .select('user_name user_email user_contact user_guardian_1_name user_guardian_1_contact user_guardian_2_name user_guardian_2_contact')
         .lean();
+
     const counsellors = await counselor_user.find({counselor_clg_id:clgId})
         .select('counselor_name counselor_specialization counselor_exp counselor_qualification counselor_contact counselor_email')
         .lean();
+
     return res.status(200).json(
         new ApiResponse(200, {users, counsellors}, "Users and Counsellors fetched successfully")
     );

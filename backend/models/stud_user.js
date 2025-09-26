@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { clg_user } from './clg_user.js'
 
 const stud_user_schema = new mongoose.Schema({
     user_name:{
@@ -9,10 +8,6 @@ const stud_user_schema = new mongoose.Schema({
         required: true,
         trim:true,
         minlength:2,
-    },
-    user_institute_name:{
-        type:String,
-        trim:true
     },
     user_pincode:{
         type:Number,
@@ -60,8 +55,8 @@ const stud_user_schema = new mongoose.Schema({
         ]
     },
     user_clg_id: {
-        type: mongoose.Schema.Types.ObjectId, // Use ObjectId for references
-        ref: 'clg_user', // Reference the 'clg_user' model
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'clg_user',
         required: false,
         trim: true
     },
@@ -94,6 +89,8 @@ stud_user_schema.methods.generate_access_token = function(){
         {
             _id: this._id,
             email: this.user_email,
+            name: this.user_name,
+            userType: "student",
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

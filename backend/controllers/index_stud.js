@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { async_handler } from "../utils/async_handler.js";
-import{ApiError} from "../utils/api_error.js" 
+import{ApiError} from "../utils/api_error.js"
 import {stud_user} from "../models/stud_user.js"
 import { ApiResponse }  from "../utils/api_response.js";
 import {clg_user} from "../models/clg_user.js"
@@ -34,7 +34,7 @@ const register_stud_user = async_handler(async (req, res) => {
     }
 
     let college = null;
-    // Fetch the college document only if a collegeId is provided
+
     if (collegeId) {
         college = await clg_user.findOne({ clg_student_id: collegeId });
         if (!college) {
@@ -42,7 +42,6 @@ const register_stud_user = async_handler(async (req, res) => {
         }
     }
     
-    // Check for existing users with the same email or phone number across all user types
     const exists = await Promise.all([
         stud_user.findOne({ user_email: email }),
         clg_user.findOne({ clg_admin_email: email }),
@@ -56,14 +55,13 @@ const register_stud_user = async_handler(async (req, res) => {
     const exist = await Promise.all([
         stud_user.findOne({ user_contact: phoneNumber }),
         clg_user.findOne({ clg_admin_contact: phoneNumber }),
-        counselor_user.findOne({ counselor_contact: phoneNumber })
+        counselor_user.findOne({ user_contact: phoneNumber })
     ]);
 
     if (exist.some(user => user)) {
         throw new ApiError(409, "Phone Number already registered.");
     }
 
-    // Prepare the user creation data
     const userData = {
         user_name: username,
         user_email: email,
@@ -76,22 +74,19 @@ const register_stud_user = async_handler(async (req, res) => {
         user_guardian_2_contact: guardian2Contact || ""
     };
 
-    // Conditionally add college details if a college was found
     if (college) {
         userData.user_clg_id = college._id;
         userData.user_clg_name = college.clg_name;
     }
 
-    // Create the new student user
     const newUser = await stud_user.create(userData);
 
-    // Check if user was created successfully
     const check_stud_user = await stud_user.findById(newUser._id).select("-user_password");
     if (!check_stud_user) {
         throw new ApiError(500, "Something went wrong with user creation.");
     }
     
-    // Now, conditionally update the college's student count if a college was found
+    // update college student count
     if (college) {
         await clg_user.updateOne(
             { _id: college._id },
@@ -105,12 +100,52 @@ const register_stud_user = async_handler(async (req, res) => {
 });
 
 
+const addInstitute = async_handler(async (req, res) => {
+    const { userId, collegeId } = req.body;
+
+    if (!userId || !collegeId) {
+        throw new ApiError(400, "User ID and College ID are required.");
+    }
+    
+    const user = await stud_user.findById(userId);
+    if (!user) {
+        throw new ApiError(404, "User not found.");
+    }
+    const college = await clg_user.findOne({ clg_student_id: collegeId });
+    if (!college) {
+        throw new ApiError(400, "Invalid College ID.");
+    }
+
+    // if user already associated with some college
+    if (user.user_clg_id) {
+        await clg_user.updateOne(
+            { _id: user.user_clg_id },
+            { $inc: { clg_student_count: -1 } }
+        );
+    }
+
+    user.user_clg_id = college._id;
+    user.user_clg_name = college.clg_name;
+    await user.save();
+
+    await clg_user.updateOne(
+        { _id: college._id },
+        { $inc: { clg_student_count: 1 } }
+    );
+    
+    const updatedUser = await stud_user.findById(userId).select("-user_password");
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedUser, "Institute added successfully.")
+    );
+});
+
 
 const getUserInfo = async_handler(async (req, res) => {
     const { userId } = req.params;
     
     const user = await stud_user.findById(userId)
-        .select('user_name user_email user_phone collegeId user_clg_id')
+        .select('-user_password')
         .lean();
 
     if (!user) {
@@ -124,7 +159,6 @@ const getUserInfo = async_handler(async (req, res) => {
 
 
 const getUserAppointments = async_handler(async (req, res) => {
-    // The user ID can be retrieved from the authenticated request object (e.g., req.user._id)
     const {userId} = req.params;
 
     if (!userId) {
@@ -143,4 +177,4 @@ const getUserAppointments = async_handler(async (req, res) => {
     );
 });
 
-export {register_stud_user, getUserInfo, getUserAppointments}
+export {register_stud_user, getUserInfo, getUserAppointments, addInstitute}

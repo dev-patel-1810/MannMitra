@@ -1,20 +1,35 @@
 import { useState } from 'react';
 import Modal from '../../components/Modal/Modal';
+import AlertModal from '../../components/AlertModal/AlertModal'; 
 import './Authentication.css';
 import { useNavigate } from 'react-router-dom';
-import { t } from 'i18next';
+import { t } from 'i18next'; 
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     userType: '',
-    instituteName: '' // Add instituteName to the state
+    instituteName: ''
   });
 
   const [errors, setErrors] = useState({});
+
+  const openAlertModal = (message) => {
+    setAlertMessage(message);
+    setIsAlertModalOpen(true);
+  };
+
+  const closeAlertModal = () => {
+    setIsAlertModalOpen(false);
+    setAlertMessage('');
+  };
 
   const resetForm = () => {
     setFormData({
@@ -47,7 +62,6 @@ const Login = () => {
     if (!formData.userType) newErrors.userType = t('login.user_type');
     if (formData.password.length < 8) newErrors.password = t('login.invalid_pass');
     
-    // Conditional validation for institute name
     if (formData.userType.toLowerCase() === 'institute' && !formData.instituteName.trim()) {
       newErrors.instituteName = t('login.institute_name_req');
     }
@@ -65,7 +79,6 @@ const Login = () => {
           password: formData.password,
           userType: formData.userType
         };
-        // Add instituteName to the payload if userType is institute
         if (formData.userType.toLowerCase() === 'institute') {
           payload.instituteName = formData.instituteName;
         }
@@ -78,14 +91,27 @@ const Login = () => {
           body: JSON.stringify(payload)
         });
 
-        const data = await response.json();
-
+        let data = null;
+        try {
+            data = await response.json();
+        } catch (jsonError) {
+            if (!response.ok) {
+              openAlertModal('Login failed! Server error response was unreadable. Status: ' + response.status);
+              return;
+            }
+            throw new Error('Login successful but failed to parse response data.');
+        }
         if (!response.ok) {
-          alert(data.message || t('login.login_fail'));
+          setIsSignupModalOpen(false);           
+          openAlertModal(data.message || `Login failed with status: ${response.status}. Please check your credentials.`);
           return;
         }
 
-        localStorage.setItem('user', JSON.stringify(data.data));
+        // --- SUCCESS LOGIC ---
+        const { accessToken, ...userData } = data.data;
+
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('user', JSON.stringify(userData));
         
         switch (formData.userType.toLowerCase()) {
           case 'student':
@@ -98,11 +124,15 @@ const Login = () => {
             navigate('/dashboard/institute');
             break;
           default:
-            window.location.href = '/';
+            navigate('/');
+            resetForm();
         }
       } catch (error) {
-        console.error('Login error:', error);
-        alert('Network error!');
+        
+        console.error('Login error (Network Failure/Unexpected):', error);
+        
+        setIsSignupModalOpen(false); 
+        openAlertModal(error.message || 'Network error! Could not connect to the server.');
       }
     }
   };
@@ -179,14 +209,25 @@ const Login = () => {
             <button type="submit" className="signup-button">{t('login.login')}</button>
 
             <div className="alternate-action">
-              {t('login.no_account')} <h6 onClick={() => setIsModalOpen(true)}>{t('common.signup')}</h6>
+              {t('login.no_account')} <h6 onClick={() => setIsSignupModalOpen(true)}>{t('common.signup')}</h6>
             </div>
           </form>
         </div>
       </div>
+
+      {/* Existing Modal for Signup */}
       <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isSignupModalOpen}
+        onClose={() => setIsSignupModalOpen(false)}
+      />
+
+      {/* New Modal for Alerts/Errors using AlertModal component */}
+      <AlertModal
+        isOpen={isAlertModalOpen}
+        onClose={closeAlertModal}
+        message={alertMessage}
+        title="Login Error" // Static English Title
+        buttonText="Close"   // Static English Button Text
       />
     </div>
   );

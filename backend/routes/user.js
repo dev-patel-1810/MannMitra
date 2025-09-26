@@ -3,7 +3,7 @@ import {register_stud_user, getUserInfo, getUserAppointments} from "../controlle
 import {register_clg_user, getUserAndCounsellor} from "../controllers/index_clg.js"
 import {register_counselor_user, getCounsellors, getCounsellorAppointments, getCounsellorInfo} from "../controllers/index_conselor.js"
 import {login_user} from "../controllers/login.js"
-import {bookAppointment, getAppointments, updateAppointmentStatus} from "../controllers/appointment.js"
+import {bookAppointment, updateAppointmentStatus} from "../controllers/appointment.js"
 const router = Router()
 
 router.route("/user-signup").post(register_stud_user)
@@ -11,7 +11,6 @@ router.route("/college-signup").post(register_clg_user)
 router.route("/counsellor-signup").post(register_counselor_user)
 router.route("/login").post(login_user)
 router.route("/appointment").post(bookAppointment)
-router.route("/appointment").get(getAppointments)
 router.route("/appointment").put(updateAppointmentStatus)
 router.route("/counsellors").get(getCounsellors)
 router.route("/user/:userId").get(getUserInfo)

@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { clg_user } from './clg_user.js' // Make sure the path is correct
 
 const counselor_schema=new mongoose.Schema({
     counselor_name:{
@@ -49,8 +48,8 @@ const counselor_schema=new mongoose.Schema({
         ]
     },
     counselor_clg_id: {
-        type: mongoose.Schema.Types.ObjectId, // Use ObjectId for references
-        ref: 'clg_user', // Reference the 'clg_user' model
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'clg_user', 
         required: false,
         trim: true
     },
@@ -62,10 +61,8 @@ const counselor_schema=new mongoose.Schema({
 },{timestamps:true, strict:true})
 
 counselor_schema.pre('save', async function(next){
-    // Use `this` to refer to the document being saved
     const counselor = this;
 
-    // Password Hashing Logic
     if(counselor.isModified('counselor_password')){
         counselor.counselor_password = await bcrypt.hash(counselor.counselor_password, 10)
     }
@@ -83,6 +80,8 @@ counselor_schema.methods.generate_access_token = function(){
         {
             _id: this._id,
             email: this.counselor_email,
+            name: this.counselor_name,
+            userType: "counsellor",
         },
         process.env.ACCESS_TOKEN_SECRET,
         {

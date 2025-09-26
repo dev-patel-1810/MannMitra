@@ -1,0 +1,155 @@
+/* AlertModal Component Styles */
+
+.alert-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(17, 24, 39, 0.75);
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.alert-modal {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 24rem;
+  width: 100%;
+  margin: 1rem;
+  transform: scale(1);
+  transition: all 300ms ease-in-out;
+  border: 1px solid #fca5a5;
+}
+
+.alert-modal-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.alert-modal-icon-container {
+  margin: 0 auto 1.25rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  width: 3.5rem;
+  border-radius: 50%;
+  background-color: #fee2e2;
+}
+
+.alert-modal-icon {
+  height: 1.75rem;
+  width: 1.75rem;
+  color: #dc2626;
+}
+
+.alert-modal-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  user-select: none;
+  margin-top: 0;
+}
+
+.alert-modal-message {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  user-select: none;
+  margin-top: 0;
+}
+
+.alert-modal-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: #dc2626;
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  transition: all 150ms ease-in-out;
+  transform: scale(1);
+}
+
+/* Button Hover Effects */
+.alert-modal-button:hover {
+  background-color: #b91c1c;
+  transform: scale(1.02);
+}
+
+.alert-modal-button:active {
+  transform: scale(0.98);
+}
+
+.alert-modal-button:focus {
+  outline: none;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05), 
+              0 0 0 4px rgba(248, 113, 113, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .alert-modal {
+    margin: 0.5rem;
+  }
+  
+  .alert-modal-content {
+    padding: 1.5rem;
+  }
+  
+  .alert-modal-title {
+    font-size: 1.125rem;
+  }
+  
+  .alert-modal-message {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .alert-modal-button {
+    font-size: 1rem;
+    padding: 0.625rem 1.25rem;
+  }
+}
+
+/* Animation for modal entrance */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.alert-modal {
+  animation: modalFadeIn 300ms ease-out;
+}
+
+/* Backdrop animation */
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.alert-modal-backdrop {
+  animation: backdropFadeIn 300ms ease-out;
+}

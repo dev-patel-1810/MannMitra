@@ -16,6 +16,8 @@ app.use(cookie_parser())
 
 //routes
 import user_router from './routes/user.js' 
+import { errorMiddleware } from './middlewares/error_handle.js'
 app.use("/" , user_router)
+app.use(errorMiddleware)
 
 export {app}
