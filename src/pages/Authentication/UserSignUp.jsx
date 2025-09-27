@@ -3,7 +3,8 @@ import GuardianConfirmModal from '../../components/GuardianConfirmModal/Guardian
 import AlertModal from '../../components/AlertModal/AlertModal'; // <--- NEW IMPORT
 import './Authentication.css';
 import { useTranslation } from 'react-i18next';
-// import { FaCreativeCommons } from 'react-icons/fa'; // Unused import removed
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserSignUp = () => {
     const { t } = useTranslation();
@@ -182,7 +183,17 @@ const UserSignUp = () => {
 
                 resetForm();
                 // Success message in the modal
-                openAlertModal(t('common.user_success'));
+                resetForm();
+                toast.success("Account Created Successfully", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             } catch (error) {
                 // Network or unexpected error
                 openAlertModal(t('common.error') + ': ' + error.message);
@@ -192,6 +203,7 @@ const UserSignUp = () => {
 
     return (
         <div className="signup-container">
+            <ToastContainer />
             <div className="signup-content">
                 <div className="signup-image">
                     <h1>{t('common.welcome')}</h1>

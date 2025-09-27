@@ -157,6 +157,31 @@ const getUserInfo = async_handler(async (req, res) => {
     );
 });
 
+const updateUserInfo = async_handler(async (req, res) => {
+    const { userId } = req.params;
+    const newTestDetail = req.body; 
+    
+    const updatedUser = await stud_user.findByIdAndUpdate(
+        userId, 
+        { 
+            $push: { 
+                user_tests: newTestDetail 
+            } 
+        },
+        { 
+            new: true, 
+            runValidators: true,
+        }
+    ).select('-user_password'); 
+
+    if (!updatedUser) {
+        throw new ApiError(404, "User not found with the provided ID");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, updatedUser.user_tests, "New test detail added successfully")
+    );
+});
 
 const getUserAppointments = async_handler(async (req, res) => {
     const {userId} = req.params;
@@ -177,4 +202,4 @@ const getUserAppointments = async_handler(async (req, res) => {
     );
 });
 
-export {register_stud_user, getUserInfo, getUserAppointments, addInstitute}
+export {register_stud_user, getUserInfo, getUserAppointments, addInstitute, updateUserInfo}

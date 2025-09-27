@@ -16,7 +16,11 @@ const bookAppointment = async_handler(async (req, res) => {
     if (!student) {
         throw new ApiError(404, "Student not found");
     }
-
+    
+    if(student.user_tests.length === 0){
+        throw new ApiError(400, "Please take the test before booking an appointment");
+    }
+    
     const appointmentDateTime = new Date(appointmentDate);
 
     if (appointmentDateTime < new Date()) {

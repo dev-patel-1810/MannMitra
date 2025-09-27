@@ -1,5 +1,6 @@
 {
     "common":{
+        "ok": "Ok",
         "error":"Network error!",
         "clg_success":"College account created successfully!",
         "counselor_success":"Counsellor account created successfully!",

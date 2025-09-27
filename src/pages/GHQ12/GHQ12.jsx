@@ -6,6 +6,13 @@ import './GHQ12.css';
 const GHQ12 = () => {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
+  const [testDetails, setTestDetails] = useState({
+    test_date: new Date().toLocaleDateString(),
+    test_score: 0,
+    test_riskStatus: "N/A",
+    test_name: "GHQ-12",
+    test_result_description: "",
+  });
   const navigate = useNavigate(); 
 
   const questions = [
@@ -80,7 +87,51 @@ const GHQ12 = () => {
     }));
   };
 
+  const updateTestDetails = async (details) => {
+    try {
+      const userId = JSON.parse(localStorage.getItem('user'))._id;
+      const response = await fetch(`http://localhost:5000/user/test/${userId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(details)
+      });
+      // Handle response if needed
+    } catch (error) {
+      console.error('Error updating test details:', error);
+    }
+  };
+
   const calculateResults = () => {
+    const totalScore = getTotalScore();
+    let updatedDetails;
+
+    if (totalScore <= 2) {
+      updatedDetails = {
+        ...testDetails,
+        test_result_description: "Minimal psychological distress",
+        test_score: totalScore,
+        test_riskStatus: "low"
+      };
+    } else if (totalScore <= 4) {
+      updatedDetails = {
+        ...testDetails,
+        test_result_description: "Some distress worth monitoring",
+        test_score: totalScore,
+        test_riskStatus: "medium"
+      };
+    } else {
+      updatedDetails = {
+        ...testDetails,
+        test_result_description: "Significant distress - consider professional support",
+        test_score: totalScore,
+        test_riskStatus: "high"
+      };
+    }
+
+    setTestDetails(updatedDetails);
+    updateTestDetails(updatedDetails);
     setShowResults(true);
   };
 
@@ -88,9 +139,14 @@ const GHQ12 = () => {
     return Object.values(answers).reduce((total, answer) => total + (answer.score || 0), 0);
   };
 
+  // Pure function that doesn't cause side effects
   const getScoreInterpretation = (score) => {
-    if (score <= 2) return { level: 'Low Risk', color: '#4CAF50', description: 'Minimal psychological distress' };
-    if (score <= 4) return { level: 'Moderate Risk', color: '#FF9800', description: 'Some distress worth monitoring' };
+    if (score <= 2) {
+      return { level: 'Low Risk', color: '#4CAF50', description: 'Minimal psychological distress' };
+    }
+    if (score <= 4) {
+      return { level: 'Moderate Risk', color: '#FF9800', description: 'Some distress worth monitoring' };
+    }
     return { level: 'Higher Risk', color: '#F44336', description: 'Significant distress - consider professional support' };
   };
 

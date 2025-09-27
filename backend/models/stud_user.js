@@ -2,6 +2,30 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+const testDetailsSchema = new mongoose.Schema({
+    test_name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    test_score: {
+        type: Number,
+        required: true,
+    },test_date: {
+        type: Date,
+        required: true,
+    },test_riskStatus:{
+        type: String,
+        required: true,
+        enum: ['low', 'medium', 'high','N/A'],
+        default: 'N/A'
+    },
+    test_result_description:{
+        type: String,
+        required: false,
+    }
+},{_id: false});
+
 const stud_user_schema = new mongoose.Schema({
     user_name:{
         type:String,
@@ -64,8 +88,11 @@ const stud_user_schema = new mongoose.Schema({
         type: String,
         required: false,
         default: "N/A"
-    }
-
+    },
+    user_tests: {
+        type: [testDetailsSchema],
+        default: []
+    },
 },{timestamps:true , strict:true})
 
 stud_user_schema.pre('save', async function(next){
