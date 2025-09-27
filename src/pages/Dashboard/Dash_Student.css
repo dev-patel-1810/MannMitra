@@ -85,6 +85,12 @@ html, body, #root {
   background-color: #588157;
   color: white;
   padding: 0.5rem;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  font-weight: normal !important;
+  outline: none;
+  
 }
 
 .language-select-std:focus {
