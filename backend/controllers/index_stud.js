@@ -7,6 +7,15 @@ import {clg_user} from "../models/clg_user.js"
 import {counselor_user} from "../models/counselor_user.js"
 import {Appointment} from "../models/appointment.js"
 
+const getTodayStart = () => {
+    const now = new Date();
+    const year = parseInt(now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', year: 'numeric' }));
+    const monthIndex = parseInt(now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', month: 'numeric' })) - 1; 
+    
+    const day = parseInt(now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', day: 'numeric' }));
+    return new Date(Date.UTC(year, monthIndex, day, 0, 0, 0, 0));
+};
+
 const register_stud_user = async_handler(async (req, res) => {
     const {
         username,
@@ -61,6 +70,7 @@ const register_stud_user = async_handler(async (req, res) => {
     if (exist.some(user => user)) {
         throw new ApiError(409, "Phone Number already registered.");
     }
+    const todayStart=getTodayStart();
 
     const userData = {
         user_name: username,
@@ -71,7 +81,11 @@ const register_stud_user = async_handler(async (req, res) => {
         user_guardian_1_name: guardian1Name || "",
         user_guardian_1_contact: guardian1Contact || "",
         user_guardian_2_name: guardian2Name || "",
-        user_guardian_2_contact: guardian2Contact || ""
+        user_guardian_2_contact: guardian2Contact || "",
+        user_mood: {
+            mood_date: todayStart,
+            mood_value: 'N/A'
+        }
     };
 
     if (college) {
