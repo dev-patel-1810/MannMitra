@@ -7,6 +7,23 @@ import {stud_user} from "../models/stud_user.js"
 import {counselor_user} from "../models/counselor_user.js"
 import {Appointment} from "../models/appointment.js"
 
+const generate_access_and_refresh_token_counsellor = async(counselor_user_id)=>{
+    try{
+        const Counselor_User = await counselor_user.findById(counselor_user_id);
+        if(!Counselor_User){
+            throw new ApiError(404,"User not found")
+        }
+        const access_token = Counselor_User.generate_access_token()
+        const refresh_token = Counselor_User.generate_refresh_token()
+        Counselor_User.counselor_refresh_token = refresh_token
+        await Counselor_User.save({validateBeforeSave:false})
+        return {access_token, refresh_token}
+    }
+    catch{
+        throw new ApiError(500,"Something went wrong with access and refresh token generation")
+    }
+}
+
 const register_counselor_user = async_handler(async(req,res)=>{
 
     const {
@@ -173,4 +190,4 @@ const getCounsellorInfo = async_handler(async (req, res) => {
     );
 })
 
-export {register_counselor_user, getCounsellors, getCounsellorAppointments, getCounsellorInfo, addInstitute}
+export {register_counselor_user, getCounsellors,generate_access_and_refresh_token_counsellor, getCounsellorAppointments, getCounsellorInfo, addInstitute}

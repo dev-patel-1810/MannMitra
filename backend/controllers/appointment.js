@@ -17,7 +17,11 @@ const bookAppointment = async_handler(async (req, res) => {
         throw new ApiError(404, "Student not found");
     }
     
-    if(student.user_tests.length === 0){
+    // Check if student has taken the test
+    // More robust check that handles both array and object formats
+    if(!student.user_tests || 
+       (Array.isArray(student.user_tests) && student.user_tests.length === 0) ||
+       (typeof student.user_tests === 'object' && Object.keys(student.user_tests).length === 0)) {
         throw new ApiError(400, "Please take the test before booking an appointment");
     }
     

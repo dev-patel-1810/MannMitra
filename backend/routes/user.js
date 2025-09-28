@@ -5,6 +5,7 @@ import {register_counselor_user, getCounsellors, getCounsellorAppointments, getC
 import {login_user} from "../controllers/login.js"
 import {bookAppointment, updateAppointmentStatus} from "../controllers/appointment.js"
 import { updateMood, getMoodHistory } from "../controllers/mood.js";
+import { validate_token } from "../middlewares/auth.js";
 const router = Router()
 
 router.route("/user-signup").post(register_stud_user)
@@ -23,5 +24,6 @@ router.route("/counsellor/:counselorId").get(getCounsellorInfo);
 router.route("/user/test/:userId").post(updateUserInfo);
 router.route("/mood/update").put(updateMood);
 router.route("/mood/:userId").get(getMoodHistory);
+router.route("/validate-token").get(validate_token);
 
 export default router
