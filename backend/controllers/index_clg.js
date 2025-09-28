@@ -5,6 +5,23 @@ import { ApiResponse }  from "../utils/api_response.js";
 import {stud_user} from "../models/stud_user.js"
 import {counselor_user} from "../models/counselor_user.js"
 
+const generate_access_and_refresh_token_clg = async(clg_user_id)=>{
+    try{
+        const Clg_User = await clg_user.findById(clg_user_id);
+        if(!Clg_User){
+            throw new ApiError(404,"User not found")
+        }
+        const access_token = Clg_User.generate_access_token()       
+        const refresh_token = Clg_User.generate_refresh_token()
+        Clg_User.clg_refresh_token = refresh_token
+        await Clg_User.save({validateBeforeSave:false})
+        return {access_token, refresh_token}
+    }
+    catch{
+        throw new ApiError(500,"Something went wrong with access and refresh token generation")
+    }
+}
+
 const register_clg_user = async_handler(async(req,res)=>{
     
     const {
@@ -103,4 +120,4 @@ const getUserAndCounsellor = async_handler(async(req,res)=>{
     );
 });
 
-export {register_clg_user, getUserAndCounsellor}
+export {register_clg_user, getUserAndCounsellor, generate_access_and_refresh_token_clg }

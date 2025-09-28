@@ -88,6 +88,7 @@ const Login = () => {
           headers: {
             'Content-Type': 'application/json'
           },
+          credentials: 'include', // This is crucial for cookies to be sent and received
           body: JSON.stringify(payload)
         });
 
@@ -108,24 +109,29 @@ const Login = () => {
         }
 
         // --- SUCCESS LOGIC ---
-        const { accessToken, ...userData } = data.data;
-
-        localStorage.setItem('accessToken', accessToken);
+        // Store user data in localStorage (cookies are already set by the server)
+        // Note: We're storing tokens in localStorage as a fallback, but the cookies will be used primarily
+        const userData = data.data;
         localStorage.setItem('user', JSON.stringify(userData));
         
-        switch (formData.userType.toLowerCase()) {
-          case 'student':
-            navigate('/dashboard/student');
-            break;
-          case 'counsellor':
-            navigate('/dashboard/counsellor');
-            break;
-          case 'institute':
-            navigate('/dashboard/institute');
-            break;
-          default:
-            navigate('/');
-            resetForm();
+        // Also store tokens in localStorage as a backup mechanism
+        if (userData.accessToken) {
+          localStorage.setItem('accessToken', userData.accessToken);
+        }
+        if (userData.refreshToken) {
+          localStorage.setItem('refreshToken', userData.refreshToken);
+        }
+        
+        // Redirect to the appropriate dashboard based on user type
+        const userType = data.data.userType.toLowerCase();
+        if (userType === 'student') {
+          navigate('/dashboard/student');
+        } else if (userType === 'counsellor') {
+          navigate('/dashboard/counsellor');
+        } else if (userType === 'institute') {
+          navigate('/dashboard/institute');
+        } else {
+          openAlertModal('Unknown user type. Please contact support.');
         }
       } catch (error) {
         

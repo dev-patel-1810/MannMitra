@@ -1,11 +1,29 @@
 import mongoose from 'mongoose';
 import { async_handler } from "../utils/async_handler.js";
-import{ApiError} from "../utils/api_error.js"
-import {stud_user} from "../models/stud_user.js"
+import{ApiError} from "../utils/api_error.js";
+import {stud_user} from "../models/stud_user.js";
 import { ApiResponse }  from "../utils/api_response.js";
-import {clg_user} from "../models/clg_user.js"
-import {counselor_user} from "../models/counselor_user.js"
-import {Appointment} from "../models/appointment.js"
+import {clg_user} from "../models/clg_user.js";
+import {counselor_user} from "../models/counselor_user.js";
+import {Appointment} from "../models/appointment.js";
+import jwt from 'jsonwebtoken'
+
+const generate_access_and_refresh_token_stud = async(stud_user_id)=>{
+    try{
+        const Stud_User = await stud_user.findById(stud_user_id);
+        if(!Stud_User){
+            throw new ApiError(404,"User not found")
+        }
+        const access_token = Stud_User.generate_access_token()
+        const refresh_token = Stud_User.generate_refresh_token()
+        Stud_User.user_refresh_token = refresh_token
+        await Stud_User.save({validateBeforeSave:false})
+        return {access_token, refresh_token}
+    }
+    catch{
+        throw new ApiError(500,"Something went wrong with access and refresh token generation")
+    }
+}
 
 const getTodayStart = () => {
     const now = new Date();
@@ -216,4 +234,5 @@ const getUserAppointments = async_handler(async (req, res) => {
     );
 });
 
-export {register_stud_user, getUserInfo, getUserAppointments, addInstitute, updateUserInfo}
+
+export {register_stud_user, getUserInfo, getUserAppointments, addInstitute, updateUserInfo, generate_access_and_refresh_token_stud}
