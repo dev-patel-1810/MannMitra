@@ -1,0 +1,165 @@
+/* MoodCalendar.css */
+
+/* --- Modal Styles (No Change) --- */
+
+.mood-calendar-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+    transition: opacity 0.3s ease;
+}
+
+.mood-calendar-modal-content {
+    background-color: #FFF8E7;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    width: 90%;
+    max-width: 650px; 
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.95);
+    opacity: 0;
+    animation: scaleIn 0.3s forwards;
+}
+
+@keyframes scaleIn {
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #452700;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.modal-close-button:hover {
+    opacity: 1;
+}
+
+.mood-calendar-modal-content h2 {
+    color: #2F327D;
+    font-weight: bolder !important;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Calendar Styles (react-calendar overrides) --- */
+
+.mood-calendar {
+    border: 1px solid #ffead0 !important;
+    border-radius: 12px;
+    font-family: inherit;
+    width: 100%;
+}
+
+/* 💡 NEW: Hide Navigation Buttons and labels */
+.react-calendar__navigation {
+    display: none !important; 
+}
+
+/* 💡 NEW: Style for tiles outside the 30-day range */
+.date-out-of-range {
+    /* Hide the text */
+    color: transparent !important; 
+    /* Make the background subtle */
+    background: #f0f0f0 !important; 
+    /* Disable interaction */
+    pointer-events: none;
+}
+.date-out-of-range .mood-calendar-tile {
+    display: none; /* Ensure no emoji appears */
+}
+
+
+/* --- Mood Background Colors --- */
+/* Match these colors to the MOOD_COLORS object in MoodCalendar.jsx */
+.mood-bg-angry {
+    background-color: #ffcccb4d !important; 
+}
+.mood-bg-sad {
+    background-color: #add8e64d !important;
+}
+.mood-bg-neutral {
+    background-color: #fdfd964d !important;
+}
+.mood-bg-happy {
+    background-color: #90ee904d !important;
+}
+.mood-bg-excited {
+    background-color: #ffb3ff4d !important;
+}
+
+.react-calendar__tile {
+    height: 70px; 
+    padding: 0; 
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+/* Reset hover/active state to respect the mood background color */
+.react-calendar__tile:hover:not(.date-out-of-range),
+.react-calendar__tile--active:not(.date-out-of-range) {
+    /* Add a subtle border or box-shadow on hover instead of changing the whole background */
+    box-shadow: inset 0 0 0 2px #45270030;
+    background: inherit; /* Maintain mood color */
+}
+
+.react-calendar__month-view__days__day abbr {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #452700;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+/* Style for the emoji container */
+.mood-calendar-tile {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the emoji image */
+.mood-emoji-small {
+    width: 30px; 
+    height: 30px;
+    object-fit: contain;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: #6a6a6a;
+    font-style: italic;
+}

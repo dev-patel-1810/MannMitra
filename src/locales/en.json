@@ -249,7 +249,8 @@
         "task_1":"Complete daily mood check-in",
         "task_2":"Join peer support group",
         "task_3":"Schedule counseling session",
-        "resource_hub":"Resource Hub"
+        "resource_hub":"Resource Hub",
+        "mood_history":"Mood History"
     },
     "wellness_forest":{
         "morning_meditation":"Morning meditation (5-10 min)",

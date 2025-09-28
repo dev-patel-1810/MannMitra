@@ -170,3 +170,45 @@
     font-size: 1.2rem;
     margin-top: 1rem;
 }
+
+/* moodCard.css (ADD THESE STYLES) */
+
+.mood-card-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mood-card h2 {
+    margin-bottom: 0 !important; 
+}
+
+.calendar-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #452700; 
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.calendar-icon-button:hover {
+    background-color: #ffead0; 
+}
+
+
+/* --- Existing MoodCard styles below --- */
+
+.mood-card {
+    background-color: #FFF8E7;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-left: 0rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    width: 48vw;
+}
+
+/* ... (rest of your existing styles) ... */
