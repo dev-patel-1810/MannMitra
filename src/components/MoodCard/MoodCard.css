@@ -17,76 +17,156 @@
   margin-bottom: 1rem;
 }
 
-.mood-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
+.mood-meter-container {
+    position: relative; 
+    width: 300px; 
+    height: 150px; 
+    margin: 0 auto;
 }
 
-.mood-meter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+.mood-meter-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Position the base image in the container */
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.mood-meter img {
-  width: 200px;
-  height: auto;
+.mood-pointer {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform-origin: center bottom;
+    
+    width: 20px; /* Adjust pointer width */
+    height: 100px; /* Adjust pointer length */
+
+    transition: transform 0.4s ease-in-out; /* Smooth animation for movement */
+    z-index: 15; /* Ensure it's above the arc and clickable zones */
 }
 
 .mood-text {
-  color: #234F56;
-  font-weight: 500;
+    /* Adjusted text position */
+    position: absolute;
+    bottom: -1rem; 
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    color: #234F56;
+    font-weight: 500;
 }
 
-.appointment-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
+.mood-zone {
+    position: absolute;
+    z-index: 10; 
+    cursor: pointer;
+    /* Optional: background-color: rgba(0, 255, 0, 0.1); */ 
 }
 
-.appointment-section p {
-  color: #234F56;
-  font-size: 0.9rem;
-  margin: 0;
+/* IMPROVED CLICKABLE ZONE POSITIONS (Adjusted for a 300px container width) */
+
+/* 1. Angry (Red) */
+.mood-zone-1 {
+    top: 30%;
+    left: 0%;
+    width: 20%; 
+    height: 60%; 
+    border-radius: 50% / 100% 0 0 0;
+    transform: rotate(10deg);
 }
 
-.book-now-btn {
-  background-color: #588157;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1.5rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+/* 2. Sad (Orange) */
+.mood-zone-2 {
+    top: 20%;
+    left: 17%;
+    width: 20%;
+    height: 70%;
+    border-radius: 50% / 100% 0 0 0;
+    transform: rotate(5deg);
 }
 
-.book-now-btn:hover {
-  background-color: #3a5a40;
+/* 3. Neutral (Yellow) */
+.mood-zone-3 {
+    top: 10%;
+    left: 35%;
+    width: 30%;
+    height: 80%;
 }
-  
+
+/* 4. Happy (Green) */
+.mood-zone-4 {
+    top: 20%;
+    left: 63%;
+    width: 20%;
+    height: 70%;
+    border-radius: 0 100% 0 50% / 0 100% 0 50%;
+    transform: rotate(-5deg);
+}
+
+/* 5. Excited (Blue) */
+.mood-zone-5 {
+    top: 30%;
+    left: 80%;
+    width: 20%;
+    height: 60%;
+    border-radius: 0 100% 0 50% / 0 100% 0 50%;
+    transform: rotate(-10deg);
+}
+
+.mood-zone:hover {
+    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.1) inset;
+}
+
+.mood-zone-selected {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* border: 3px solid #2F327D;  */
+    border-radius: inherit; 
+    pointer-events: none; 
+    box-sizing: border-box;
+}
+
+/* --- EXISTING STYLES (Cleaned up) --- */
+
+.mood-card {
+    /* ... your existing styles ... */
+    width: 48vw;
+}
+
+.mood-content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end; /* Align to the bottom for consistent layout */
+    gap: 2rem;
+}
+
 .emoji{
-  position: relative;
-  bottom: 2.5rem;
-  right: 3rem;
-  background-color: #ffe4937d;
-  height: 13rem;
-  width: 12rem;
-  border-radius: 15px;
+    position: relative;
+    /* Removed redundant bottom/right for cleaner centering */
+    background-color: #ffe4937d;
+    height: 13rem;
+    width: 12rem;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .emoji img{
-  margin-top: 2rem;
-  margin-left: 2rem;
-  height: 8rem;
-  width: 8rem;
+    height: 8rem;
+    width: 8rem;
+    margin: 0; /* Remove old margins */
 }
 .emoji h3{
-  color: #452700;
-  font-weight: bolder;
-  font-size: 1.2rem;
+    color: #452700;
+    font-weight: bolder;
+    font-size: 1.2rem;
+    margin-top: 1rem;
 }
-

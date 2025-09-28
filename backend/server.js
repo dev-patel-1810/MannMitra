@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from "dotenv";
 import mongoose from 'mongoose';
+import startMoodScheduler from './controllers/scheduler.js';
 import {app} from './app.js'
 // const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,5 +23,8 @@ app.listen(PORT, () => {
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/MannMitra')
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => {
+    console.log('MongoDB Connected');
+    startMoodScheduler();
+  })
   .catch(err => console.log('MongoDB Connection Error:', err));

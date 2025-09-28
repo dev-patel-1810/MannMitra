@@ -26,6 +26,19 @@ const testDetailsSchema = new mongoose.Schema({
     }
 },{_id: false});
 
+const moodSchema = new mongoose.Schema({
+    mood_date: {
+        type: Date,
+        required: true
+    },
+    mood_value: {
+        type: String,
+        required: true,
+        enum: ['Angry', 'Sad', 'Neutral', 'Happy', 'Excited','N/A'],
+        default: 'N/A',
+    },
+},{_id: false})
+
 const stud_user_schema = new mongoose.Schema({
     user_name:{
         type:String,
@@ -93,6 +106,10 @@ const stud_user_schema = new mongoose.Schema({
         type: [testDetailsSchema],
         default: []
     },
+    user_mood: {
+        type: [moodSchema],
+        default: []
+    }
 },{timestamps:true , strict:true})
 
 stud_user_schema.pre('save', async function(next){

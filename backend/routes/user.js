@@ -4,6 +4,7 @@ import {register_clg_user, getUserAndCounsellor} from "../controllers/index_clg.
 import {register_counselor_user, getCounsellors, getCounsellorAppointments, getCounsellorInfo} from "../controllers/index_conselor.js"
 import {login_user} from "../controllers/login.js"
 import {bookAppointment, updateAppointmentStatus} from "../controllers/appointment.js"
+import { updateMood, getMoodHistory } from "../controllers/mood.js";
 const router = Router()
 
 router.route("/user-signup").post(register_stud_user)
@@ -20,5 +21,7 @@ router.route("/counsellor/appointments/status/:appointmentId").put(updateAppoint
 router.route("/admin/studentAndUser/:clgId").get(getUserAndCounsellor);
 router.route("/counsellor/:counselorId").get(getCounsellorInfo);
 router.route("/user/test/:userId").post(updateUserInfo);
+router.route("/mood/update").put(updateMood);
+router.route("/mood/:userId").get(getMoodHistory);
 
 export default router
