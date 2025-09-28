@@ -4,11 +4,11 @@ import moodMeter from '../../assets/mood_meter_base.png';
 import pointer from '../../assets/pointer_vector.svg';
 import { t } from 'i18next';
 
-import emotionAngry from '../../assets/angry.jpg';
-import emotionSad from '../../assets/sad.jpg';
-import emotionNeutral from '../../assets/neutral.jpg';
-import emotionHappy from '../../assets/happy.jpg';
-import emotionExcited from '../../assets/excited.jpg';
+import emotionAngry from '../../assets/angry.png';
+import emotionSad from '../../assets/sad.png';
+import emotionNeutral from '../../assets/neutral.png';
+import emotionHappy from '../../assets/happy.png';
+import emotionExcited from '../../assets/excited.png';
 const MOOD_DATA = [
     { name: 'Angry', rotation: -65, image: emotionAngry },
     { name: 'Sad', rotation: -40, image: emotionSad },
