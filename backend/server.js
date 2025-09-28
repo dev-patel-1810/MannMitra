@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from "dotenv";
 import mongoose from 'mongoose';
-import startMoodScheduler from './controllers/scheduler.js';
+import startMoodScheduler from './middlewares/scheduler.js';
 import {app} from './app.js'
 // const app = express();
 const PORT = process.env.PORT || 5000;
