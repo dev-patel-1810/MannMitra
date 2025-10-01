@@ -24,7 +24,7 @@ html, body, #root {
   z-index: 100;
   height: 4rem;
   padding: 0 2rem;
-  border-bottom: 1px solid black;
+  border-bottom: 2px solid black;
 }
 
 .navbar-center {
@@ -45,6 +45,12 @@ html, body, #root {
 
 .logout-btn {
   background-color: #B63C65; /* Matches one of your module colors */
+  /* Primary color for the button */
+  background-image: linear-gradient(to right, #B63C65, #942948); /* Gradient effect */
+
+  /* Gradient from a lighter to a darker shade */
+  color: #fff; /* Text color */
+  /* White text for contrast */
   color: #fff;
   border: none;
   border-radius: 20px;
@@ -53,6 +59,7 @@ html, body, #root {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+
 }
 
 .logout-btn:hover {
@@ -263,6 +270,8 @@ html, body, #root {
   width: 40px;
   height: 40px;
   object-fit: contain;
+  border-radius: 50%;
+  background-color: #F9F7E3;
 }
 
 .module-card h3 {
