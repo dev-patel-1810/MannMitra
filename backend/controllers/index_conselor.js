@@ -168,7 +168,7 @@ const getCounsellorAppointments = async_handler(async (req, res) => {
                                     .populate({
                                         path: 'student',
                                         model: 'stud_user',
-                                        select: 'user_name user_email user_clg_id user_clg_name'
+                                        select: 'user_name user_email user_clg_id user_clg_name user_mood user_tests'
                                     }).lean();
 
     return res.status(200).json(

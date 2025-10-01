@@ -250,7 +250,14 @@
         "task_2":"Join peer support group",
         "task_3":"Schedule counseling session",
         "resource_hub":"Resource Hub",
-        "mood_history":"Mood History"
+        "mood_history":"Mood History",
+        "view_mood_history":"View Mood History",
+        "latest_test_results":"Latest Test Results",
+        "test_name":"Test Name",
+        "test_score":"Score",
+        "test_date":"Date Taken",
+        "risk_status": "Risk Status",
+        "description":"Description"
     },
     "wellness_forest":{
         "morning_meditation":"Morning meditation (5-10 min)",

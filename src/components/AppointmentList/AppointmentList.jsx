@@ -1,9 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import './AppointmentList.css'; // Import the new CSS file
+import './AppointmentList.css'; 
 import { useTranslation } from 'react-i18next';
-function About() {
-  const { t } = useTranslation();
-}
+import MoodCalendar from '../MoodCalendar/MoodCalendar'; // Assuming MoodCalendar is in the same directory or adjust the path
+
+// --- Mood Data (Kept for reference, but imported components should use it) ---
+import emotionAngry from '../../assets/angry.png';
+import emotionSad from '../../assets/sad.png';
+import emotionNeutral from '../../assets/neutral.png';
+import emotionHappy from '../../assets/happy.png';
+import emotionExcited from '../../assets/excited.png';
+
+const MOOD_DATA = [
+    { name: 'Angry', rotation: -65, image: emotionAngry },
+    { name: 'Sad', rotation: -40, image: emotionSad },
+    { name: 'Neutral', rotation: 0, image: emotionNeutral },
+    { name: 'Happy', rotation: 40, image: emotionHappy },
+    { name: 'Excited', rotation: 65, image: emotionExcited },
+    { name : 'NotSet', rotation: 90, image: undefined }
+];
+// ----------------------------------------------------------------------------
+
+
+// New Component to display Test Data (for better separation)
+const StudentTestSummary = ({ tests }) => {
+    const { t } = useTranslation();
+    if (!tests || tests.length === 0) {
+        return <p className="test-summary no-data"><strong>{t('dashboard.test_data')}:</strong> {t('dashboard.no_tests_recorded')}</p>;
+    }
+
+    // Get the most recent test
+    const sortedTests = [...tests].sort((a, b) => new Date(b.test_date) - new Date(a.test_date));
+    const latestTest = sortedTests[0];
+
+    return (
+        <div className="test-summary">
+            <h4>{t('dashboard.latest_test_results')}</h4>
+            <p><strong>{t('dashboard.test_name')}:</strong> {latestTest.test_name}</p>
+            <p><strong>{t('dashboard.test_score')}:</strong> {latestTest.test_score}</p>
+            <p><strong>{t('dashboard.test_date')}:</strong> {new Date(latestTest.test_date).toLocaleDateString()}</p>
+            <p><strong>{t('dashboard.risk_status')}:</strong> 
+                <span className={`risk-badge ${latestTest.test_riskStatus.toLowerCase()}`}>
+                    {t(latestTest.test_riskStatus)}
+                </span>
+            </p>
+            {latestTest.test_result_description && (
+                <p className="test-description"><strong>{t('dashboard.description')}:</strong> {latestTest.test_result_description}</p>
+            )}
+        </div>
+    );
+};
+
 
 const AppointmentsList = ({ userType }) => {
     const { t } = useTranslation();
@@ -12,6 +58,24 @@ const AppointmentsList = ({ userType }) => {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState('');
     const [counsellorCollegeId, setCounsellorCollegeId] = useState('');
+    
+    // 👇 NEW STATE for Mood Calendar Modal
+    const [isMoodCalendarOpen, setIsMoodCalendarOpen] = useState(false);
+    const [selectedStudentMoodHistory, setSelectedStudentMoodHistory] = useState([]);
+
+
+    // 💡 Function to open the Mood Calendar Modal
+    const openMoodCalendar = (moodHistory) => {
+        setSelectedStudentMoodHistory(moodHistory);
+        setIsMoodCalendarOpen(true);
+    };
+
+    // 💡 Function to close the Mood Calendar Modal
+    const closeMoodCalendar = () => {
+        setIsMoodCalendarOpen(false);
+        setSelectedStudentMoodHistory([]);
+    };
+
 
     useEffect(() => {
         const fetchAppointments = async () => {
@@ -37,7 +101,8 @@ const AppointmentsList = ({ userType }) => {
                 if (userType === 'student') {
                     apiUrl = `http://localhost:5000/user/appointments/${userId}`;
                 } else if (userType === 'counsellor') {
-                    apiUrl = `http://localhost:5000/counsellor/appointments/${userId}`;
+                    // API endpoint already fetches student data with mood and tests
+                    apiUrl = `http://localhost:5000/counsellor/appointments/${userId}`; 
                 } else {
                     throw new Error(t('dashboard.invalid_user_type'));
                 }
@@ -58,9 +123,10 @@ const AppointmentsList = ({ userType }) => {
         };
 
         fetchAppointments();
-    }, [userType]);
+    }, [userType, t]); // Added 't' to dependency array
 
     const handleStatusChange = async (appointmentId, newStatus) => {
+        // ... (Status change logic remains the same)
         try {
             const userInfo = JSON.parse(localStorage.getItem('user'));
             const response = await fetch(`http://localhost:5000/counsellor/appointments/status/${appointmentId}`, {
@@ -99,70 +165,98 @@ const AppointmentsList = ({ userType }) => {
     }
 
     return (
-        <div className="appointment-list-container">
-            <h2 className="section-title">{(t('dashboard.appointments'))}</h2>
-            {successMessage && <div className="success-popup">{successMessage}</div>}
-            
-            {appointments.length > 0 ? (
-                <ul className="appointment-items">
-                    {appointments.map(appointment => (
-                        <li 
-                            key={appointment._id} 
-                            className={`appointment-item-card ${userType === 'counsellor' && appointment.student && counsellorCollegeId === appointment.student.user_clg_id ? 'same-college' : ''}`}
-                        >
-                            <div className="appointment-header">
-                                {userType === 'student' ? (
-                                    <p><strong>{(t('dashboard.counsellor'))}:</strong> {appointment.counsellor ? appointment.counsellor.counselor_name : 'N/A'}</p>
-                                ) : (
-                                    <p>
-                                        <span className="student-header">
-                                            <strong>{(t('dashboard.student'))}:</strong> 
-                                            <span>{appointment.student ? appointment.student.user_name : 'N/A'}</span>
-                                            {counsellorCollegeId && appointment.student && counsellorCollegeId === appointment.student.user_clg_id && (
-                                                <span className="same-college-badge">{(t('dashboard.same_college'))}</span>
-                                            )}
-                                        </span>
-                                    </p>
-                                )}
-                                <span className={`status-badge ${appointment.status.toLowerCase()}`}>{appointment.status}</span>
-                            </div>
-                            <div className="appointment-details-grid">
-                                <p><strong>{(t('dashboard.email'))}:</strong> {userType === 'student' ? (appointment.counsellor ? appointment.counsellor.counselor_email : 'N/A') : (appointment.student ? appointment.student.user_email : 'N/A')}</p>
-                                {userType === 'counsellor' && appointment.student && appointment.student.user_clg_name && (
-                                    <p><strong>{(t('dashboard.college'))}:</strong> {appointment.student.user_clg_name}</p>
-                                )}
-                                <p><strong>{(t('dashboard.date'))}:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
-                                <p><strong>{(t('dashboard.start_time'))}:</strong> {appointment.startTime}</p>
-                                <p><strong>{(t('dashboard.end_time'))}:</strong> {appointment.endTime}</p> 
-                            </div>
-                            
-                            {userType === 'counsellor' && (
-                                <div className="status-update-section">
-                                    <label htmlFor={`status-${appointment._id}`}>{(t('dashboard.change_status'))}:</label>
-                                    <select
-                                        id={`status-${appointment._id}`}
-                                        value={appointment.status}
-                                        onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
-                                    >
-                                        <option value="pending">{(t('dashboard.pending'))}</option>
-                                        <option value="confirmed">{(t('dashboard.confirmed'))}</option>
-                                        <option value="cancelled">{(t('dashboard.cancelled'))}</option>
-                                        <option value="completed">{(t('dashboard.completed'))}</option>
-                                    </select>
+        <>
+            <div className="appointment-list-container">
+                <h2 className="section-title">{(t('dashboard.appointments'))}</h2>
+                {successMessage && <div className="success-popup">{successMessage}</div>}
+                
+                {appointments.length > 0 ? (
+                    <ul className="appointment-items">
+                        {appointments.map(appointment => (
+                            <li 
+                                key={appointment._id} 
+                                className={`appointment-item-card ${userType === 'counsellor' && appointment.student && counsellorCollegeId === appointment.student.user_clg_id ? 'same-college' : ''}`}
+                            >
+                                <div className="appointment-header">
+                                    {userType === 'student' ? (
+                                        <p><strong>{(t('dashboard.counsellor'))}:</strong> {appointment.counsellor ? appointment.counsellor.counselor_name : 'N/A'}</p>
+                                    ) : (
+                                        <p>
+                                            <span className="student-header">
+                                                <strong>{(t('dashboard.student'))}:</strong> 
+                                                <span>{appointment.student ? appointment.student.user_name : 'N/A'}</span>
+                                                {counsellorCollegeId && appointment.student && counsellorCollegeId === appointment.student.user_clg_id && (
+                                                    <span className="same-college-badge">{(t('dashboard.same_college'))}</span>
+                                                )}
+                                            </span>
+                                        </p>
+                                    )}
+                                    <span className={`status-badge ${appointment.status.toLowerCase()}`}>{appointment.status}</span>
                                 </div>
-                            )}
+                                <div className="appointment-details-grid">
+                                    <p><strong>{(t('dashboard.email'))}:</strong> {userType === 'student' ? (appointment.counsellor ? appointment.counsellor.counselor_email : 'N/A') : (appointment.student ? appointment.student.user_email : 'N/A')}</p>
+                                    {userType === 'counsellor' && appointment.student && appointment.student.user_clg_name && (
+                                        <p><strong>{(t('dashboard.college'))}:</strong> {appointment.student.user_clg_name}</p>
+                                    )}
+                                    <p><strong>{(t('dashboard.date'))}:</strong> {new Date(appointment.appointmentDate).toLocaleDateString()}</p>
+                                    <p><strong>{(t('dashboard.start_time'))}:</strong> {appointment.startTime}</p>
+                                    <p><strong>{(t('dashboard.end_time'))}:</strong> {appointment.endTime}</p> 
+                                </div>
+                                
+                                {userType === 'counsellor' && appointment.student && (
+                                    <div className="counsellor-tools-section">
+                                        
+                                        {/* 👇 MOOD HISTORY BUTTON */}
+                                        <button 
+                                            className="view-mood-btn"
+                                            onClick={() => openMoodCalendar(appointment.student.user_mood)}
+                                            title={t('dashboard.view_student_mood_history')}
+                                        >
+                                            <span role="img" aria-label="calendar">📅</span> {t('dashboard.view_mood_history')}
+                                        </button>
 
-                            <div className="appointment-notes">
-                                <p><strong>{(t('dashboard.notes'))}:</strong> {appointment.notes || 'N/A'}</p>
-                                <p className="booked-on"><strong>{(t('dashboard.booked_on'))}:</strong> {new Date(appointment.createdAt).toLocaleString()}</p>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>{(t('dashboard.no_appointments'))}</p>
-            )}
-        </div>
+                                        {/* 👇 STUDENT TEST DATA */}
+                                        <StudentTestSummary tests={appointment.student.user_tests} />
+                                    </div>
+                                )}
+
+
+                                {userType === 'counsellor' && (
+                                    <div className="status-update-section">
+                                        <label htmlFor={`status-${appointment._id}`}>{(t('dashboard.change_status'))}:</label>
+                                        <select
+                                            id={`status-${appointment._id}`}
+                                            value={appointment.status}
+                                            onChange={(e) => handleStatusChange(appointment._id, e.target.value)}
+                                        >
+                                            <option value="pending">{(t('dashboard.pending'))}</option>
+                                            <option value="confirmed">{(t('dashboard.confirmed'))}</option>
+                                            <option value="cancelled">{(t('dashboard.cancelled'))}</option>
+                                            <option value="completed">{(t('dashboard.completed'))}</option>
+                                        </select>
+                                    </div>
+                                )}
+
+                                <div className="appointment-notes">
+                                    <p><strong>{(t('dashboard.notes'))}:</strong> {appointment.notes || 'N/A'}</p>
+                                    <p className="booked-on"><strong>{(t('dashboard.booked_on'))}:</strong> {new Date(appointment.createdAt).toLocaleString()}</p>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>{(t('dashboard.no_appointments'))}</p>
+                )}
+            </div>
+            
+            {/* 👇 MOOD CALENDAR MODAL */}
+            <MoodCalendar 
+                isOpen={isMoodCalendarOpen} 
+                onClose={closeMoodCalendar} 
+                MOOD_DATA={MOOD_DATA} 
+                UserMoodHistory={selectedStudentMoodHistory} 
+            />
+        </>
     );
 };
 
