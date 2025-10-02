@@ -1,5 +1,101 @@
 /* AppointmentList.css */
 
+/* ... existing CSS ... */
+
+/* Style for the risk badges in StudentTestSummary */
+.risk-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: white;
+    margin-left: 5px;
+}
+
+.risk-badge.low {
+    background-color: #28a745; /* Green */
+}
+
+.risk-badge.medium {
+    background-color: #ffc107; /* Yellow */
+    color: #333;
+}
+
+.risk-badge.high {
+    background-color: #dc3545; /* Red */
+}
+
+.risk-badge.n/a {
+    background-color: #6c757d; /* Gray */
+}
+
+
+/* New styles for Counsellor Tools Section */
+.counsellor-tools-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1rem;
+}
+
+.view-mood-btn {
+    align-self: flex-start; /* Aligns the button to the left */
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.view-mood-btn:hover {
+    background-color: #0056b3;
+}
+
+.test-summary {
+    background-color: #f0f0f0;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 4px solid #007bff;
+}
+
+.test-summary h4 {
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    color: #007bff;
+    font-size: 1rem;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+}
+
+.test-summary p {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+}
+
+.test-summary.no-data {
+    border-left: 4px solid #ccc;
+    background-color: #f9f9f9;
+    color: #666;
+}
+
+.test-description {
+    font-style: italic;
+    font-size: 0.85rem !important;
+    margin-top: 0.6rem !important;
+    padding-top: 0.4rem;
+    border-top: 1px solid #ddd;
+}
+/* ... existing CSS ... */
+
 .appointment-list-container {
     padding: 2rem;
     background-color: #f7f9fc;

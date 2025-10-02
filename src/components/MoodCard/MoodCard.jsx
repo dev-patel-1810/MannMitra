@@ -4,15 +4,13 @@ import moodMeter from '../../assets/mood_meter_base.png';
 import pointer from '../../assets/pointer_vector.svg';
 import { t } from 'i18next';
 
-// ⚠️ ENSURE THESE IMPORTS ARE CORRECT
 import emotionAngry from '../../assets/angry.png';
 import emotionSad from '../../assets/sad.png';
 import emotionNeutral from '../../assets/neutral.png';
 import emotionHappy from '../../assets/happy.png';
 import emotionExcited from '../../assets/excited.png';
 
-// Import the new Calendar Modal component
-import MoodCalendar from '../MoodCalendar/MoodCalendar'; 
+import MoodCalendar from '../MoodCalendar/MoodCalendar';
 
 const CalendarIcon = () => (
     // Simple SVG for a calendar icon
@@ -28,19 +26,18 @@ const MOOD_DATA = [
     { name: 'Neutral', rotation: 0, image: emotionNeutral },
     { name: 'Happy', rotation: 40, image: emotionHappy },
     { name: 'Excited', rotation: 65, image: emotionExcited },
+    { name : 'NotSet', rotation: 90, image: undefined }
 ];
 
 const MoodCard = () => {
-    const [currentMood, setCurrentMood] = React.useState('Neutral');
-    const [pointerRotation, setPointerRotation] = React.useState(0);
-    const [isCalendarOpen, setIsCalendarOpen] = React.useState(false); 
-    
-    // 💡 NEW STATE: To hold all mood history data
-    const [userMoodHistory, setUserMoodHistory] = React.useState([]); 
-    
+    const [currentMood, setCurrentMood] = React.useState('NotSet');
+    const [pointerRotation, setPointerRotation] = React.useState(90);
+    const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
+
+    const [userMoodHistory, setUserMoodHistory] = React.useState([]);
+
     const userId = JSON.parse(localStorage.getItem('user'))?.['\_id']
 
-    // 💡 MODIFIED: Fetching function now also updates the userMoodHistory state
     const fetchCurrentAndHistoryMood = async () => {
         if (!userId) {
             console.error("User ID not found in localStorage.");
@@ -57,11 +54,9 @@ const MoodCard = () => {
             }
             const responseData = await response.json();
             const moodHistoryArray = responseData.data || [];
-            
-            // Set the full history array
-            setUserMoodHistory(moodHistoryArray); 
 
-            // Logic to set CURRENT mood from fetched data
+            setUserMoodHistory(moodHistoryArray);
+
             const todayMoodEntry = moodHistoryArray.at(-1);
 
             if (todayMoodEntry) {
@@ -73,14 +68,20 @@ const MoodCard = () => {
                     setPointerRotation(moodEntry.rotation);
                 }
             } else {
-                const defaultEntry = MOOD_DATA.find(m => m.name === 'Neutral');
+                const defaultEntry = MOOD_DATA.find(m => m.name === 'NotSet');
                 if (defaultEntry) {
                     setCurrentMood(defaultEntry.name);
                     setPointerRotation(defaultEntry.rotation);
                 }
             }
         } catch (error) {
-            console.error("Could not fetch today's mood, setting to Neutral default.", error);
+            console.error("Could not fetch today's mood, setting to NotSet default.", error);
+            // Ensure the pointer is set to 'NotSet' rotation on error as well
+            const defaultEntry = MOOD_DATA.find(m => m.name === 'NotSet');
+            if (defaultEntry) {
+                setCurrentMood(defaultEntry.name);
+                setPointerRotation(defaultEntry.rotation);
+            }
         }
     };
 
@@ -92,6 +93,11 @@ const MoodCard = () => {
         if (!userId) {
             console.error("Cannot save mood: User ID is missing.");
             return;
+        }
+        // 👇 Prevent saving 'NotSet' to the backend, as it's a UI state only.
+        if (mood === 'NotSet') {
+             console.warn("Attempted to save 'NotSet' mood. This is a UI-only state.");
+             return;
         }
         try {
             const response = await fetch('http://localhost:5000/mood/update', {
@@ -108,9 +114,9 @@ const MoodCard = () => {
             if (!response.ok) {
                 throw new Error('Failed to save mood on the server.');
             }
-            
+
             // 💡 REFRESH HISTORY after saving a new mood
-            fetchCurrentAndHistoryMood(); 
+            fetchCurrentAndHistoryMood();
 
             console.log(`Mood ${mood} saved successfully.`);
         } catch (error) {
@@ -121,22 +127,26 @@ const MoodCard = () => {
     const handleMoodSelection = (moodName, rotationAngle) => {
         setCurrentMood(moodName);
         setPointerRotation(rotationAngle);
-        saveMoodToBackend(moodName);
+        // Only save if it's not the 'NotSet' state
+        if (moodName !== 'NotSet') {
+            saveMoodToBackend(moodName);
+        }
     };
 
-    const displayMood = MOOD_DATA.find(m => m.name === currentMood) || MOOD_DATA.find(m => m.name === 'Neutral');
+    // 👇 MODIFIED: Default to 'NotSet' for the display mood if 'currentMood' is somehow invalid
+    const displayMood = MOOD_DATA.find(m => m.name === currentMood) || MOOD_DATA.find(m => m.name === 'NotSet');
 
     return (
         <>
             <div className="mood-card">
-                <div className="mood-card-header"> 
+                <div className="mood-card-header">
                     <h2>{t("dashboard.mood")}</h2>
                     {/* 💡 CALENDAR ICON */}
                     <button className="calendar-icon-button" onClick={() => setIsCalendarOpen(true)} title={t("view_mood_history")}>
                         <CalendarIcon />
                     </button>
                 </div>
-                
+
                 <div className="mood-content">
                     <div className="mood-meter-container">
                         <img src={moodMeter} alt="Mood Meter Base" className="mood-meter-img" />
@@ -144,10 +154,14 @@ const MoodCard = () => {
                             src={pointer}
                             alt="Mood Pointer"
                             className="mood-pointer"
+                            // If rotation is 90 (NotSet), use a different, non-transitioning style if necessary for a 'down' pointer
                             style={{ transform: `translateX(-50%) rotate(${pointerRotation}deg)` }}
                         />
 
-                        {MOOD_DATA.map((mood, index) => (
+                        {MOOD_DATA
+                            // 👇 FILTER OUT 'NotSet' from the clickable zones, as it's a status, not a selection
+                            .filter(mood => mood.name !== 'NotSet')
+                            .map((mood, index) => (
                             <div
                                 key={mood.name}
                                 className={`mood-zone mood-zone-${index + 1}`}
@@ -160,18 +174,29 @@ const MoodCard = () => {
                     </div>
 
                     <div className='emoji'>
-                        <img src={displayMood.image} alt={`${displayMood.name} Emotion`} />
-                        <h3>I Feel {displayMood.name}</h3>
+                        {/* 👇 CONDITIONAL RENDERING for the image and text */}
+                        {displayMood.image ? (
+                            <>
+                                <img src={displayMood.image} alt={`${displayMood.name} Emotion`} />
+                                <h3>{t("I Feel", { ns: 'mood' })} {displayMood.name}</h3>
+                            </>
+                        ) : (
+                            // Display a different message when 'NotSet'
+                            <h3 className="no-mood-set-text">
+                                {t("No mood set for today")}
+                            </h3>
+                        )}
                     </div>
                 </div>
             </div>
 
             {/* 💡 CALENDAR MODAL COMPONENT */}
             {isCalendarOpen && (
-                <MoodCalendar 
-                    isOpen={isCalendarOpen} 
-                    onClose={() => setIsCalendarOpen(false)} 
-                    MOOD_DATA={MOOD_DATA} 
+                <MoodCalendar
+                    isOpen={isCalendarOpen}
+                    onClose={() => setIsCalendarOpen(false)}
+                    // Pass the filtered MOOD_DATA without 'NotSet' or handle 'NotSet' in the calendar component if needed.
+                    MOOD_DATA={MOOD_DATA}
                     UserMoodHistory={userMoodHistory} // PASS THE FETCHED DATA
                 />
             )}

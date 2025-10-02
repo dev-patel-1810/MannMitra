@@ -34,8 +34,13 @@ const setStartOfDayDefaultMood = async () => {
 };
 
 export default function startMoodScheduler() {
+
     console.log("Scheduling daily mood default job for 13:08 IST...");
     cron.schedule('8 13 * * *', async () => {
+=======
+    console.log("Scheduling daily mood default job for 11:11 AM IST...");
+    cron.schedule('11 11 * * *', async () => {
+
         await setStartOfDayDefaultMood();
     }, {
         timezone: "Asia/Kolkata" 
