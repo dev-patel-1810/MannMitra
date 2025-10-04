@@ -99,7 +99,7 @@ const CounsellorSignUp = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:5000/counsellor-signup/', {
+                const response = await fetch('https://mannmitra-v141.onrender.com/counsellor-signup/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

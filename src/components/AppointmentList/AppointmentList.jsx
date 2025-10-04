@@ -89,7 +89,7 @@ const AppointmentsList = ({ userType }) => {
                 const userId = userInfo._id;
                 
                 if (userType === 'counsellor') {
-                    const counselorResponse = await fetch(`http://localhost:5000/counsellor/${userId}`);
+                    const counselorResponse = await fetch(`https://mannmitra-v141.onrender.com/counsellor/${userId}`);
                     if (!counselorResponse.ok) {
                         throw new Error(`HTTP error! status: ${counselorResponse.status}`);
                     }
@@ -99,10 +99,10 @@ const AppointmentsList = ({ userType }) => {
 
                 let apiUrl = '';
                 if (userType === 'student') {
-                    apiUrl = `http://localhost:5000/user/appointments/${userId}`;
+                    apiUrl = `https://mannmitra-v141.onrender.com/user/appointments/${userId}`;
                 } else if (userType === 'counsellor') {
                     // API endpoint already fetches student data with mood and tests
-                    apiUrl = `http://localhost:5000/counsellor/appointments/${userId}`; 
+                    apiUrl = `https://mannmitra-v141.onrender.com/counsellor/appointments/${userId}`; 
                 } else {
                     throw new Error(t('dashboard.invalid_user_type'));
                 }
@@ -129,7 +129,7 @@ const AppointmentsList = ({ userType }) => {
         // ... (Status change logic remains the same)
         try {
             const userInfo = JSON.parse(localStorage.getItem('user'));
-            const response = await fetch(`http://localhost:5000/counsellor/appointments/status/${appointmentId}`, {
+            const response = await fetch(`https://mannmitra-v141.onrender.com/counsellor/appointments/status/${appointmentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

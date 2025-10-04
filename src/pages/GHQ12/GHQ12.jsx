@@ -90,7 +90,7 @@ const GHQ12 = () => {
   const updateTestDetails = async (details) => {
     try {
       const userId = JSON.parse(localStorage.getItem('user'))._id;
-      const response = await fetch(`http://localhost:5000/user/test/${userId}`, {
+      const response = await fetch(`https://mannmitra-v141.onrender.com/user/test/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -122,7 +122,7 @@ const CollegeSignUp = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:5000/college-signup/', {
+                const response = await fetch('https://mannmitra-v141.onrender.com/college-signup/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

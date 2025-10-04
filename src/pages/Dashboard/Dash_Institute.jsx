@@ -67,7 +67,7 @@ const Dash_Institute = () => {
         setUserName(userInfo.name);
         setUserEmail(userInfo.email); // Set the admin's email
 
-        const response = await fetch(`http://localhost:5000/admin/studentAndUser/${clgId}`);
+        const response = await fetch(`https://mannmitra-v141.onrender.com/admin/studentAndUser/${clgId}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

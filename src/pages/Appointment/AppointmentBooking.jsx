@@ -43,7 +43,7 @@ const AppointmentBooking = () => {
             if (user) {
                 setUserName(user.name);
             }
-            const response = await fetch(`http://localhost:5000/user/${user._id}`);
+            const response = await fetch(`https://mannmitra-v141.onrender.com/user/${user._id}`);
             const userData = await response.json();
             // Assuming the user data has a collegeId string
             if (userData.data.user_clg_id) {
@@ -57,7 +57,7 @@ const AppointmentBooking = () => {
 
     const fetchCounsellors = async () => {
         try {
-            const response = await fetch('http://localhost:5000/counsellors');
+            const response = await fetch('https://mannmitra-v141.onrender.com/counsellors');
             const data = await response.json();
             setCounsellors(data.data);
         } catch (error) {
@@ -97,7 +97,7 @@ const AppointmentBooking = () => {
         e.preventDefault();
         try {
             const user = JSON.parse(localStorage.getItem('user'));
-            const response = await fetch('http://localhost:5000/appointment', {
+            const response = await fetch('https://mannmitra-v141.onrender.com/appointment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

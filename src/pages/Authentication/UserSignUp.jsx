@@ -154,7 +154,7 @@ const UserSignUp = () => {
         e.preventDefault();
         if (validateForm()) {
             try {
-                const response = await fetch('http://localhost:5000/user-signup/', {
+                const response = await fetch('https://mannmitra-v141.onrender.com/user-signup/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

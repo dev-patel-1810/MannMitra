@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
     const validateAuth = async () => {
       try {
         // Always try to validate with the server first
-        const response = await fetch('http://localhost:5000/validate-token', {
+        const response = await fetch('https://mannmitra-v141.onrender.com/validate-token', {
           method: 'GET',
           credentials: 'include', // Important: include cookies in the request
         });
@@ -49,7 +49,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
           setLoading(false);
           
           // Try to refresh the session in the background
-          fetch('http://localhost:5000/validate-token', {
+          fetch('https://mannmitra-v141.onrender.com/validate-token', {
             method: 'GET',
             credentials: 'include',
             headers: {

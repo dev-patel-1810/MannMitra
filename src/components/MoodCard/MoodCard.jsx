@@ -52,7 +52,7 @@ const MoodCard = () => {
             return;
         }
         try {
-            const response = await fetch(`http://localhost:5000/mood/${userId}`, {
+            const response = await fetch(`https://mannmitra-v141.onrender.com/mood/${userId}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             });
@@ -107,7 +107,7 @@ const MoodCard = () => {
              return;
         }
         try {
-            const response = await fetch('http://localhost:5000/mood/update', {
+            const response = await fetch('https://mannmitra-v141.onrender.com/mood/update', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
