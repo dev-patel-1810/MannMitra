@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal/Modal';
 import './Hero.css';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/Logo.png';
 import heroImg from '../../assets/hero.png';
 import Vector from "../../assets/Vector.svg";
 import { useNavigate } from "react-router-dom";
