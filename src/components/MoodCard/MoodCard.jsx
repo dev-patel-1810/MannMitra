@@ -9,6 +9,7 @@ import emotionSad from '../../assets/sad.png';
 import emotionNeutral from '../../assets/neutral.png';
 import emotionHappy from '../../assets/happy.png';
 import emotionExcited from '../../assets/excited.png';
+import emotionDefault from '../../assets/default.jpg';
 
 import MoodCalendar from '../MoodCalendar/MoodCalendar';
 
@@ -26,17 +27,24 @@ const MOOD_DATA = [
     { name: 'Neutral', rotation: 0, image: emotionNeutral },
     { name: 'Happy', rotation: 40, image: emotionHappy },
     { name: 'Excited', rotation: 65, image: emotionExcited },
-    { name : 'NotSet', rotation: 90, image: undefined }
+    // Database value from CRON job
+    { name : 'N/A', rotation: 90, image: emotionDefault }, 
+    // UI initial state and error fallback
+    { name : 'NotSet', rotation: 90, image: emotionDefault } 
 ];
 
 const MoodCard = () => {
+    // Initial state is 'NotSet'
     const [currentMood, setCurrentMood] = React.useState('NotSet');
     const [pointerRotation, setPointerRotation] = React.useState(90);
     const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
 
     const [userMoodHistory, setUserMoodHistory] = React.useState([]);
 
-    const userId = JSON.parse(localStorage.getItem('user'))?.['\_id']
+    const userId = JSON.parse(localStorage.getItem('user'))?.['_id']
+    
+    // Find the 'NotSet' entry for error handling/initial state, guaranteed to exist now.
+    const notSetMoodEntry = React.useMemo(() => MOOD_DATA.find(m => m.name === 'NotSet'), []);
 
     const fetchCurrentAndHistoryMood = async () => {
         if (!userId) {
@@ -66,22 +74,21 @@ const MoodCard = () => {
                 if (moodEntry) {
                     setCurrentMood(moodEntry.name);
                     setPointerRotation(moodEntry.rotation);
+                } else {
+                    // Handle case where moodValue is in DB but not in MOOD_DATA (safety fallback)
+                    setCurrentMood(notSetMoodEntry.name);
+                    setPointerRotation(notSetMoodEntry.rotation);
                 }
             } else {
-                const defaultEntry = MOOD_DATA.find(m => m.name === 'NotSet');
-                if (defaultEntry) {
-                    setCurrentMood(defaultEntry.name);
-                    setPointerRotation(defaultEntry.rotation);
-                }
+                // Handle case where there is no mood history at all
+                setCurrentMood(notSetMoodEntry.name);
+                setPointerRotation(notSetMoodEntry.rotation);
             }
         } catch (error) {
             console.error("Could not fetch today's mood, setting to NotSet default.", error);
-            // Ensure the pointer is set to 'NotSet' rotation on error as well
-            const defaultEntry = MOOD_DATA.find(m => m.name === 'NotSet');
-            if (defaultEntry) {
-                setCurrentMood(defaultEntry.name);
-                setPointerRotation(defaultEntry.rotation);
-            }
+            // Ensure the pointer is set to 'NotSet' rotation on error
+            setCurrentMood(notSetMoodEntry.name);
+            setPointerRotation(notSetMoodEntry.rotation);
         }
     };
 
@@ -94,9 +101,9 @@ const MoodCard = () => {
             console.error("Cannot save mood: User ID is missing.");
             return;
         }
-        // 👇 Prevent saving 'NotSet' to the backend, as it's a UI state only.
-        if (mood === 'NotSet') {
-             console.warn("Attempted to save 'NotSet' mood. This is a UI-only state.");
+        // Prevent saving 'N/A' or 'NotSet' to the backend from a selection.
+        if (mood === 'NotSet' || mood === 'N/A') {
+             console.warn(`Attempted to save system state mood: ${mood}. Aborting save.`);
              return;
         }
         try {
@@ -115,7 +122,7 @@ const MoodCard = () => {
                 throw new Error('Failed to save mood on the server.');
             }
 
-            // 💡 REFRESH HISTORY after saving a new mood
+            // REFRESH HISTORY after saving a new mood
             fetchCurrentAndHistoryMood();
 
             console.log(`Mood ${mood} saved successfully.`);
@@ -127,14 +134,14 @@ const MoodCard = () => {
     const handleMoodSelection = (moodName, rotationAngle) => {
         setCurrentMood(moodName);
         setPointerRotation(rotationAngle);
-        // Only save if it's not the 'NotSet' state
-        if (moodName !== 'NotSet') {
+        // Only save if it's a selectable mood (not N/A or NotSet)
+        if (moodName !== 'NotSet' && moodName !== 'N/A') {
             saveMoodToBackend(moodName);
         }
     };
 
-    // 👇 MODIFIED: Default to 'NotSet' for the display mood if 'currentMood' is somehow invalid
-    const displayMood = MOOD_DATA.find(m => m.name === currentMood) || MOOD_DATA.find(m => m.name === 'NotSet');
+    // Find the display mood based on currentMood, with a final fallback to prevent 'undefined'.
+    const displayMood = MOOD_DATA.find(m => m.name === currentMood) || notSetMoodEntry;
 
     return (
         <>
@@ -154,13 +161,12 @@ const MoodCard = () => {
                             src={pointer}
                             alt="Mood Pointer"
                             className="mood-pointer"
-                            // If rotation is 90 (NotSet), use a different, non-transitioning style if necessary for a 'down' pointer
                             style={{ transform: `translateX(-50%) rotate(${pointerRotation}deg)` }}
                         />
 
                         {MOOD_DATA
-                            // 👇 FILTER OUT 'NotSet' from the clickable zones, as it's a status, not a selection
-                            .filter(mood => mood.name !== 'NotSet')
+                            // FILTER OUT 'N/A' and 'NotSet' from the clickable zones
+                            .filter(mood => mood.name !== 'NotSet' && mood.name !== 'N/A')
                             .map((mood, index) => (
                             <div
                                 key={mood.name}
@@ -174,14 +180,21 @@ const MoodCard = () => {
                     </div>
 
                     <div className='emoji'>
-                        {/* 👇 CONDITIONAL RENDERING for the image and text */}
+                        {/* CONDITIONAL RENDERING for the image and text */}
                         {displayMood.image ? (
                             <>
                                 <img src={displayMood.image} alt={`${displayMood.name} Emotion`} />
-                                <h3>{t("I Feel", { ns: 'mood' })} {displayMood.name}</h3>
+                                <h3>
+                                    {t("I Feel", { ns: 'mood' })} 
+                                    {/* Display 'N/A' or 'NotSet' message based on the status */}
+                                    {displayMood.name === 'N/A' || displayMood.name === 'NotSet' 
+                                        ? t("No mood set for today") 
+                                        : displayMood.name
+                                    }
+                                </h3>
                             </>
                         ) : (
-                            // Display a different message when 'NotSet'
+                            // Fallback in case of a serious logic error
                             <h3 className="no-mood-set-text">
                                 {t("No mood set for today")}
                             </h3>
@@ -190,12 +203,11 @@ const MoodCard = () => {
                 </div>
             </div>
 
-            {/* 💡 CALENDAR MODAL COMPONENT */}
+            {/* CALENDAR MODAL COMPONENT */}
             {isCalendarOpen && (
                 <MoodCalendar
                     isOpen={isCalendarOpen}
                     onClose={() => setIsCalendarOpen(false)}
-                    // Pass the filtered MOOD_DATA without 'NotSet' or handle 'NotSet' in the calendar component if needed.
                     MOOD_DATA={MOOD_DATA}
                     UserMoodHistory={userMoodHistory} // PASS THE FETCHED DATA
                 />
