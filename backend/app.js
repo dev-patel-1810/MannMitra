@@ -5,7 +5,7 @@ import cookie_parser from 'cookie-parser'
 const app = express()
 app.use(express.json())
 app.use(cors({
-    origin: ["http://localhost:5173","https://mannmitra-v141.onrender.com/"],
+    origin: ["http://localhost:5173","https://mann-mitra-steel.vercel.app"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
