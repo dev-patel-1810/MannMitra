@@ -20,7 +20,7 @@ import testIcon from '../../assets/take_test.jpg';
 
 import heroImg from '../../assets/hero.png'; 
 
-import "./Dash_student.css";
+import "./Dash_Student.css";
 
 // ================= NAVBAR =================
 const Navbar = ({ selectedLanguage, handleLanguageChange, handleLogout }) => {
