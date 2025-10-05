@@ -30,7 +30,8 @@ const MOOD_DATA = [
     // Database value from CRON job
     { name : 'N/A', rotation: 90, image: emotionDefault }, 
     // UI initial state and error fallback
-    { name : 'NotSet', rotation: 90, image: emotionDefault } 
+    { name : 'NotSet', rotation: 90, image: emotionDefault },
+    { name : 'default', rotation: 90, image: emotionDefault } 
 ];
 
 const MoodCard = () => {
