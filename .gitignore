@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Exclude the specific path
+/backend/.env
+
+# General exclusion for other env files
+.env
