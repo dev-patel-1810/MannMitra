@@ -23,4 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+# Exclude the specific path
+/backend/.env
+
+# General exclusion for other env files
 .env
