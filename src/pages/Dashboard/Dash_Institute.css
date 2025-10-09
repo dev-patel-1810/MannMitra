@@ -80,7 +80,7 @@ body {
 }
 
 .dashboard-title {
-  font-size: 4rem;
+  font-size: 3.9rem;
   font-weight: 800;
   color: #1e293b;
   letter-spacing: -0.025em;
@@ -88,7 +88,7 @@ body {
 }
 
 .dashboard-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.29rem;
   color: #64748b;
   font-weight: 500;
 }
