@@ -1,7 +1,7 @@
 /* General Body and Layout */
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f0f4f8; /* Light gray background */
+  background-color:#f8fafc; /* Light gray background */
   color: #334155; /* Slate gray for text */
   margin: 0;
 }
@@ -16,6 +16,7 @@ body {
   border-radius: 0.75rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
+
 
 .admin-detail {
   font-size: 1rem;
@@ -36,6 +37,9 @@ body {
   font-weight: 900;
   color: #1a202c; /* Even darker text */
   text-shadow: 2px 2px 4px rgba(0,0,0,0.05); /* Subtle text shadow */
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75rem;
+
 }
 
 .dashboard-subtitle {
@@ -76,7 +80,7 @@ body {
 }
 
 .dashboard-title {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 800;
   color: #1e293b;
   letter-spacing: -0.025em;
@@ -84,13 +88,13 @@ body {
 }
 
 .dashboard-subtitle {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   color: #64748b;
   font-weight: 500;
 }
 
 .college-name {
-  color: #4338ca; /* Indigo-700 from Tailwind */
+  color: #234F56; /* Indigo-700 from Tailwind */
   font-weight: 700;
 }
 
@@ -99,12 +103,15 @@ body {
   margin-bottom: 4rem;
 }
 
+
+
 .section-title {
   font-size: 2rem;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 2rem;
   border-left: 5px solid #4338ca;
+  border-right: 5px solid #4338ca;
   padding-left: 1rem;
 }
 
@@ -112,18 +119,21 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: 1.45rem;
 }
 
 .profile-card {
-  background-color: #ffffff;
+  background-color: #eef2ff;
   border-radius: 1.5rem;
   padding: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
+  
 }
+
+
 
 .profile-card:hover {
   transform: translateY(-5px);
@@ -148,11 +158,11 @@ body {
 }
 
 .student-profile .profile-icon {
-  color: #4338ca; /* Indigo-700 */
+  color:darkcyan ; /* Indigo-700 */
 }
 
 .counsellor-profile .profile-icon {
-  color: #059669; /* Emerald-600 */
+  color:darkcyan; /* Emerald-600 */
 }
 
 .profile-title {
@@ -161,11 +171,11 @@ body {
 }
 
 .student-profile .profile-title {
-  color: #4338ca;
+  color: #1E88E5;
 }
 
 .counsellor-profile .profile-title {
-  color: #059669;
+  color: #1E88E5;
 }
 
 .profile-name {
@@ -173,13 +183,14 @@ body {
   font-weight: 600;
   color: #1e293b;
   margin-bottom: 1rem;
+
 }
 
 .profile-details {
   display: flex;
   flex-direction: column;
   font-size: 0.875rem;
-  color: #475569; /* Slate-600 */
+  color:teal; /* Slate-600 */
   line-height: 1.5;
   margin-top: auto; /* Pushes details to the bottom */
 }
