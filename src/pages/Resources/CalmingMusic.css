@@ -21,7 +21,12 @@
 .resources-container {
   font-family: 'Inter', 'Poppins', sans-serif;
   padding: 2rem 3rem;
-  background: linear-gradient(180deg, var(--cream) 0%, #f9f9f9 100%);
+  background: radial-gradient(
+        circle at top left,
+        #45b450 0%,
+        #69de68 40%,
+        #419858 100%
+      );
   min-height: 100vh;
 }
 
@@ -34,8 +39,68 @@
   letter-spacing: 0.5px;
 }
 
+.page-header {
+    background: linear-gradient(90deg, #e6f6ee, #f6f4ea);
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    
+  }
+.page-header .subtitle {
+color: var(--text-muted);
+margin-top: 0.3rem;
+font-size: 1rem;
+}
+
+.calming-description{
+    margin-top: 3.5rem;
+}
+.calming-img{
+  position: relative;
+  bottom: 2rem;
+  width: 30%;       
+  height: 30%;      
+  object-fit: cover; 
+  margin-right: -1rem;
+ 
+}
+
 /* ========== Music Grid ========== */
 
+.filter-tabs {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .filter-tabs button {
+    background: var(--mint-200);
+    color: var(--green-900);
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+    transition: background 0.25s ease, transform 0.2s ease;
+  }
+  
+  .filter-tabs button:hover {
+    background: var(--green-500);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  
+  .filter-tabs button.active {
+    background: var(--green-700);
+    color: #fff;
+  }
+  
 .music-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -52,7 +117,7 @@
   transition: transform var(--transition), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
-  text-align: center;
+  text-align: left;
 }
 
 .music-card iframe {
@@ -65,6 +130,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--green-700);
+  margin-left: 1rem;
 }
 
 .music-card p {
@@ -72,6 +138,7 @@
   font-size: 0.95rem;
   margin: 0 1rem 1.4rem;
 }
+
 
 /* Hover effect for cards */
 .music-card:hover {
