@@ -56,12 +56,12 @@
   }
 .page-headerr .subtitle {
 color: var(--text-muted);
-margin-top: 0.3rem;
+margin-top: 0.4rem;
 font-size: 1rem;
 }
 
 .self-description{
-    margin-top: 3.5rem;
+    margin-top: 3.6rem;
 }
 .self-img{
   position: relative;
