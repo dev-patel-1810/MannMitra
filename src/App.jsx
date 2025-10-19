@@ -13,6 +13,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AppointmentBooking from "./pages/Appointment/AppointmentBooking";
 import WellnessForest from './pages/WellnessForest/WellnessForest';
 import Unauthorized from './pages/Unauthorized/Unauthorized'; // 👈 create/import this
+import SelfHelpVideos from './pages/Resources/SelfHelpVideos';
+import CalmingMusic from './pages/Resources/CalmingMusic';
 import './index.css';
 import './App.css';
 
@@ -26,6 +28,9 @@ function App() {
         <Route path="/counsellor-signup" element={<CounsellorSignUp />} />
         <Route path="/college-signup" element={<CollegeSignUp />} />
         <Route path="/login" element={<Login />} />
+
+        <Route path="/resources/self-help" element={<SelfHelpVideos />} />
+        <Route path="/resources/calming-music" element={<CalmingMusic />} />
 
         {/* Protected routes for specific roles */}
         <Route

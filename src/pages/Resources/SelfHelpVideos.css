@@ -1,0 +1,125 @@
+/* Resources.css
+   MannMitra-inspired design system for CalmingMusic & SelfHelpVideos components
+   Shared structure, warm colors, rounded cards, and gentle shadows
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;600&display=swap');
+
+:root {
+  --green-900: #2f6b4f;
+  --green-700: #3f8a63;
+  --green-500: #66b07f;
+  --mint-200: #e6f6ee;
+  --cream: #f6f4ea;
+  --card-bg: #ffffff;
+  --text-dark: #203b2f;
+  --text-muted: #6f7a73;
+  --accent: #f5c26b;
+  --shadow-soft: 0 6px 18px rgba(45, 60, 45, 0.08);
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --transition: 0.25s ease;
+}
+
+/* ========== Shared Container ========== */
+
+.resources-container {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  padding: 2rem 3rem;
+  background: linear-gradient(180deg, var(--cream) 0%, #f9f9f9 100%);
+  min-height: 100vh;
+}
+
+.resources-container h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--green-900);
+  margin-bottom: 1.8rem;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+
+/* ========== Grid Layouts ========== */
+
+.music-grid,
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ========== Card Base ========== */
+
+.music-card,
+.video-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.music-card iframe,
+.video-card iframe {
+  border: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.music-card h3,
+.video-card h3 {
+  margin: 1rem 0 0.4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--green-700);
+}
+
+.music-card p,
+.video-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0 1rem 1.4rem;
+}
+
+/* ========== Hover Effects ========== */
+
+.music-card:hover,
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+/* ========== Accent Styling (optional distinction) ========== */
+
+.music-card h3 {
+  color: var(--green-700);
+}
+
+.video-card h3 {
+  color: var(--accent);
+}
+
+/* ========== Responsive Tweaks ========== */
+
+@media (max-width: 768px) {
+  .resources-container {
+    padding: 1.5rem;
+  }
+
+  .resources-container h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .music-card h3,
+  .video-card h3 {
+    font-size: 1rem;
+  }
+
+  .music-card p,
+  .video-card p {
+    font-size: 0.9rem;
+  }
+}
