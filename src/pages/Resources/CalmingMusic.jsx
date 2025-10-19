@@ -25,7 +25,8 @@ const CalmingMusic = () => {
       url: 'https://www.youtube.com/embed/bn9F19Hi1Lk',
       description: 'Soothing ocean waves for stress relief',
       category: 'ocean'
-    },
+    }
+    
   ];
 
   const [category, setCategory] = useState('all');
@@ -43,6 +44,7 @@ const CalmingMusic = () => {
         <div className="filter-tabs">
             <button className={category === 'all' ? 'active' : ''} onClick={() => setCategory('all')}>All</button>
             <button className={category === 'nature' ? 'active' : ''} onClick={() => setCategory('nature')}>Nature</button>
+            <button className={category === 'piano' ? 'active' : ''} onClick={() => setCategory('piano')}>Piano</button>
             <button className={category === 'ocean' ? 'active' : ''} onClick={() => setCategory('ocean')}>Ocean</button>
         </div>
     
