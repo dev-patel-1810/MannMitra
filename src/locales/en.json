@@ -269,6 +269,22 @@
         "drink_2_glasses_water":"Drink 2 glasses of water",
         "list_3_things_grateful":"List 3 things you’re grateful for",
         "take_10_min_walk_outside":"Take a 10-min walk outside"
-    }
+    },
+    "chatbot": {
+  "title": "MannMitra Assistant",
+  "welcome_message": "Hey there! I'm here to listen and help you feel a little lighter 🌿",
+  "online_status": "Online",
+  "input_placeholder": "Type your thoughts...",
+  "send": "Send",
+  "anxiety_response": "It’s okay to feel anxious sometimes. Try taking a few deep breaths 🌬️",
+  "depression_response": "I'm here for you. Remember, it’s okay to take things one day at a time 💙",
+  "stress_response": "Sounds like a lot is on your mind. Let’s take a pause and relax for a bit 🕊️",
+  "help_response": "You can tell me how you feel — or I can share calming exercises or music 💭",
+  "greeting_response": "Hello! How are you feeling today? 🌞",
+  "gratitude_response": "You're very welcome! I'm glad to be here for you 💚",
+  "goodbye_response": "Take care and remember, you’re doing your best 🌼",
+  "positive_response": "That’s wonderful to hear! Keep embracing that positive energy 🌸",
+  "general_response": "I'm listening. Tell me more about what’s on your mind 💬"
+}
 
 }

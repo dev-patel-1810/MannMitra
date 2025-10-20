@@ -15,6 +15,7 @@ import WellnessForest from './pages/WellnessForest/WellnessForest';
 import Unauthorized from './pages/Unauthorized/Unauthorized'; // 👈 create/import this
 import SelfHelpVideos from './pages/Resources/SelfHelpVideos';
 import CalmingMusic from './pages/Resources/CalmingMusic';
+import ChatBot from './pages/Chatbot/ChatBot';
 import './index.css';
 import './App.css';
 
@@ -31,6 +32,8 @@ function App() {
 
         <Route path="/resources/self-help" element={<SelfHelpVideos />} />
         <Route path="/resources/calming-music" element={<CalmingMusic />} />
+
+        <Route path="/chat" element={<ChatBot />} />
 
         {/* Protected routes for specific roles */}
         <Route
