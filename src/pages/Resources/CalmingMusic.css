@@ -23,9 +23,9 @@
   padding: 2rem 3rem;
   background: radial-gradient(
         circle at top left,
-        #45b450 0%,
-        #69de68 40%,
-        #419858 100%
+        #b6f4bc 0%,
+        #e3f3e3 40%,
+        #bdf7cc 100%
       );
   min-height: 100vh;
 }
@@ -33,14 +33,14 @@
 .resources-container h1 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--green-900);
+  color: rgb(253, 235, 196);
   margin-bottom: 1.8rem;
   text-align: left;
   letter-spacing: 0.5px;
 }
 
 .page-header {
-    background: linear-gradient(90deg, #e6f6ee, #f6f4ea);
+    background: linear-gradient(90deg, #588157, #588157);
     padding: 1.5rem 2rem;
     border-radius: 16px;
     margin-bottom: 2rem;
@@ -48,24 +48,23 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     display: flex;
     justify-content: space-between;
-    
   }
 .page-header .subtitle {
-color: var(--text-muted);
+color: white;
 margin-top: 0.3rem;
 font-size: 1rem;
 }
 
 .calming-description{
-    margin-top: 3.5rem;
+    margin-top: 4.4rem;
 }
 .calming-img{
   position: relative;
-  bottom: 2rem;
-  width: 30%;       
+  bottom: -1.5rem;
+  width: 40%;       
   height: 30%;      
   object-fit: cover; 
-  margin-right: -1rem;
+  margin-right: -2rem;
  
 }
 
@@ -80,17 +79,18 @@ font-size: 1rem;
   width: 60%;
   max-width: 400px;
   padding: 0.6rem 1rem;
-  border: 1.5px solid #dcdcdc;
-  border-radius: 2rem;
+  border: 0.5px solid #2e864d;
+  border-radius: 0.5rem;
   font-size: 1rem;
   outline: none;
   transition: all 0.3s ease;
-  background-color: #fafafa;
+  background-color: rgb(199, 233, 207);
 }
 
 .search-container input:focus {
-  border-color: #85c7a7;
+  border: 1.5px solid blue;
   box-shadow: 0 0 5px rgba(133, 199, 167, 0.3);
+  
 }
 
 .no-results {
@@ -104,8 +104,9 @@ font-size: 1rem;
 .filter-tabs {
     display: flex;
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
     flex-wrap: wrap;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
   }
   
   .filter-tabs button {
@@ -174,6 +175,29 @@ font-size: 1rem;
 .music-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.favorite-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  outline: none;
+}
+
+.favorite-btn.active {
+  outline: none;
+}
+
+.favorite-btn:focus {
+  outline: none;
+}
+
+.calm-content{
+  display: flex;
+  justify-content: space-between;
 }
 
 /* ========== Responsive tweaks ========== */

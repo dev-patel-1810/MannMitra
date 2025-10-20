@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import './CalmingMusic.css';
 
-import heroImage from '../../assets/hero.png'; 
+import heroImage from '../../assets/Resource_Img.png'; 
 
 const CalmingMusic = () => {
   const { t } = useTranslation();
@@ -11,25 +11,25 @@ const CalmingMusic = () => {
   {
     title: 'Peaceful Nature Sounds',
     url: 'https://www.youtube.com/embed/eKFTSSKCzWA',
-    description: 'Relaxing nature sounds for meditation',
+    description: 'Relaxing nature sounds for meditation and relax you',
     category: 'nature'
   },
   {
     title: 'Calming Piano Music',
     url: 'https://www.youtube.com/embed/77ZozI0rw7w',
-    description: 'Soft piano melodies for relaxation',
+    description: 'Soft piano melodies for relaxation and peace',
     category: 'instrumental'
   },
   {
     title: 'Ocean Waves',
     url: 'https://www.youtube.com/embed/bn9F19Hi1Lk',
-    description: 'Soothing ocean waves for stress relief',
+    description: 'Soothing ocean waves for stress relief and sleep',
     category: 'nature'
   },
   {
     title: 'Gentle Guitar Melodies',
     url: 'https://www.youtube.com/embed/2OEL4P1Rz04',
-    description: 'Acoustic guitar tunes that calm the soul',
+    description: 'Acoustic guitar tunes that calm the soul and give you peace',
     category: 'instrumental'
   },
   {
@@ -61,14 +61,44 @@ const CalmingMusic = () => {
 
   const [category, setCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = localStorage.getItem('musicFavorites');
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
 
   // Filter tracks by category + search term
   const filteredTracks = tracks
-    .filter(track => category === 'all' || track.category === category)
-    .filter(track =>
-      track.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      track.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  .filter(track =>
+    category === 'all' ||
+    track.category === category ||
+    (category === 'favorites' && favorites.some(fav => fav.url === track.url))
+  )
+  .filter(track =>
+    track.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    track.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+    const toggleFavorite = (track) => {
+      let updatedFavorites;
+
+      if (favorites.some(fav => fav.url === track.url)) {
+        // Remove from favorites
+        updatedFavorites = favorites.filter(fav => fav.url !== track.url);
+      } else {
+        // Add to favorites
+        updatedFavorites = [...favorites, track];
+      }
+
+      setFavorites(updatedFavorites);
+      localStorage.setItem('musicFavorites', JSON.stringify(updatedFavorites));
+
+      // e.currentTarget.blur();
+    };
 
   return (
     <div className="resources-container">
@@ -76,7 +106,7 @@ const CalmingMusic = () => {
       <div className="page-header">
         <div className='calming-description'>
           <h1>{t('dashboard.calming_music')}</h1>
-          <p className="subtitle">Harmony for Your Heart, Calm for Your Mind</p>
+          <p className="subtitle">Harmony for your heart, calm for your mind — relaxing music to help you focus, meditate, or unwind. Let each soothing track guide you to a place of peace and clarity.</p>
         </div>
         <img className="calming-img" src={heroImage} alt="image" />
       </div>
@@ -97,6 +127,7 @@ const CalmingMusic = () => {
         <button className={category === 'nature' ? 'active' : ''} onClick={() => setCategory('nature')}>Nature</button>
         <button className={category === 'instrumental' ? 'active' : ''} onClick={() => setCategory('instrumental')}>Instrumental</button>
         <button className={category === 'focus' ? 'active' : ''} onClick={() => setCategory('focus')}>Focus</button>
+        <button className={category === 'favorites' ? 'active' : ''} onClick={() => setCategory('favorites')}>Favorites ({favorites.length})</button>
       </div>
 
       {/* Music Cards */}
@@ -114,7 +145,16 @@ const CalmingMusic = () => {
                 allowFullScreen
               ></iframe>
               <h3>{track.title}</h3>
-              <p>{track.description}</p>
+              <div className='calm-content'>
+                  <p>{track.description}</p>
+                <button
+                  className={`favorite-btn ${favorites.some(fav => fav.url === track.url) ? 'active' : ''}`}
+                  onClick={() => toggleFavorite(track)}
+                >
+                  {favorites.some(fav => fav.url === track.url) ? <img width="36" height="36" src="https://img.icons8.com/color/48/hearts.png" alt="hearts"/> :<img width="26" height="26" src="https://img.icons8.com/metro/26/like.png" alt="like"/>}
+                </button>
+              </div>
+
             </div>
           ))
         ) : (
