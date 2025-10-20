@@ -72,6 +72,31 @@ font-size: 1rem;
   margin-right: -1rem;
 }
 
+/* 🔍 Search Bar */
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.search-container input {
+  width: 60%;
+  max-width: 400px;
+  padding: 0.6rem 1rem;
+  border: 1.5px solid #dcdcdc;
+  border-radius: 2rem;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+}
+
+.search-container input:focus {
+  border-color: #85c7a7;
+  box-shadow: 0 0 5px rgba(133, 199, 167, 0.3);
+}
+
+
 .filter-tabss {
     display: flex;
     gap: 0.75rem;
