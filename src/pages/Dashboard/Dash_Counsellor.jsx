@@ -1,46 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import AppointmentsList from '../../components/AppointmentList/AppointmentList.jsx';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import AppointmentList from '../../components/AppointmentList/AppointmentList';
+import Sidebar from '../../components/Sidebar_counsellor_dash/Sidebar';
 import './Dash_Counsellor.css';
 
-
-
 const Dash_Counsellor = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
 
-  const [selectedLanguage, setSelectedLanguage] = useState(() => {
-    const storedLang = localStorage.getItem('appLanguage');
-    return storedLang || 'en'; // Force localStorage first
-  });
-
-  useEffect(() => {
-    // Make sure i18n always uses localStorage or 'en'
-    i18n.changeLanguage(selectedLanguage);
-    localStorage.setItem('appLanguage', selectedLanguage);
-  }, [i18n, selectedLanguage]);
-
-  const handleLanguageChange = (event) => {
-    const lang = event.target.value;
-    setSelectedLanguage(lang);
+  const handleLanguageChange = (e) => {
+    setSelectedLanguage(e.target.value);
   };
+
   return (
-    <div>
-      {/* Language dropdown at the true top right of dashboard */}
-      <div className="dashboard-lang-select">
-        <select
-          className="language-select-counsellor"
-          value={selectedLanguage}
-          onChange={handleLanguageChange}
-        >
-          <option value="en">English</option>
-          <option value="hi">Hindi</option>
-          <option value="doi">Dogri</option>
-        </select>
+    <div className="dashboard-container">
+      <Sidebar />
+      <div className="counsellor-dashboard">
+        <div className="dashboard-header">
+          <h1>Dashboard</h1>
+          <select 
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            className="language-select-counsellor"
+          >
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="doi">डोगरी</option>
+          </select>
+        </div>
+
+        <div className="appointments-section">
+          
+          <AppointmentList userType="counsellor" />
+        </div>
+
+        <div className="stats-grid">
+          <div className="stat-card pink">
+            <div className="stat-icon">👥</div>
+            <div className="stat-content">
+              <div className="stat-number">347</div>
+              <div className="stat-label">Students</div>
+            </div>
+          </div>
+          <div className="stat-card green">
+            <div className="stat-icon">⏱️</div>
+            <div className="stat-content">
+              <div className="stat-number">1300</div>
+              <div className="stat-label">Minutes spent with students</div>
+            </div>
+          </div>
+          <div className="stat-card blue">
+            <div className="stat-icon">📈</div>
+            <div className="stat-content">
+              <div className="stat-number">85%</div>
+              <div className="stat-label">Success Rate</div>
+            </div>
+          </div>
+          <div className="stat-card yellow">
+            <div className="stat-icon">📝</div>
+            <div className="stat-content">
+              <div className="stat-number">24</div>
+              <div className="stat-label">Tests Reviewed</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <AppointmentsList userType="counsellor" />
     </div>
-    
   );
-}
+};
 
 export default Dash_Counsellor;
