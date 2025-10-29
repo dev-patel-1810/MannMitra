@@ -52,14 +52,14 @@ const Dash_Counsellor = () => {
           <div className="stat-card blue">
             <div className="stat-icon">📈</div>
             <div className="stat-content">
-              <div className="stat-number">85%</div>
+              <div className="stat-number">84%</div>
               <div className="stat-label">Success Rate</div>
             </div>
           </div>
           <div className="stat-card yellow">
             <div className="stat-icon">📝</div>
             <div className="stat-content">
-              <div className="stat-number">24</div>
+              <div className="stat-number">34</div>
               <div className="stat-label">Tests Reviewed</div>
             </div>
           </div>
