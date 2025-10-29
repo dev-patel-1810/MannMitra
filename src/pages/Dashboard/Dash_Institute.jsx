@@ -135,7 +135,7 @@ const Dash_Institute = () => {
           </div>
         </div>
 
-        <section className="dashboard-section">
+        <section className="dashboard-section ">
           <h2 className="section-title">{t('dashboard.Students')} ({students.length})</h2>
           {students.length > 0 ? (
             <div className="grid-container">
@@ -144,7 +144,7 @@ const Dash_Institute = () => {
               ))}
             </div>
           ) : (
-            <p className="no-data-message">{t('dashboard.no_stud')}</p>
+            <p className="no-data-message">{t('dashboard.no_stud')}</p> 
           )}
         </section>
 

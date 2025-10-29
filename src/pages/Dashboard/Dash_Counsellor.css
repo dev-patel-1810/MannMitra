@@ -69,7 +69,8 @@ html, body {
 }
 
 .language-select-counsellor:hover {
-  background-color: #F8F9FA;
+  background-color:#2C3333;
+  color: #fff;
   border-color: #DDE0E3;
 }
 
